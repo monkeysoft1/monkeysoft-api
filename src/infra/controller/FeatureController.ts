@@ -12,10 +12,10 @@ export default class FeatureController implements IController {
   ) {}
 
   initRoutes() {
-    this.httpServer.on("post", "/feature/:id", this.create);
+    this.httpServer.on("post", "/feature", this.create);
   }
 
-  async create(params: IParams, body: any): Promise<JsonResponse> {
+  create = async (params: IParams, body: any): Promise<JsonResponse> =>{
     const featureRepository = new FeatureRepository(this.connection);
     const createFeature = new CreateFeature(featureRepository);
     const feature = await createFeature.execute(body);

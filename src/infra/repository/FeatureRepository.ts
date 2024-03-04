@@ -43,6 +43,6 @@ export default class FeatureRepository implements IFeatureRepository {
 
     const { stmt, values } = QueryUtils.createInsert("feature", insert);
 
-    await this.connection.query(stmt, [values]);
+    await this.connection.query(stmt, values);
   }
 }

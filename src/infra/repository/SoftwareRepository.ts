@@ -1,15 +1,18 @@
 import Software from "../../core/entity/Software";
 import ISoftwareRepository from "../../core/repository/ISoftwareRepository";
 import IConnection from "../database/IConnection";
+import BaseRepository from "./BaseRepository";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class SoftwareRepository implements ISoftwareRepository {
-  constructor(readonly connection: IConnection) {}
+export default class SoftwareRepository extends BaseRepository implements ISoftwareRepository {
+  constructor(readonly connection: IConnection) {
+    super()
+  }
 
   async getByName(name: string): Promise<Software | undefined> {
     await this.connection.open();
 
-    const stmt = `select * from software where name = ?`;
+    const stmt = `select * from ${this.ms}.software where name = ?`;
 
     const [rows] = await this.connection.query(stmt, [name]);
     const [softwareData] = rows;

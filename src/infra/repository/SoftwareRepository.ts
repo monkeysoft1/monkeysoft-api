@@ -12,6 +12,26 @@ export default class SoftwareRepository
     super();
   }
 
+  
+  async getById(id: string): Promise<Software | undefined> {
+    await this.connection.open();
+
+    const stmt = `select * from ${this.ms}.software where id = ?`;
+
+    const [rows] = await this.connection.query(stmt, [id]);
+    const [softwareData] = rows;
+
+    if (softwareData) {
+      const software = new Software();
+      software.id = softwareData.id;
+      software.name = softwareData.name;
+      software.description = softwareData.description;
+      software.active = softwareData.active;
+      software.created_on = softwareData.created_on;
+      return softwareData;
+    }
+  }
+
   async getByName(name: string): Promise<Software | undefined> {
     await this.connection.open();
 
@@ -46,6 +66,32 @@ export default class SoftwareRepository
       "software",
       insert
     );
+
+    await this.connection.query(stmt, values);
+  }
+
+  async update(software: Software): Promise<void> {
+    await this.connection.open();
+
+    const update = QueryUtils.removeUndefined({
+      id: software.id,
+      name: software.name,
+      description: software.description,
+      active: software.active,
+      created_on: software.created_on,
+    });
+
+    var where = `id = '${software.id}'`; 
+
+    const { stmt, values } = QueryUtils.createUpdate(
+      this.ms,
+      "software",
+      update,
+      where
+    );
+
+    console.log(stmt);
+    console.log(values);
 
     await this.connection.query(stmt, values);
   }

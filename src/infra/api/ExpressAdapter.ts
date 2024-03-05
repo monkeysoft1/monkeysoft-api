@@ -29,7 +29,7 @@ export default class ExpressAdapter implements IHttpServer {
 
   on(method: string, url: string, callback: Function): void {
     this.app[method](
-      `/api${url}`,
+      `${url}`,
       async function (req: Request, res: Response, next: Function) {
         const params = {
           headers: req.headers,

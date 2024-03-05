@@ -12,10 +12,10 @@ export default class SoftwareController implements IController {
   ) {}
 
   initRoutes() {
-    this.httpServer.on("post", "/software/:id", this.create);
+    this.httpServer.on("post", "/software", this.create);
   }
 
-  async create(params: IParams, body: any): Promise<JsonResponse> {
+  create = async (params: IParams, body: any): Promise<JsonResponse> => {
     const softwareRepository = new SoftwareRepository(this.connection);
     const createSoftware = new CreateSoftware(softwareRepository);
     const software = await createSoftware.execute(body);

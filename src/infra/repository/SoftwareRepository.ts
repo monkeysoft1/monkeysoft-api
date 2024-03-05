@@ -37,6 +37,6 @@ export default class SoftwareRepository implements ISoftwareRepository {
 
     const { stmt, values } = QueryUtils.createInsert("software", insert);
 
-    await this.connection.query(stmt, [values]);
+    await this.connection.query(stmt, values);
   }
 }

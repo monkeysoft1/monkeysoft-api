@@ -2,7 +2,7 @@ import AppError from "../entity/AppError";
 import Software from "../entity/Software";
 import ISoftwareRepository from "../repository/ISoftwareRepository";
 
-export default class Createsoftware {
+export default class CreateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
 
   async execute(input: Input) {

@@ -3,13 +3,13 @@ export default class QueryUtils {
     return Object.entries(obj).filter((f) => f[1] !== undefined);
   }
 
-  static createInsert(tableName: string, value: [string, any][]) {
+  static createInsert(schema: string, tableName: string, value: [string, any][]) {
     const columns = value.map((f) => f[0]).join(",");
     const params = value.map(() => "?").join();
     const values = value.map((f) => f[1]);
 
     const stmt = `
-    insert into ${tableName}(${columns}) values (${params})`;
+    insert into ${schema}.${tableName}(${columns}) values (${params})`;
     return {
       stmt,
       values,

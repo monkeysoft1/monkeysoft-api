@@ -4,9 +4,12 @@ import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class SoftwareRepository extends BaseRepository implements ISoftwareRepository {
+export default class SoftwareRepository
+  extends BaseRepository
+  implements ISoftwareRepository
+{
   constructor(readonly connection: IConnection) {
-    super()
+    super();
   }
 
   async getByName(name: string): Promise<Software | undefined> {
@@ -35,10 +38,14 @@ export default class SoftwareRepository extends BaseRepository implements ISoftw
       name: software.name,
       description: software.description,
       active: software.active,
-      created_on: software.created_on
+      created_on: software.created_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert("software", insert);
+    const { stmt, values } = QueryUtils.createInsert(
+      this.ms,
+      "software",
+      insert
+    );
 
     await this.connection.query(stmt, values);
   }

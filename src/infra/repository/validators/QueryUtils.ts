@@ -21,14 +21,16 @@ export default class QueryUtils {
   }
 
   static createUpdate(schema: string, tableName: string, setValues: [string, any][], whereCondition: string) {
-    const setClause = setValues.map((f) => `${f[0]} = ?`).join(",");
-    const values = setValues.map((f) => f[1]);
-  
+    const nonEmptySetValues = setValues.filter(([_, value]) => value !== '');
+
+    const setClause = nonEmptySetValues.map(([field, _]) => `${field} = ?`).join(",");
+    const values = nonEmptySetValues.map(([_, value]) => value);
+
     const stmt = `
       update ${schema}.${tableName}
       set ${setClause}
       where ${whereCondition}`;
-  
+
     return {
       stmt,
       values,

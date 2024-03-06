@@ -90,9 +90,6 @@ export default class SoftwareRepository
       where
     );
 
-    console.log(stmt);
-    console.log(values);
-
     await this.connection.query(stmt, values);
   }
 }

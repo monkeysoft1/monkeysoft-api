@@ -1,4 +1,5 @@
 import CreateSoftware from "../../core/usecase/CreateSoftware";
+import DisableSoftware from "../../core/usecase/DisableSoftware";
 import UpdateSoftware from "../../core/usecase/UpdateSoftware";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
@@ -15,6 +16,7 @@ export default class SoftwareController implements IController {
   initRoutes() {
     this.httpServer.on("post", "/software", this.create);
     this.httpServer.on("put", "/software", this.update);
+    this.httpServer.on("patch", "/software", this.disable);
   }
 
   create = async (params: IParams, body: any): Promise<JsonResponse> => {
@@ -29,6 +31,14 @@ export default class SoftwareController implements IController {
     const softwareRepository = new SoftwareRepository(this.connection);
     const updateSoftware = new UpdateSoftware(softwareRepository);
     const software = await updateSoftware.execute(body);
+
+    return HttpResponse.json(201, software);
+  };
+
+  disable = async (params: IParams, body: any): Promise<JsonResponse> => {
+    const softwareRepository = new SoftwareRepository(this.connection);
+    const disableSoftware = new DisableSoftware(softwareRepository);
+    const software = await disableSoftware.execute(body);
 
     return HttpResponse.json(201, software);
   };

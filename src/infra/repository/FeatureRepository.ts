@@ -4,9 +4,10 @@ import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class FeatureRepository 
-extends BaseRepository
-implements IFeatureRepository {
+export default class FeatureRepository
+  extends BaseRepository
+  implements IFeatureRepository
+{
   constructor(readonly connection: IConnection) {
     super();
   }
@@ -14,7 +15,7 @@ implements IFeatureRepository {
   async getByName(name: string): Promise<Feature | undefined> {
     await this.connection.open();
 
-    const stmt = `select * from feature where name = ?`;
+    const stmt = `select * from ${this.ms}.feature where name = ?`;
 
     const [rows] = await this.connection.query(stmt, [name]);
     const [featureData] = rows;
@@ -46,8 +47,8 @@ implements IFeatureRepository {
       updated_on: feature.updated_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert(this.ms, "feature", insert);
+    const { stmt, values } = QueryUtils.createInsert(this.ms,"feature", insert);
 
-    await this.connection.query(stmt, [values]);
+    await this.connection.query(stmt, values);
   }
 }

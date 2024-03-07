@@ -21,10 +21,8 @@ export default class QueryUtils {
   }
 
   static createUpdate(schema: string, tableName: string, setValues: [string, any][], whereCondition: string) {
-    const nonEmptySetValues = setValues.filter(([_, value]) => value !== '');
-
-    const setClause = nonEmptySetValues.map(([field, _]) => `${field} = ?`).join(",");
-    const values = nonEmptySetValues.map(([_, value]) => value);
+    const setClause = setValues.map(([field, _]) => `${field} = ?`).join(",");
+    const values = setValues.map(([_, value]) => value);
 
     const stmt = `
       update ${schema}.${tableName}

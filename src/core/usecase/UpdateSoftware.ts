@@ -1,5 +1,4 @@
 import AppError from "../entity/AppError";
-import Software from "../entity/Software";
 import ISoftwareRepository from "../repository/ISoftwareRepository";
 
 export default class UpdateSoftware {
@@ -14,22 +13,21 @@ export default class UpdateSoftware {
       throw new AppError("O nome do software não pode ser vazio", 400);
     }
 
-    const softwareById = await this.softwareRepository.getById(input.id);
+    const software = await this.softwareRepository.getById(input.id);
+    if (!software) {
+      throw new AppError("Software não encontrado", 404);
+    }
 
-    if (!softwareById) throw new AppError("O id informado não existe", 400);
-
-    if (softwareById.name != input.name) {
-      var hasSoftwareByName = await this.softwareRepository.getByName(
+    if (software.name != input.name) {
+      const hasSoftwareByName = await this.softwareRepository.getByName(
         input.name
       );
 
-      if (hasSoftwareByName && hasSoftwareByName.id != input.id) {
+      if (hasSoftwareByName) {
         throw new AppError("Já existe outro software com o mesmo nome.", 400);
       }
     }
 
-    const software = new Software();
-    software.id = input.id;
     software.name = input.name;
     software.description = input.description;
     software.active = input.active;

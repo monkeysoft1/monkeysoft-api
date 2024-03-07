@@ -14,7 +14,7 @@ export default class SoftwareController implements IController {
 
   initRoutes() {
     this.httpServer.on("post", "/software", this.create);
-    this.httpServer.on("put", "/software", this.update);
+    this.httpServer.on("put", "/software/:id", this.update);
   }
 
   create = async (params: IParams, body: any): Promise<JsonResponse> => {
@@ -28,7 +28,10 @@ export default class SoftwareController implements IController {
   update = async (params: IParams, body: any): Promise<JsonResponse> => {
     const softwareRepository = new SoftwareRepository(this.connection);
     const updateSoftware = new UpdateSoftware(softwareRepository);
-    const software = await updateSoftware.execute(body);
+    const software = await updateSoftware.execute({
+      ...body,
+      id: params.params.id,
+    });
 
     return HttpResponse.json(201, software);
   };

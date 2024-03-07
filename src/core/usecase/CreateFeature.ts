@@ -19,7 +19,7 @@ export default class CreateFeature {
     feature.create();
     feature.name = input.name;
     feature.description = input.description;
-    feature.active = true;
+    feature.active = Boolean(input.active);
 
     if (input.url) {
       feature.url = input.url;

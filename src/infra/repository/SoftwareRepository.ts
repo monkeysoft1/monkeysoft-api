@@ -12,7 +12,6 @@ export default class SoftwareRepository
     super();
   }
 
-  
   async getById(id: string): Promise<Software | undefined> {
     await this.connection.open();
 
@@ -78,10 +77,9 @@ export default class SoftwareRepository
       name: software.name,
       description: software.description,
       active: software.active,
-      created_on: software.created_on,
     });
 
-    var where = `id = '${software.id}'`; 
+    const where = `id = ?`;
 
     const { stmt, values } = QueryUtils.createUpdate(
       this.ms,
@@ -90,6 +88,6 @@ export default class SoftwareRepository
       where
     );
 
-    await this.connection.query(stmt, values);
+    await this.connection.query(stmt, [...values, software.id]);
   }
 }

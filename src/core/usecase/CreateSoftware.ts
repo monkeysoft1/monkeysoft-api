@@ -2,7 +2,7 @@ import AppError from "../entity/AppError";
 import Software from "../entity/Software";
 import ISoftwareRepository from "../repository/ISoftwareRepository";
 
-export default class Createsoftware {
+export default class CreateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
 
   async execute(input: Input) {
@@ -10,9 +10,9 @@ export default class Createsoftware {
       throw new AppError("O nome do software não pode ser vazio", 400);
     }
 
-    const hassoftware = await this.softwareRepository.getByName(input.name);
+    const hasSoftware = await this.softwareRepository.getByName(input.name);
 
-    if (hassoftware) {
+    if (hasSoftware) {
       throw new AppError("Software já registrado", 400);
     }
 
@@ -20,7 +20,7 @@ export default class Createsoftware {
     software.create();
     software.name = input.name;
     software.description = input.description;
-    software.active = true;
+    software.active = Boolean(input.active);
 
     await this.softwareRepository.save(software);
 
@@ -30,6 +30,6 @@ export default class Createsoftware {
 
 interface Input {
   name: string;
-  description?: string;  
+  description?: string;
   active: boolean;
 }

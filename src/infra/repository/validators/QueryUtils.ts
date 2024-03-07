@@ -14,12 +14,34 @@ export default class QueryUtils {
 
     const stmt = `
     insert into ${schema}.${tableName}(${columns}) values (${params})`;
+    return {
+      stmt,
+      values,
+    };
+  }
 
-    console.log(stmt)
+  static createUpdate(schema: string, tableName: string, setValues: [string, any][], whereCondition: string) {
+    const setClause = setValues.map(([field, _]) => `${field} = ?`).join(",");
+    const values = setValues.map(([_, value]) => value);
+
+    const stmt = `
+      update ${schema}.${tableName}
+      set ${setClause}
+      where ${whereCondition}`;
 
     return {
       stmt,
       values,
     };
   }
+
+  static createDelete(schema: string, tableName: string, whereCondition: string) {
+    const stmt = `
+      delete from ${schema}.${tableName}
+      where ${whereCondition}`;
+  
+    return {
+      stmt,
+    };
+  }  
 }

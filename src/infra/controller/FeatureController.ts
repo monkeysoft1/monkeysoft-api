@@ -14,7 +14,7 @@ export default class FeatureController implements IController {
 
   initRoutes() {
     this.httpServer.on("post", "/feature", this.create);
-    this.httpServer.on("put", "/feature", this.update);
+    this.httpServer.on("put", "/feature/:id", this.update);
   }
 
   create = async (params: IParams, body: any): Promise<JsonResponse> => {
@@ -28,7 +28,10 @@ export default class FeatureController implements IController {
   update = async (params: IParams, body: any): Promise<JsonResponse> => {
     const featureRepository = new FeatureRepository(this.connection);
     const updateFeature = new UpdateFeature(featureRepository);
-    const feature = await updateFeature.execute(body);
+    const feature = await updateFeature.execute({
+      ...body,
+      id: params.params.id,
+    });
 
     return HttpResponse.json(201, feature);
   };

@@ -1,5 +1,4 @@
 import AppError from "../entity/AppError";
-import Feature from "../entity/Feature";
 import IFeatureRepository from "../repository/IFeatureRepository";
 
 export default class UpdateFeature {
@@ -14,26 +13,30 @@ export default class UpdateFeature {
       throw new AppError("O nome da feature não pode ser vazio", 400);
     }
 
-    const featureById = await this.featureRepository.getById(input.id);
+    const feature = await this.featureRepository.getById(input.id);
 
-    if (!featureById) throw new AppError("O id informado não existe", 400);
+    if (!feature) {
+      throw new AppError("O id informado não existe", 404);
+    }
 
-    if (featureById.name != input.name) {
-      var hasFeatureByName = await this.featureRepository.getByName(input.name);
+    if (feature.name != input.name) {
+      const hasFeatureByName = await this.featureRepository.getByName(
+        input.name
+      );
 
-      if (hasFeatureByName && hasFeatureByName.id != input.id) {
+      if (hasFeatureByName) {
         throw new AppError("Já existe outra feature com o mesmo nome.", 400);
       }
     }
 
-    const feature = new Feature();
-    feature.id = input.id;
     feature.name = input.name;
     feature.description = input.description;
     feature.active = input.active;
+    feature.url = input.url;
+    feature.active = Boolean(input.active);
+    feature.is_page = false;
 
-    if (input.url) {
-      feature.url = input.url;
+    if (feature.url) {
       feature.is_page = true;
     }
 

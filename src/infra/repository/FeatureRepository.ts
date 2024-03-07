@@ -89,11 +89,10 @@ export default class FeatureRepository
       is_page: feature.is_page,
       description: feature.description,
       active: feature.active,
-      created_on: feature.created_on,
       updated_on: new FormattedDate().date,
     });
 
-    var where = `id = '${feature.id}'`;
+    const where = `id = ?`;
 
     const { stmt, values } = QueryUtils.createUpdate(
       this.ms,
@@ -102,6 +101,6 @@ export default class FeatureRepository
       where
     );
 
-    await this.connection.query(stmt, values);
+    await this.connection.query(stmt, [...values, feature.id]);
   }
 }

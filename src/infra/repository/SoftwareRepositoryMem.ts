@@ -17,15 +17,17 @@ export default class SoftwareRepositoryMem implements ISoftwareRepository {
       return software;
     }
   }
-  
+
   async save(software: Software): Promise<void> {
     this.software.push(software);
   }
 
   async update(software: Software): Promise<void> {
-    const index = this.software.findIndex(x => x.id === software.id);
-    if (index) {
-      this.software[index] = software;
-    }
+    this.software = this.software.map((i) => {
+      if (i.id === software.id) {
+        return software;
+      }
+      return i;
+    });
   }
 }

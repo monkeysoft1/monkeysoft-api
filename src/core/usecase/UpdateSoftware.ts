@@ -5,11 +5,11 @@ export default class UpdateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
 
   async execute(input: Input) {
-    if (!input.id.trim()) {
+    if (!input.id?.trim()) {
       throw new AppError("O id do software não pode ser vazio", 400);
     }
 
-    if (!input.name.trim()) {
+    if (!input.name?.trim()) {
       throw new AppError("O nome do software não pode ser vazio", 400);
     }
 

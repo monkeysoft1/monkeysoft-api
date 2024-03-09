@@ -1,5 +1,4 @@
 import Feature from "../../core/entity/Feature";
-import FormattedDate from "../../core/entity/FormattedDate";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
@@ -26,7 +25,6 @@ export default class FeatureRepository
       feature.id = featureData.id;
       feature.name = featureData.name;
       feature.url = featureData.url;
-      feature.is_page = featureData.is_page;
       feature.description = featureData.description;
       feature.active = featureData.active;
       feature.created_on = featureData.created_on;
@@ -48,7 +46,6 @@ export default class FeatureRepository
       feature.id = featureData.id;
       feature.name = featureData.name;
       feature.url = featureData.url;
-      feature.is_page = featureData.is_page;
       feature.description = featureData.description;
       feature.active = featureData.active;
       feature.created_on = featureData.created_on;
@@ -89,7 +86,7 @@ export default class FeatureRepository
       is_page: feature.is_page,
       description: feature.description,
       active: feature.active,
-      updated_on: new FormattedDate().date,
+      updated_on: feature.updated_on,
     });
 
     const where = `id = ?`;

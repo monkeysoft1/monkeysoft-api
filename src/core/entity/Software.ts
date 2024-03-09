@@ -34,7 +34,7 @@ export default class Software {
     return this._description;
   }
 
-  set description(value: string | undefined) {
+  set description(value: string) {
     const maxLength = 255;
 
     if (value && value.length > maxLength) {
@@ -42,11 +42,8 @@ export default class Software {
         `A descrição informada é maior que ${maxLength} caracteres`,
         400
       );
-    } else {
-      value = "";
     }
-
-    this._description = value;
+    this._description = value ?? this._description;
   }
 
   get active(): boolean {
@@ -54,7 +51,7 @@ export default class Software {
   }
 
   set active(value: boolean) {
-    this._active = Boolean(value);
+    this._active = Boolean(value ?? this._active);
   }
 
   create() {

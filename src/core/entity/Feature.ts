@@ -4,6 +4,7 @@ import FormattedDate from "./FormattedDate";
 
 export default class Feature {
   id: string = "";
+  private _id_software: string = "";
   private _name: string = "";
   private _url: string = "";
   private _is_page: boolean = false;
@@ -11,6 +12,14 @@ export default class Feature {
   private _active: boolean = false;
   created_on?: Date;
   updated_on?: Date;
+
+  public get id_software(): string {
+    return this._id_software;
+  }
+
+  public set id_software(value: string) {
+    this._id_software = value ?? this._id_software;
+  }
 
   get name(): string {
     return this._name;
@@ -47,14 +56,15 @@ export default class Feature {
       );
     }
 
-    this._url = value ?? '';
+    this._url = value ?? this._url;
+    this._is_page = !!this._url;
   }
 
   get description(): string {
     return this._description;
   }
 
-  set description(value: string | undefined) {
+  set description(value: string) {
     const maxLength = 255;
 
     if (value && value?.length > maxLength) {
@@ -62,19 +72,13 @@ export default class Feature {
         `A descrição informada é maior que ${maxLength} caracteres`,
         400
       );
-    } else {
-      value = "";
     }
 
-    this._description = value;
+    this._description = value ?? this._description;
   }
 
   get is_page(): boolean {
     return this._is_page;
-  }
-
-  set is_page(value: boolean) {
-    this._is_page = Boolean(value);
   }
 
   get active(): boolean {
@@ -82,7 +86,7 @@ export default class Feature {
   }
 
   set active(value: boolean) {
-    this._active = Boolean(value);
+    this._active = Boolean(value ?? this._active);
   }
 
   create() {

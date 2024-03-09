@@ -5,9 +5,10 @@ test("should be create a feature", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const createFeature = new CreateFeature(featureRepository);
   const feature = await createFeature.execute({
+    id_software: "123",
     name: "relatorio-adm",
     active: true,
-    description: "Permissão de relatório"
+    description: "Permissão de relatório",
   });
 
   expect(feature.name).toBe("relatorio-adm");
@@ -59,14 +60,13 @@ test("should be throw an error when name to long", async () => {
   await expect(createFeature.execute(featureData)).rejects.toThrow();
 });
 
-
 test("should be throw an error when url to long", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const createFeature = new CreateFeature(featureRepository);
   const featureData = {
     name: "full-permission",
     active: true,
-    url: generateLongString(256)
+    url: generateLongString(256),
   };
 
   await expect(createFeature.execute(featureData)).rejects.toThrow();
@@ -78,19 +78,19 @@ test("should be throw an error when description to long", async () => {
   const featureData = {
     name: "basic-permission",
     active: true,
-    description: generateLongString(256)
+    description: generateLongString(256),
   };
 
   await expect(createFeature.execute(featureData)).rejects.toThrow();
 });
 
-function generateLongString(length:number) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function generateLongString(length: number) {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
- }
- 
+}

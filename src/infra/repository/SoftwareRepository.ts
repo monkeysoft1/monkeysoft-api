@@ -27,7 +27,7 @@ export default class SoftwareRepository
       software.description = softwareData.description;
       software.active = softwareData.active;
       software.created_on = softwareData.created_on;
-      return softwareData;
+      return software;
     }
   }
 
@@ -46,7 +46,7 @@ export default class SoftwareRepository
       software.description = softwareData.description;
       software.active = softwareData.active;
       software.created_on = softwareData.created_on;
-      return softwareData;
+      return software;
     }
   }
   async save(software: Software): Promise<void> {

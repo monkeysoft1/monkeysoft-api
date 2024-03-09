@@ -33,8 +33,7 @@ export default class UpdateFeature {
     feature.description = input.description;
     feature.active = input.active;
     feature.url = input.url;
-    feature.active = Boolean(input.active);
-    feature.is_page = false;
+    feature.active = input.active;
 
     if (feature.url) {
       feature.is_page = true;

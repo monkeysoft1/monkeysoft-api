@@ -6,9 +6,11 @@ export default class CreateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
 
   async execute(input: Input) {
-    if (!input.name.trim()) {
-      throw new AppError("O nome do software não pode ser vazio", 400);
-    }
+    const software = new Software();
+    software.create();
+    software.name = input.name;
+    software.description = input.description;
+    software.active = input.active;
 
     const hasSoftware = await this.softwareRepository.getByName(input.name);
 
@@ -16,11 +18,6 @@ export default class CreateSoftware {
       throw new AppError("Software já registrado", 400);
     }
 
-    const software = new Software();
-    software.create();
-    software.name = input.name;
-    software.description = input.description;
-    software.active = Boolean(input.active);
 
     await this.softwareRepository.save(software);
 

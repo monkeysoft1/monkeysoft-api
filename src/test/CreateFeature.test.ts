@@ -55,7 +55,6 @@ test("should be throw an error when name to long", async () => {
     name: generateLongString(256),
     active: true,
   };
-  await createFeature.execute(featureData);
 
   await expect(createFeature.execute(featureData)).rejects.toThrow();
 });
@@ -69,7 +68,6 @@ test("should be throw an error when url to long", async () => {
     active: true,
     url: generateLongString(256)
   };
-  await createFeature.execute(featureData);
 
   await expect(createFeature.execute(featureData)).rejects.toThrow();
 });
@@ -82,7 +80,6 @@ test("should be throw an error when description to long", async () => {
     active: true,
     description: generateLongString(256)
   };
-  await createFeature.execute(featureData);
 
   await expect(createFeature.execute(featureData)).rejects.toThrow();
 });

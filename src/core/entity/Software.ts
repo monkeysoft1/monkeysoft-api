@@ -14,10 +14,6 @@ export default class Software {
   }
 
   set name(value: string) {
-    if (!value.trim()) {
-      throw new AppError("O nome do sofware não pode ser vazio", 400);
-    }
-
     const maxLength = 255;
 
     if (value.length > maxLength) {

@@ -1,5 +1,6 @@
 import AppError from "../entity/AppError";
 import Feature from "../entity/Feature";
+import Utils from "../entity/Utils";
 import IFeatureRepository from "../repository/IFeatureRepository";
 import ISoftwareRepository from "../repository/ISoftwareRepository";
 
@@ -12,6 +13,10 @@ export default class CreateFeature {
   async execute(input: Input): Promise<Output> {
     if (!input.id_software?.trim()) {
       throw new AppError("O id_software não pode ser vazio", 400);
+    }
+
+    if (Utils.stringIsEmpty(input.name, true)) {
+      throw new AppError("O nome do feature não pode ser vazio", 400);
     }
 
     const feature = new Feature();

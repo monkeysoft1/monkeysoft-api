@@ -10,7 +10,7 @@ export default class UpdateSoftware {
       throw new AppError("O id do software não pode ser vazio", 400);
     }
 
-    if (input.name && Utils.stringIsEmpty(input.name)) {
+    if (Utils.stringIsEmpty(input.name)) {
       throw new AppError("O nome do software não pode ser vazio", 400);
     }
 

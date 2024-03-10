@@ -3,9 +3,10 @@ import AppError from "./AppError";
 export default class Utils {
   static hasChanges(input: Object, old: any) {
     const hasChange = Object.keys(input).some((k) => {
-      const haveProperty = Object.keys(input).some((k) => old?.[k] && k);
-
+      const haveProperty = k in old;
       const isChanging = input[k as keyof typeof input] !== old[k as keyof typeof old];
+
+      console.log(`${k}-tem=${haveProperty}-ischange=${isChanging}`);
 
       return haveProperty && isChanging;
     });

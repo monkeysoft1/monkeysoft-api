@@ -26,10 +26,6 @@ export default class Feature {
   }
 
   public set name(value: string) {
-    if (!value.trim()) {
-      throw new AppError("O nome da feature não pode ser vazio", 400);
-    }
-
     const maxLength = 255;
 
     if (value.length > maxLength) {

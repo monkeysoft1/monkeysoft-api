@@ -1,11 +1,16 @@
 import AppError from "../entity/AppError";
 import Software from "../entity/Software";
+import Utils from "../entity/Utils";
 import ISoftwareRepository from "../repository/ISoftwareRepository";
 
 export default class CreateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
 
   async execute(input: Input): Promise<Output> {
+    if (Utils.stringIsEmpty(input.name)) {
+      throw new AppError("O nome do software não pode ser vazio", 400);
+    }
+
     const software = new Software();
     software.create();
     software.name = input.name;

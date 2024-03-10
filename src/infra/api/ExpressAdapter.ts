@@ -14,11 +14,9 @@ export default class ExpressAdapter implements IHttpServer {
   }
 
   applyErrorMiddleware(callback: Function): void {
-    this.app.use(
-      (error: Error, req: Request, res: Response, next: NextFunction) => {
-        callback(error, req, res, next);
-      }
-    );
+    this.app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+      callback(error, req, res, next);
+    });
   }
 
   applyMiddleware(callback: Function): void {
@@ -28,33 +26,30 @@ export default class ExpressAdapter implements IHttpServer {
   }
 
   on(method: string, url: string, callback: Function): void {
-    this.app[method](
-      `${url}`,
-      async function (req: Request, res: Response, next: Function) {
-        const params = {
-          headers: req.headers,
-          params: req.params,
-          query: req.query,
-        } as IParams;
+    this.app[method](`${url}`, async function (req: Request, res: Response, next: Function) {
+      const params = {
+        headers: req.headers,
+        params: req.params,
+        query: req.query,
+      } as IParams;
 
-        callback(params, req.body)
-          .then((result: any) => {
-            const { data, headers, stream } = result;
+      callback(params, req.body)
+        .then((result: any) => {
+          const { data, headers, stream } = result;
 
-            Object.entries(headers).forEach((header: any) => {
-              res.header(header[0], header[1]);
-            });
+          Object.entries(headers).forEach((header: any) => {
+            res.header(header[0], header[1]);
+          });
 
-            if (stream) {
-              stream.pipe(res);
-              res.on("close", () => stream?.close());
-              return;
-            }
+          if (stream) {
+            stream.pipe(res);
+            res.on("close", () => stream?.close());
+            return;
+          }
 
-            res.json(data);
-          })
-          .catch(next);
-      }
-    );
+          res.json(data);
+        })
+        .catch(next);
+    });
   }
 }

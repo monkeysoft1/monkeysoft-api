@@ -1,14 +1,10 @@
 import Feature from "../../core/entity/Feature";
-import FormattedDate from "../../core/entity/FormattedDate";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class FeatureRepository
-  extends BaseRepository
-  implements IFeatureRepository
-{
+export default class FeatureRepository extends BaseRepository implements IFeatureRepository {
   constructor(readonly connection: IConnection) {
     super();
   }
@@ -24,14 +20,14 @@ export default class FeatureRepository
     if (featureData) {
       const feature = new Feature();
       feature.id = featureData.id;
+      feature.id_software = featureData.id_software;
       feature.name = featureData.name;
-      feature.url = featureData.url;
-      feature.is_page = featureData.is_page;
       feature.description = featureData.description;
+      feature.url = featureData.url;
       feature.active = featureData.active;
       feature.created_on = featureData.created_on;
       feature.updated_on = featureData.updated_on;
-      return featureData;
+      return feature;
     }
   }
 
@@ -46,14 +42,14 @@ export default class FeatureRepository
     if (featureData) {
       const feature = new Feature();
       feature.id = featureData.id;
+      feature.id_software = featureData.id_software;
       feature.name = featureData.name;
       feature.url = featureData.url;
-      feature.is_page = featureData.is_page;
       feature.description = featureData.description;
       feature.active = featureData.active;
       feature.created_on = featureData.created_on;
       feature.updated_on = featureData.updated_on;
-      return featureData;
+      return feature;
     }
   }
   async save(feature: Feature): Promise<void> {
@@ -61,6 +57,7 @@ export default class FeatureRepository
 
     const insert = QueryUtils.removeUndefined({
       id: feature.id,
+      id_software: feature.id_software,
       name: feature.name,
       url: feature.url,
       is_page: feature.is_page,
@@ -70,11 +67,7 @@ export default class FeatureRepository
       updated_on: feature.updated_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert(
-      this.ms,
-      "feature",
-      insert
-    );
+    const { stmt, values } = QueryUtils.createInsert(this.ms, "feature", insert);
 
     await this.connection.query(stmt, values);
   }
@@ -84,22 +77,18 @@ export default class FeatureRepository
 
     const update = QueryUtils.removeUndefined({
       id: feature.id,
+      id_software: feature.id_software,
       name: feature.name,
       url: feature.url,
       is_page: feature.is_page,
       description: feature.description,
       active: feature.active,
-      updated_on: new FormattedDate().date,
+      updated_on: feature.updated_on,
     });
 
     const where = `id = ?`;
 
-    const { stmt, values } = QueryUtils.createUpdate(
-      this.ms,
-      "feature",
-      update,
-      where
-    );
+    const { stmt, values } = QueryUtils.createUpdate(this.ms, "feature", update, where);
 
     await this.connection.query(stmt, [...values, feature.id]);
   }

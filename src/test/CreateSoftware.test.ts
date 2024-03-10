@@ -6,7 +6,6 @@ test("should be create a software", async () => {
   const createSoftware = new CreateSoftware(softwareRepository);
   const software = await createSoftware.execute({
     name: "Monkey Zap",
-    active: true,
   });
 
   expect(software.name).toBe("Monkey Zap");
@@ -53,18 +52,18 @@ test("should be throw an error when description to long", async () => {
   const softwareData = {
     name: "Monkey Tree",
     active: true,
-    description: generateLongString(256)
+    description: generateLongString(256),
   };
 
   await expect(createSoftware.execute(softwareData)).rejects.toThrow();
 });
 
-function generateLongString(length:number) {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function generateLongString(length: number) {
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
- }
+}

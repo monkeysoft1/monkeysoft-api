@@ -14,17 +14,10 @@ export default class Software {
   }
 
   set name(value: string) {
-    if (!value?.trim()) {
-      throw new AppError("O nome do sofware não pode ser vazio", 400);
-    }
-
     const maxLength = 255;
 
     if (value.length > maxLength) {
-      throw new AppError(
-        `O nome do sofware é maior que ${maxLength} caracteres`,
-        400
-      );
+      throw new AppError(`O nome do sofware é maior que ${maxLength} caracteres`, 400);
     }
 
     this._name = value;
@@ -38,23 +31,17 @@ export default class Software {
     const maxLength = 255;
 
     if (value && value.length > maxLength) {
-      throw new AppError(
-        `A descrição informada é maior que ${maxLength} caracteres`,
-        400
-      );
-    } else {
-      value = "";
+      throw new AppError(`A descrição informada é maior que ${maxLength} caracteres`, 400);
     }
-
-    this._description = value;
+    this._description = value ?? this._description;
   }
 
   get active(): boolean {
     return this._active;
   }
 
-  set active(value: boolean) {
-    this._active = Boolean(value);
+  set active(value: boolean | undefined) {
+    this._active = Boolean(value ?? this._active);
   }
 
   create() {

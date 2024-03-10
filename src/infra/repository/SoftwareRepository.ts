@@ -4,10 +4,7 @@ import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class SoftwareRepository
-  extends BaseRepository
-  implements ISoftwareRepository
-{
+export default class SoftwareRepository extends BaseRepository implements ISoftwareRepository {
   constructor(readonly connection: IConnection) {
     super();
   }
@@ -27,7 +24,7 @@ export default class SoftwareRepository
       software.description = softwareData.description;
       software.active = softwareData.active;
       software.created_on = softwareData.created_on;
-      return softwareData;
+      return software;
     }
   }
 
@@ -46,7 +43,7 @@ export default class SoftwareRepository
       software.description = softwareData.description;
       software.active = softwareData.active;
       software.created_on = softwareData.created_on;
-      return softwareData;
+      return software;
     }
   }
   async save(software: Software): Promise<void> {
@@ -60,11 +57,7 @@ export default class SoftwareRepository
       created_on: software.created_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert(
-      this.ms,
-      "software",
-      insert
-    );
+    const { stmt, values } = QueryUtils.createInsert(this.ms, "software", insert);
 
     await this.connection.query(stmt, values);
   }
@@ -81,12 +74,7 @@ export default class SoftwareRepository
 
     const where = `id = ?`;
 
-    const { stmt, values } = QueryUtils.createUpdate(
-      this.ms,
-      "software",
-      update,
-      where
-    );
+    const { stmt, values } = QueryUtils.createUpdate(this.ms, "software", update, where);
 
     await this.connection.query(stmt, [...values, software.id]);
   }

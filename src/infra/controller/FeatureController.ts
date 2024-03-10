@@ -1,11 +1,11 @@
-import CreateFeature from '../../core/usecase/CreateFeature';
-import UpdateFeature from '../../core/usecase/UpdateFeature';
-import HttpResponse from '../api/HttpResponse';
-import IHttpServer, { IParams, JsonResponse } from '../api/IHttpServer';
-import IConnection from '../database/IConnection';
-import FeatureRepository from '../repository/FeatureRepository';
-import SoftwareRepository from '../repository/SoftwareRepository';
-import IController from './IController';
+import CreateFeature from "../../core/usecase/CreateFeature";
+import UpdateFeature from "../../core/usecase/UpdateFeature";
+import HttpResponse from "../api/HttpResponse";
+import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
+import IConnection from "../database/IConnection";
+import FeatureRepository from "../repository/FeatureRepository";
+import SoftwareRepository from "../repository/SoftwareRepository";
+import IController from "./IController";
 
 export default class FeatureController implements IController {
   constructor(
@@ -14,8 +14,8 @@ export default class FeatureController implements IController {
   ) {}
 
   initRoutes() {
-    this.httpServer.on('post', '/feature', this.create);
-    this.httpServer.on('put', '/feature/:id', this.update);
+    this.httpServer.on("post", "/feature", this.create);
+    this.httpServer.on("put", "/feature/:id", this.update);
   }
 
   create = async (params: IParams, body: any): Promise<JsonResponse> => {

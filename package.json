@@ -17,17 +17,6 @@
   "engine": {
     "node": "20.11.1"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*": [
-      "prettier --write .",
-      "git add ."
-    ]
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

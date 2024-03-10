@@ -3,11 +3,7 @@ export default class QueryUtils {
     return Object.entries(obj).filter((f) => f[1] !== undefined);
   }
 
-  static createInsert(
-    schema: string,
-    tableName: string,
-    value: [string, any][]
-  ) {
+  static createInsert(schema: string, tableName: string, value: [string, any][]) {
     const columns = value.map((f) => f[0]).join(",");
     const params = value.map(() => "?").join();
     const values = value.map((f) => f[1]);
@@ -20,7 +16,12 @@ export default class QueryUtils {
     };
   }
 
-  static createUpdate(schema: string, tableName: string, setValues: [string, any][], whereCondition: string) {
+  static createUpdate(
+    schema: string,
+    tableName: string,
+    setValues: [string, any][],
+    whereCondition: string
+  ) {
     const setClause = setValues.map(([field, _]) => `${field} = ?`).join(",");
     const values = setValues.map(([_, value]) => value);
 
@@ -39,9 +40,9 @@ export default class QueryUtils {
     const stmt = `
       delete from ${schema}.${tableName}
       where ${whereCondition}`;
-  
+
     return {
       stmt,
     };
-  }  
+  }
 }

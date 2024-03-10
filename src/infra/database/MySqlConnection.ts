@@ -1,7 +1,7 @@
-import mysql from 'mysql2';
-import { Pool } from 'mysql2/promise';
-import AppError from '../../core/entity/AppError';
-import IConnection from './IConnection';
+import mysql from "mysql2";
+import { Pool } from "mysql2/promise";
+import AppError from "../../core/entity/AppError";
+import IConnection from "./IConnection";
 
 export default class MySqlConnection implements IConnection {
   private pool?: Pool;
@@ -34,7 +34,7 @@ export default class MySqlConnection implements IConnection {
 
       await this.pool.getConnection();
     } catch (error) {
-      throw new AppError('Data base cannot be access', 500);
+      throw new AppError("Data base cannot be access", 500);
     }
   }
 }

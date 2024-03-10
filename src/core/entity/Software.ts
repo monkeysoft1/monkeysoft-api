@@ -1,11 +1,11 @@
-import crypto from 'crypto';
-import AppError from '../entity/AppError';
-import FormattedDate from './FormattedDate';
+import crypto from "crypto";
+import AppError from "../entity/AppError";
+import FormattedDate from "./FormattedDate";
 
 export default class Software {
-  id: string = '';
-  private _name: string = '';
-  private _description: string = '';
+  id: string = "";
+  private _name: string = "";
+  private _description: string = "";
   private _active: boolean = false;
   created_on?: Date;
 
@@ -15,7 +15,7 @@ export default class Software {
 
   set name(value: string) {
     if (!value.trim()) {
-      throw new AppError('O nome do sofware não pode ser vazio', 400);
+      throw new AppError("O nome do sofware não pode ser vazio", 400);
     }
 
     const maxLength = 255;

@@ -1,14 +1,14 @@
-import crypto from 'crypto';
-import AppError from './AppError';
-import FormattedDate from './FormattedDate';
+import crypto from "crypto";
+import AppError from "./AppError";
+import FormattedDate from "./FormattedDate";
 
 export default class Feature {
-  id: string = '';
-  private _id_software: string = '';
-  private _name: string = '';
-  private _url: string = '';
+  id: string = "";
+  private _id_software: string = "";
+  private _name: string = "";
+  private _url: string = "";
   private _is_page: boolean = false;
-  private _description: string = '';
+  private _description: string = "";
   private _active: boolean = false;
   created_on?: Date;
   updated_on?: Date;
@@ -27,7 +27,7 @@ export default class Feature {
 
   public set name(value: string) {
     if (!value.trim()) {
-      throw new AppError('O nome da feature não pode ser vazio', 400);
+      throw new AppError("O nome da feature não pode ser vazio", 400);
     }
 
     const maxLength = 255;

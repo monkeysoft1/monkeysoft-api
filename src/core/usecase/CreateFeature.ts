@@ -1,14 +1,17 @@
-import AppError from '../entity/AppError';
-import Feature from '../entity/Feature';
-import IFeatureRepository from '../repository/IFeatureRepository';
-import ISoftwareRepository from '../repository/ISoftwareRepository';
+import AppError from "../entity/AppError";
+import Feature from "../entity/Feature";
+import IFeatureRepository from "../repository/IFeatureRepository";
+import ISoftwareRepository from "../repository/ISoftwareRepository";
 
 export default class CreateFeature {
-  constructor(readonly featureRepository: IFeatureRepository,readonly softwareRepository: ISoftwareRepository) {}
+  constructor(
+    readonly featureRepository: IFeatureRepository,
+    readonly softwareRepository: ISoftwareRepository
+  ) {}
 
   async execute(input: Input): Promise<Output> {
     if (!input.id_software?.trim()) {
-      throw new AppError('O id_software não pode ser vazio', 400);
+      throw new AppError("O id_software não pode ser vazio", 400);
     }
 
     const feature = new Feature();
@@ -20,12 +23,12 @@ export default class CreateFeature {
 
     const hasFeature = await this.featureRepository.getByName(feature.name);
     if (hasFeature) {
-      throw new AppError('Feature já registrada', 400);
+      throw new AppError("Feature já registrada", 400);
     }
 
     const software = await this.softwareRepository.getById(input.id_software);
     if (!software) {
-      throw new AppError('Software não encontrado', 404);
+      throw new AppError("Software não encontrado", 404);
     }
 
     feature.id_software = input.id_software;

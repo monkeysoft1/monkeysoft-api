@@ -14,10 +14,7 @@ export default class Controller {
       .map((i) => i.split(".")[0]);
 
     for (const file of files) {
-      new (await import(`./${file}`)).default(
-        this.connection,
-        this.httpServer
-      ).initRoutes();
+      new (await import(`./${file}`)).default(this.connection, this.httpServer).initRoutes();
     }
   }
 }

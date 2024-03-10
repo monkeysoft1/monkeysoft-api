@@ -15,6 +15,10 @@ export default class UpdateFeature {
       throw new AppError("O id da feature não pode ser vazio", 400);
     }
 
+    if (input.name && Utils.stringIsEmpty(input.name)) {
+      throw new AppError("O nome do feature não pode ser vazio", 400);
+    }
+
     const feature = await this.featureRepository.getById(input.id);
 
     if (!feature) {
@@ -23,7 +27,7 @@ export default class UpdateFeature {
 
     Utils.hasChanges(input, feature);
 
-    if (input.name && input.name !== feature.name) {
+    if (input.name) {
       const hasFeatureByName = await this.featureRepository.getByName(input.name);
 
       if (hasFeatureByName) {
@@ -48,6 +52,7 @@ export default class UpdateFeature {
     feature.updated_on = new FormattedDate().date;
 
     await this.featureRepository.update(feature);
+
     return {
       id: feature.id,
       id_software: feature.id_software,

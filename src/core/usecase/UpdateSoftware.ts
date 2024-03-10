@@ -22,7 +22,7 @@ export default class UpdateSoftware {
 
     Utils.hasChanges(input, software);
 
-    if (input.name && input.name !== software.name) {
+    if (input.name) {
       const hasSoftwareByName = await this.softwareRepository.getByName(input.name);
 
       if (hasSoftwareByName) {

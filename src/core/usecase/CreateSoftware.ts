@@ -1,6 +1,6 @@
-import AppError from "../entity/AppError";
-import Software from "../entity/Software";
-import ISoftwareRepository from "../repository/ISoftwareRepository";
+import AppError from '../entity/AppError';
+import Software from '../entity/Software';
+import ISoftwareRepository from '../repository/ISoftwareRepository';
 
 export default class CreateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
@@ -15,7 +15,7 @@ export default class CreateSoftware {
     const hasSoftware = await this.softwareRepository.getByName(input.name);
 
     if (hasSoftware) {
-      throw new AppError("Software já registrado", 400);
+      throw new AppError('Software já registrado', 400);
     }
 
     await this.softwareRepository.save(software);
@@ -32,13 +32,13 @@ export default class CreateSoftware {
 
 interface Input {
   name: string;
-  description: string;
-  active: boolean;
+  description?: string;
+  active?: boolean;
 }
 interface Output {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   active: boolean;
   created_on?: Date;
 }

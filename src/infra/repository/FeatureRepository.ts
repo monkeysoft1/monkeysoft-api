@@ -1,5 +1,6 @@
 import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
+import { GetAllFeaturesDTO } from "../../core/usecase/GetAllFeatures";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
 import QueryUtils from "./validators/QueryUtils";
@@ -7,6 +8,39 @@ import QueryUtils from "./validators/QueryUtils";
 export default class FeatureRepository extends BaseRepository implements IFeatureRepository {
   constructor(readonly connection: IConnection) {
     super();
+  }
+
+  async getAll(input: GetAllFeaturesDTO): Promise<any> {
+    await this.connection.open();
+
+    const filters = {
+      name: input.name,
+      active: input.active,
+    };
+
+    const { rows, total, total_page } = await QueryUtils.createSelectAll(
+      this.connection,
+      this.ms,
+      "feature",
+      input,
+      filters
+    );
+
+    let list = [];
+    for (const row of rows) {
+      const feature = new Feature();
+      feature.id = row.id;
+      feature.id_software = row.id_software;
+      feature.name = row.name;
+      feature.description = row.description;
+      feature.url = row.url;
+      feature.active = row.active;
+      feature.created_on = row.created_on;
+      feature.updated_on = row.updated_on;
+      list.push(feature);
+    }
+
+    return { list, total, total_page };
   }
 
   async getById(id: string): Promise<Feature | undefined> {

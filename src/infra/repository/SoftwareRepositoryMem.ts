@@ -5,17 +5,11 @@ export default class SoftwareRepositoryMem implements ISoftwareRepository {
   software: Software[] = [];
 
   async getById(id: string): Promise<Software | undefined> {
-    const software = this.software.find((f) => f.id === id);
-    if (software) {
-      return software;
-    }
+    return this.software.find((f) => f.id === id);
   }
 
   async getByName(name: string): Promise<Software | undefined> {
-    const software = this.software.find((f) => f.name === name);
-    if (software) {
-      return software;
-    }
+    return this.software.find((f) => f.name === name);
   }
 
   async save(software: Software): Promise<void> {
@@ -23,11 +17,6 @@ export default class SoftwareRepositoryMem implements ISoftwareRepository {
   }
 
   async update(software: Software): Promise<void> {
-    this.software = this.software.map((i) => {
-      if (i.id === software.id) {
-        return software;
-      }
-      return i;
-    });
+    this.software = this.software.map((i) => (i.id === software.id ? software : i));
   }
 }

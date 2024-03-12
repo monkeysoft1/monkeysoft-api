@@ -6,6 +6,10 @@ import IConnection from "./IConnection";
 export default class MySqlConnection implements IConnection {
   private pool?: Pool;
 
+  escape(value: string): string {
+    return mysql.escapeId(value);
+  }
+
   async query(statement: string, params: any[]): Promise<any> {
     if (this.pool) {
       return await this.pool.execute(statement, params);

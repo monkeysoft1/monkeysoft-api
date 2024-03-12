@@ -6,8 +6,6 @@ export default class Utils {
       const haveProperty = k in old;
       const isChanging = input[k as keyof typeof input] !== old[k as keyof typeof old];
 
-      console.log(`${k}-tem=${haveProperty}-ischange=${isChanging}`);
-
       return haveProperty && isChanging;
     });
 

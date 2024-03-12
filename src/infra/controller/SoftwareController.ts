@@ -33,6 +33,6 @@ export default class SoftwareController implements IController {
       id: params.params.id,
     });
 
-    return HttpResponse.json(201, software);
+    return HttpResponse.json(200, software);
   };
 }

@@ -1,21 +1,23 @@
 import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
+import GetAllDTO from "./IGetAll";
 
 export default class FeatureRepositoryMem implements IFeatureRepository {
   feature: Feature[] = [];
+  async getAll(input: GetAllDTO): Promise<any> {
+    return {
+      list: this.feature,
+      total: this.feature.length,
+      total_page: this.feature.length,
+    };
+  }
 
   async getById(id: string): Promise<Feature | undefined> {
-    const feature = this.feature.find((f) => f.id === id);
-    if (feature) {
-      return feature;
-    }
+    return this.feature.find((f) => f.id === id);
   }
 
   async getByName(name: string): Promise<Feature | undefined> {
-    const feature = this.feature.find((f) => f.name === name);
-    if (feature) {
-      return feature;
-    }
+    return this.feature.find((f) => f.name === name);
   }
 
   async save(feature: Feature): Promise<void> {
@@ -23,9 +25,6 @@ export default class FeatureRepositoryMem implements IFeatureRepository {
   }
 
   async update(feature: Feature): Promise<void> {
-    const index = this.feature.findIndex((x) => x.id === feature.id);
-    if (index) {
-      this.feature[index] = feature;
-    }
+    this.feature = this.feature.map((i) => (i.id === feature.id ? feature : i));
   }
 }

@@ -1,14 +1,20 @@
+import GetAllDTO from "../../infra/repository/IGetAll";
 import Feature from "../entity/Feature";
 import IFeatureRepository from "../repository/IFeatureRepository";
 
 export default class GetAllFeatures {
   constructor(readonly featureRepository: IFeatureRepository) {}
 
-  async execute(input: GetAllFeaturesDTO): Promise<Output> {
-    //busca os dados
+  async execute(input: GetAllDTO): Promise<Output> {
+    const filters = {
+      name: input.name,
+      active: input.active,
+    };
+
+    input.filters = filters;
+
     const { list, total, total_page } = await this.featureRepository.getAll(input);
 
-    //mapeia os campos para passar pra proxima camada e remover os "_"
     const features = list.map((f: Feature) => ({
       id: f.id,
       id_software: f.id_software,
@@ -21,25 +27,12 @@ export default class GetAllFeatures {
       updated_on: f.updated_on,
     }));
 
-    //retorna os campos list,total,total_page por padrão
     return {
       list: features,
       total,
       total_page,
     };
   }
-}
-
-export interface GetAllFeaturesDTO {
-  //defina os campos que deseja ter como filtro
-  name?: string;
-  active?: boolean;
-
-  //campos default
-  order?: string;
-  orderBy?: string;
-  page?: number;
-  all?: boolean;
 }
 
 interface FeatureDTO {

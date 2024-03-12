@@ -1,10 +1,10 @@
 import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
-import { GetAllFeaturesDTO } from "../../core/usecase/GetAllFeatures";
+import GetAllDTO from "./IGetAll";
 
 export default class FeatureRepositoryMem implements IFeatureRepository {
   feature: Feature[] = [];
-  async getAll(input: GetAllFeaturesDTO): Promise<any> {
+  async getAll(input: GetAllDTO): Promise<any> {
     return {
       list: this.feature,
       total: this.feature.length,

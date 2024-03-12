@@ -69,7 +69,6 @@ export default class QueryUtils {
     if (column) {
       orderClause += `order by ${connection.escape(column)} `;
       orderClause += order === "asc" ? "asc" : "desc";
-      values.push(column);
     }
 
     let stmt = `

@@ -1,8 +1,8 @@
 import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
-import { GetAllFeaturesDTO } from "../../core/usecase/GetAllFeatures";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
+import GetAllDTO from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
 export default class FeatureRepository extends BaseRepository implements IFeatureRepository {
@@ -10,20 +10,15 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
     super();
   }
 
-  async getAll(input: GetAllFeaturesDTO): Promise<any> {
+  async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
-
-    const filters = {
-      name: input.name,
-      active: input.active,
-    };
 
     const { rows, total, total_page } = await QueryUtils.createSelectAll(
       this.connection,
       this.ms,
       "feature",
       input,
-      filters
+      input.filters
     );
 
     let list = [];

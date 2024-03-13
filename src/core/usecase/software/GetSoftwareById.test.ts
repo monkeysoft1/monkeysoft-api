@@ -39,6 +39,6 @@ test("should be throw an error when result is empty", async () => {
   });
 
   software.id = "79db678a-eb17-430c-b03a";
-  
+
   await expect(getAllSoftwares.execute(software)).rejects.toThrow();
 });

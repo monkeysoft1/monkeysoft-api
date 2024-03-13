@@ -19,8 +19,8 @@ export default class SoftwareController implements IController {
     this.httpServer.on("get", "/software", this.getAll);
     this.httpServer.on("post", "/software", this.create);
     this.httpServer.on("put", "/software/:id", this.update);
-  } 
-  
+  }
+
   getById = async (params: IParams, body: any): Promise<JsonResponse> => {
     const softwareRepository = new SoftwareRepository(this.connection);
     const getSoftwareById = new GetSoftwareById(softwareRepository);

@@ -20,7 +20,7 @@ export default class GetAllSoftwares {
       name: f.name,
       description: f.description,
       active: f.active,
-      created_on: f.created_on
+      created_on: f.created_on,
     }));
 
     return {

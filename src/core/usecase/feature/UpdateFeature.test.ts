@@ -19,9 +19,9 @@ test("should be update feature", async () => {
     description: "Permissão para adicionar usuário",
   });
 
-  const updateSofware = new UpdateFeature(featureRepository, softwareRepository);
+  const updateSoftware = new UpdateFeature(featureRepository, softwareRepository);
 
-  const overwritingSofware = await updateSofware.execute({
+  const overwritingSoftware = await updateSoftware.execute({
     id: newFeature.id,
     id_software: newFeature.id_software,
     name: "Monkey New Zap",
@@ -30,7 +30,7 @@ test("should be update feature", async () => {
     url: "https://monkeysoft.com.br/portal/adduser",
   });
 
-  expect(overwritingSofware.name).toBe("Monkey New Zap");
+  expect(overwritingSoftware.name).toBe("Monkey New Zap");
 });
 
 test("should be update partial feature", async () => {

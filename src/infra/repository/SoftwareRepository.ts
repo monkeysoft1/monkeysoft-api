@@ -2,11 +2,37 @@ import Software from "../../core/entity/Software";
 import ISoftwareRepository from "../../core/repository/ISoftwareRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
+import { GetAllDTO } from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
 export default class SoftwareRepository extends BaseRepository implements ISoftwareRepository {
   constructor(readonly connection: IConnection) {
     super();
+  }
+
+  async getAll(input: GetAllDTO): Promise<any> {
+    await this.connection.open();
+
+    const { rows, total, total_page } = await QueryUtils.createSelectAll(
+      this.connection,
+      this.ms,
+      "software",
+      input,
+      input.filters
+    );
+
+    let list = [];
+    for (const row of rows) {
+      const software = new Software();
+      software.id = row.id;
+      software.name = row.name;
+      software.description = row.description;
+      software.active = row.active;
+      software.created_on = row.created_on;
+      list.push(software);
+    }
+
+    return { list, total, total_page };
   }
 
   async getById(id: string): Promise<Software | undefined> {

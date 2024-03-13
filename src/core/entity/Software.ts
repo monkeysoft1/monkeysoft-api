@@ -17,7 +17,7 @@ export default class Software {
     const maxLength = 255;
 
     if (value.length > maxLength) {
-      throw new AppError(`O nome do sofware é maior que ${maxLength} caracteres`, 400);
+      throw new AppError(`O nome do software é maior que ${maxLength} caracteres`, 400);
     }
 
     this._name = value;

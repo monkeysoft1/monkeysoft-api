@@ -11,16 +11,16 @@ test("should be update software", async () => {
     description: "Serviço de whats",
   });
 
-  const updateSofware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository);
 
-  const overwritingSofware = await updateSofware.execute({
+  const overwritingSoftware = await updateSoftware.execute({
     id: newSoftware.id,
     name: "Monkey New Zap",
     active: false,
     description: "Serviço de whats",
   });
 
-  expect(overwritingSofware.name).toBe("Monkey New Zap");
+  expect(overwritingSoftware.name).toBe("Monkey New Zap");
 });
 
 test("should be throw an error when id is empty", async () => {
@@ -64,10 +64,10 @@ test("should be throw an error when name is empty", async () => {
 
 test("should be throw an error when id not exist", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateSofware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository);
 
   await expect(
-    updateSofware.execute({
+    updateSoftware.execute({
       id: "4b48b960-37c5-4337-9c6d-bb0ffcfc6369",
       name: "Monkey Zap",
       active: false,
@@ -91,9 +91,9 @@ test("should be throw an error when name exists in other software", async () => 
     description: "Serviço de whats",
   });
 
-  const updateSofware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository);
   await expect(
-    updateSofware.execute({
+    updateSoftware.execute({
       id: newSoftware.id,
       name: "Monkey Zap",
       active: false,
@@ -110,8 +110,8 @@ test("should be throw an error when has no changes", async () => {
     description: "Serviço de whats",
   });
 
-  const updateSofware = new UpdateSoftware(softwareRepository);
-  const updatedSoftware = updateSofware.execute({
+  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const updatedSoftware = updateSoftware.execute({
     id: software.id,
     name: "Monkey Zap",
   });
@@ -127,14 +127,14 @@ test("should be throw an error when name is empty", async () => {
     description: "Serviço de whats",
   });
 
-  const updateSofware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository);
 
   const input = {
     id: software.id,
     name: [],
   } as any;
 
-  const updatedSoftware = updateSofware.execute(input);
+  const updatedSoftware = updateSoftware.execute(input);
 
   await expect(updatedSoftware).rejects.toThrow();
 });

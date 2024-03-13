@@ -6,7 +6,7 @@ export default class GetSoftwareById {
 
   async execute(input: Input): Promise<Output> {
     if (!input.id) {
-      throw new AppError("Software não encontrado", 404);
+      throw new AppError("O id do software não foi informado", 404);
     }
 
     const software = await this.softwareRepository.getById(input.id);

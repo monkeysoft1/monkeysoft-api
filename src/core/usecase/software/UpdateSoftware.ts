@@ -1,6 +1,6 @@
-import AppError from "../entity/AppError";
-import Utils from "../entity/Utils";
-import ISoftwareRepository from "../repository/ISoftwareRepository";
+import AppError from "../../entity/AppError";
+import Utils from "../../entity/Utils";
+import ISoftwareRepository from "../../repository/ISoftwareRepository";
 
 export default class UpdateSoftware {
   constructor(readonly softwareRepository: ISoftwareRepository) {}

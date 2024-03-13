@@ -1,8 +1,8 @@
-import AppError from "../entity/AppError";
-import FormattedDate from "../entity/FormattedDate";
-import Utils from "../entity/Utils";
-import IFeatureRepository from "../repository/IFeatureRepository";
-import ISoftwareRepository from "../repository/ISoftwareRepository";
+import AppError from "../../entity/AppError";
+import FormattedDate from "../../entity/FormattedDate";
+import Utils from "../../entity/Utils";
+import IFeatureRepository from "../../repository/IFeatureRepository";
+import ISoftwareRepository from "../../repository/ISoftwareRepository";
 
 export default class UpdateFeature {
   constructor(

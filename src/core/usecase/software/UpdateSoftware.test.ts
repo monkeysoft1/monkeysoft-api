@@ -1,6 +1,6 @@
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import UpdateSoftware from "../core/usecase/UpdateSoftware";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "./CreateSoftware";
+import UpdateSoftware from "./UpdateSoftware";
 
 test("should be update software", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
@@ -85,7 +85,7 @@ test("should be throw an error when name exists in other software", async () => 
     description: "Serviço de whats",
   });
 
-  var newSoftware = await createSoftware.execute({
+  const newSoftware = await createSoftware.execute({
     name: "Monkey Tree",
     active: true,
     description: "Serviço de whats",

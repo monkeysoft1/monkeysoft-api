@@ -1,7 +1,7 @@
-import CreateFeature from "../core/usecase/CreateFeature";
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import FeatureRepositoryMem from "../infra/repository/FeatureRepositoryMem";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import FeatureRepositoryMem from "../../../infra/repository/FeatureRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "../software/CreateSoftware";
+import CreateFeature from "./CreateFeature";
 
 function generateLongString(length: number) {
   let result = "";

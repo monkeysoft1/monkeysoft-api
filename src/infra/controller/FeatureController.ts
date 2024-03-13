@@ -1,6 +1,6 @@
-import CreateFeature from "../../core/usecase/CreateFeature";
-import GetAllFeatures from "../../core/usecase/GetAllFeatures";
-import UpdateFeature from "../../core/usecase/UpdateFeature";
+import CreateFeature from "../../core/usecase/feature/CreateFeature";
+import GetAllFeatures from "../../core/usecase/feature/GetAllFeatures";
+import UpdateFeature from "../../core/usecase/feature/UpdateFeature";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
 import IConnection from "../database/IConnection";

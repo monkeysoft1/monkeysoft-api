@@ -1,5 +1,5 @@
-import AppError from "../entity/AppError";
-import ISoftwareRepository from "../repository/ISoftwareRepository";
+import AppError from "../../entity/AppError";
+import ISoftwareRepository from "../../repository/ISoftwareRepository";
 
 export default class GetSoftwareById {
   constructor(readonly softwareRepository: ISoftwareRepository) {}

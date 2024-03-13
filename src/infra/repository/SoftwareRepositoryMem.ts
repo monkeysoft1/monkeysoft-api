@@ -1,6 +1,6 @@
 import Software from "../../core/entity/Software";
 import ISoftwareRepository from "../../core/repository/ISoftwareRepository";
-import GetAllDTO from "./IGetAll";
+import { GetAllDTO } from "./IGetAll";
 
 export default class SoftwareRepositoryMem implements ISoftwareRepository {
   software: Software[] = [];

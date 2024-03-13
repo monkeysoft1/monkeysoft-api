@@ -1,6 +1,6 @@
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import GetSoftwareById from "../core/usecase/GetSoftwareById";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "./CreateSoftware";
+import GetSoftwareById from "./GetSoftwareById";
 
 test("should be search a software by id", async () => {
   const softwareRepository = new SoftwareRepositoryMem();

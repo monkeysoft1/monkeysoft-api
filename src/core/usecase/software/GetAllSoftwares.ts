@@ -1,6 +1,6 @@
-import GetAllDTO from "../../infra/repository/IGetAll";
-import Software from "../entity/Software";
-import ISoftwareRepository from "../repository/ISoftwareRepository";
+import { GetAllDTO } from "../../../infra/repository/IGetAll";
+import Software from "../../entity/Software";
+import ISoftwareRepository from "../../repository/ISoftwareRepository";
 
 export default class GetAllSoftwares {
   constructor(readonly softwareRepository: ISoftwareRepository) {}
@@ -13,7 +13,7 @@ export default class GetAllSoftwares {
 
     input.filters = filters;
 
-    const { list, total, total_page } = await this.softwareRepository.getAll(input);
+    const { list, total, total_page } = await this.softwareRepository.getAll<Software>(input);
 
     const softwares = list.map((f: Software) => ({
       id: f.id,
@@ -36,7 +36,7 @@ interface SoftwareDTO {
   name: string;
   description: string;
   active: boolean;
-  created_on: Date;
+  created_on?: Date;
 }
 
 interface Output {

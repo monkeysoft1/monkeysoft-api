@@ -1,6 +1,6 @@
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import GetAllSoftwares from "../core/usecase/GetAllSoftwares";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "./CreateSoftware";
+import GetAllSoftwares from "./GetAllSoftwares";
 
 test("should be create a feature", async () => {
   const softwareRepository = new SoftwareRepositoryMem();

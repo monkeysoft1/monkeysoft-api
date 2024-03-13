@@ -1,4 +1,6 @@
 import CreateSoftware from "../../core/usecase/software/CreateSoftware";
+import GetAllSoftwares from "../../core/usecase/software/GetAllSoftwares";
+import GetSoftwareById from "../../core/usecase/software/GetSoftwareById";
 import UpdateSoftware from "../../core/usecase/software/UpdateSoftware";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";

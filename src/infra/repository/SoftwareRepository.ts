@@ -2,7 +2,7 @@ import Software from "../../core/entity/Software";
 import ISoftwareRepository from "../../core/repository/ISoftwareRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
-import GetAllDTO from "./IGetAll";
+import { GetAllDTO } from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
 export default class SoftwareRepository extends BaseRepository implements ISoftwareRepository {

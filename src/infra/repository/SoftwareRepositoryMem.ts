@@ -1,8 +1,17 @@
 import Software from "../../core/entity/Software";
 import ISoftwareRepository from "../../core/repository/ISoftwareRepository";
+import GetAllDTO from "./IGetAll";
 
 export default class SoftwareRepositoryMem implements ISoftwareRepository {
   software: Software[] = [];
+
+  async getAll(input: GetAllDTO): Promise<any> {
+    return {
+      list: this.software,
+      total: this.software.length,
+      total_page: this.software.length,
+    };
+  }
 
   async getById(id: string): Promise<Software | undefined> {
     return this.software.find((f) => f.id === id);

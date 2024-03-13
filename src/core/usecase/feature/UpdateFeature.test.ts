@@ -1,8 +1,8 @@
-import CreateFeature from "../core/usecase/CreateFeature";
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import UpdateFeature from "../core/usecase/UpdateFeature";
-import FeatureRepositoryMem from "../infra/repository/FeatureRepositoryMem";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import FeatureRepositoryMem from "../../../infra/repository/FeatureRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "../software/CreateSoftware";
+import CreateFeature from "./CreateFeature";
+import UpdateFeature from "./UpdateFeature";
 
 test("should be update feature", async () => {
   const featureRepository = new FeatureRepositoryMem();

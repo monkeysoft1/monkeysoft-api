@@ -1,7 +1,5 @@
-import CreateSoftware from "../../core/usecase/CreateSoftware";
-import GetAllSoftwares from "../../core/usecase/GetAllSoftwares";
-import GetSoftwareById from "../../core/usecase/GetSoftwareById";
-import UpdateSoftware from "../../core/usecase/UpdateSoftware";
+import CreateSoftware from "../../core/usecase/software/CreateSoftware";
+import UpdateSoftware from "../../core/usecase/software/UpdateSoftware";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
 import IConnection from "../database/IConnection";

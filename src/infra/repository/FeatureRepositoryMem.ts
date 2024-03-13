@@ -1,6 +1,6 @@
 import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
-import GetAllDTO from "./IGetAll";
+import { GetAllDTO } from "./IGetAll";
 
 export default class FeatureRepositoryMem implements IFeatureRepository {
   feature: Feature[] = [];

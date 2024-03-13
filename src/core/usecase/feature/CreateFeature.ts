@@ -1,8 +1,8 @@
-import AppError from "../entity/AppError";
-import Feature from "../entity/Feature";
-import Utils from "../entity/Utils";
-import IFeatureRepository from "../repository/IFeatureRepository";
-import ISoftwareRepository from "../repository/ISoftwareRepository";
+import AppError from "../../entity/AppError";
+import Feature from "../../entity/Feature";
+import Utils from "../../entity/Utils";
+import IFeatureRepository from "../../repository/IFeatureRepository";
+import ISoftwareRepository from "../../repository/ISoftwareRepository";
 
 export default class CreateFeature {
   constructor(

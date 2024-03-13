@@ -1,11 +1,11 @@
-import GetAllDTO from "../../infra/repository/IGetAll";
-import Feature from "../entity/Feature";
-import IFeatureRepository from "../repository/IFeatureRepository";
+import { GetAllDTO, GetAllOutputDTO } from "../../../infra/repository/IGetAll";
+import Feature from "../../entity/Feature";
+import IFeatureRepository from "../../repository/IFeatureRepository";
 
 export default class GetAllFeatures {
   constructor(readonly featureRepository: IFeatureRepository) {}
 
-  async execute(input: GetAllDTO): Promise<Output> {
+  async execute(input: GetAllDTO): Promise<GetAllOutputDTO<FeatureDTO>> {
     const filters = {
       name: input.name,
       active: input.active,
@@ -13,9 +13,9 @@ export default class GetAllFeatures {
 
     input.filters = filters;
 
-    const { list, total, total_page } = await this.featureRepository.getAll(input);
+    const { list, total, total_page } = await this.featureRepository.getAll<Feature>(input);
 
-    const features = list.map((f: Feature) => ({
+    const features = list.map((f) => ({
       id: f.id,
       id_software: f.id_software,
       name: f.name,
@@ -43,12 +43,6 @@ interface FeatureDTO {
   is_page: boolean;
   description: string;
   active: boolean;
-  created_on: Date;
-  updated_on: Date;
-}
-
-interface Output {
-  list: FeatureDTO[];
-  total: number;
-  total_page: number;
+  created_on?: Date;
+  updated_on?: Date;
 }

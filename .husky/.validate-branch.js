@@ -1,5 +1,5 @@
 //import { execSync } from "child_process";
-const {execSync} = require("child_process");
+const { execSync } = require("child_process");
 
 // Função para verificar se o nome do branch está de acordo com os padrões
 function isValidBranchName(branchName) {

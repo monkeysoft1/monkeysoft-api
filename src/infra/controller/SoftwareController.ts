@@ -1,4 +1,6 @@
 import CreateSoftware from "../../core/usecase/software/CreateSoftware";
+import GetAllSoftwares from "../../core/usecase/software/GetAllSoftwares";
+import GetSoftwareById from "../../core/usecase/software/GetSoftwareById";
 import UpdateSoftware from "../../core/usecase/software/UpdateSoftware";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
@@ -13,9 +15,30 @@ export default class SoftwareController implements IController {
   ) {}
 
   initRoutes() {
+    this.httpServer.on("get", "/software/:id", this.getById);
+    this.httpServer.on("get", "/software", this.getAll);
     this.httpServer.on("post", "/software", this.create);
     this.httpServer.on("put", "/software/:id", this.update);
   }
+
+  getById = async (params: IParams, body: any): Promise<JsonResponse> => {
+    const softwareRepository = new SoftwareRepository(this.connection);
+    const getSoftwareById = new GetSoftwareById(softwareRepository);
+    const software = await getSoftwareById.execute({
+      id: params.params.id,
+    });
+
+    return HttpResponse.json(200, software);
+  };
+
+  getAll = async (params: IParams, body: any): Promise<JsonResponse> => {
+    const softwareRepository = new SoftwareRepository(this.connection);
+    const getAllSoftwares = new GetAllSoftwares(softwareRepository);
+
+    const features = await getAllSoftwares.execute(params.query);
+
+    return HttpResponse.json(200, features);
+  };
 
   create = async (params: IParams, body: any): Promise<JsonResponse> => {
     const softwareRepository = new SoftwareRepository(this.connection);

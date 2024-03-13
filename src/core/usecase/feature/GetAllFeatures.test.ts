@@ -1,8 +1,8 @@
-import CreateFeature from "../core/usecase/CreateFeature";
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import GetAllFeatures from "../core/usecase/GetAllFeatures";
-import FeatureRepositoryMem from "../infra/repository/FeatureRepositoryMem";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import FeatureRepositoryMem from "../../../infra/repository/FeatureRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "../software/CreateSoftware";
+import CreateFeature from "./CreateFeature";
+import GetAllFeatures from "./GetAllFeatures";
 
 test("should be create a feature", async () => {
   const featureRepository = new FeatureRepositoryMem();

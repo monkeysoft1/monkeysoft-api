@@ -1,5 +1,5 @@
-import CreateSoftware from "../core/usecase/CreateSoftware";
-import SoftwareRepositoryMem from "../infra/repository/SoftwareRepositoryMem";
+import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateSoftware from "./CreateSoftware";
 
 test("should be create a software", async () => {
   const softwareRepository = new SoftwareRepositoryMem();

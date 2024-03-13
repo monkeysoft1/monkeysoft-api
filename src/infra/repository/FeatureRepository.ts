@@ -2,7 +2,7 @@ import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
-import GetAllDTO from "./IGetAll";
+import { GetAllDTO } from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
 export default class FeatureRepository extends BaseRepository implements IFeatureRepository {

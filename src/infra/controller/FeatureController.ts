@@ -1,5 +1,6 @@
 import CreateFeature from "../../core/usecase/feature/CreateFeature";
 import GetAllFeatures from "../../core/usecase/feature/GetAllFeatures";
+import GetProfileById from "../../core/usecase/feature/GetFeatureById";
 import UpdateFeature from "../../core/usecase/feature/UpdateFeature";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
@@ -15,10 +16,21 @@ export default class FeatureController implements IController {
   ) {}
 
   initRoutes() {
+    this.httpServer.on("get", "/feature/:id", this.getById);
     this.httpServer.on("get", "/feature", this.getAll);
     this.httpServer.on("post", "/feature", this.create);
     this.httpServer.on("put", "/feature/:id", this.update);
   }
+
+  getById = async (params: IParams, body: any): Promise<JsonResponse> => {
+    const profileRepository = new FeatureRepository(this.connection);
+    const getProfileById = new GetProfileById(profileRepository);
+    const profile = await getProfileById.execute({
+      id: params.params.id,
+    });
+
+    return HttpResponse.json(200, profile);
+  };
 
   getAll = async (params: IParams, body: any): Promise<JsonResponse> => {
     const featureRepository = new FeatureRepository(this.connection);

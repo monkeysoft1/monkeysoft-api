@@ -17,7 +17,7 @@ test("should be search a profile by id", async () => {
   const profile = await createProfile.execute({
     name: "Administrador",
     id_software: software.id,
-    active: true
+    active: true,
   });
 
   const profiles = await getProfileById.execute(profile);

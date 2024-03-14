@@ -3,7 +3,7 @@ import Profile from "../../entity/Profile";
 import IProfileRepository from "../../repository/IProfileRepository";
 
 export default class GetAllProfiles {
-  constructor(readonly featureRepository: IProfileRepository) {}
+  constructor(readonly profileRepository: IProfileRepository) {}
 
   async execute(input: GetAllDTO): Promise<GetAllOutputDTO<ProfileDTO>> {
     const filters = {
@@ -13,7 +13,7 @@ export default class GetAllProfiles {
 
     input.filters = filters;
 
-    const { list, total, total_page } = await this.featureRepository.getAll<Profile>(input);
+    const { list, total, total_page } = await this.profileRepository.getAll<Profile>(input);
 
     const profiles = list.map((f) => ({
       id: f.id,

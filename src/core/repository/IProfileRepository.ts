@@ -5,6 +5,6 @@ export default interface IProfileRepository {
   getAll<T>(input: GetAllDTO): Promise<GetAllOutputDTO<T>>;
   getById(id: string): Promise<Profile | undefined>;
   getByName(name: string): Promise<Profile | undefined>;
-  save(feature: Profile): Promise<void>;
-  update(software: Profile): Promise<void>;
+  save(profile: Profile): Promise<void>;
+  update(profile: Profile): Promise<void>;
 }

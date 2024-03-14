@@ -11,11 +11,11 @@ test("should be create a profile", async () => {
   const getAllProfiles = new GetAllProfiles(profileRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
-  const software = await createSoftware.execute({ name: "monkey-soft" });
+  const software = await createSoftware.execute({ name: "monkey-zap" });
 
   await createProfile.execute({
     id_software: software.id,
-    name: "relatorio-adm",
+    name: "administrador",
     active: true,
   });
 

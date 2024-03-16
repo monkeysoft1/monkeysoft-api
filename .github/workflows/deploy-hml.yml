@@ -21,7 +21,7 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" -X POST -d '{"content": ":yellow_circle:\n'"$(basename $GITHUB_REPOSITORY)"'\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
 
-      - name: Check branch name
+      - name: Check base branch name
         run: |
           BRANCH_BASE_NAME=${{ github.base_ref }}
           echo "Nome da branch de destino: $BRANCH_BASE_NAME"
@@ -56,10 +56,12 @@ jobs:
           if [ "$PREFIX" == "feat" ]; then
             echo "Atualizando versão com minor"
             npm version minor -m "Bump version to %s"
+            git clean -fd
             git push
           elif [ "$PREFIX" == "fix" ]; then
             echo "Atualizando versão com patch"
             npm version patch -m "Bump version to %s"
+            git clean -fd
             git push
           else
             echo "Branch name does not match the pattern"

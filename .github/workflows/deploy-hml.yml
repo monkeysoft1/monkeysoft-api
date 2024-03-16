@@ -21,16 +21,16 @@ jobs:
       #   run: |
       #     curl -H "Content-Type: application/json" -X POST -d '{"content": ":yellow_circle:\n'"$(basename $GITHUB_REPOSITORY)"'\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
 
-      - name: Check branch name
-        run: |
-          BRANCH_NAME=${{ github.ref_name }}
-          echo "Nome da branch de destino: $BRANCH_NAME"
-          if [[ $BRANCH_NAME =~ ^release-r([1-9]|1[0-2])-[0-9]{4}$ ]]; then
-            echo "Branch name matches the pattern"
-          else
-            echo "Branch name does not match the pattern"
-            exit 1
-          fi
+      # - name: Check branch name
+      #   run: |
+      #     BRANCH_NAME=${{ github.ref_name }}
+      #     echo "Nome da branch de destino: $BRANCH_NAME"
+      #     if [[ $BRANCH_NAME =~ ^release-r([1-9]|1[0-2])-[0-9]{4}$ ]]; then
+      #       echo "Branch name matches the pattern"
+      #     else
+      #       echo "Branch name does not match the pattern"
+      #       exit 1
+      #     fi
 
       - name: Check branch name
         run: |

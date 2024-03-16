@@ -6,13 +6,10 @@ on:
       - closed
     branches:
       - "*"
-  push:
-    branches:
-      - "*"
 
 jobs:
   deploy:
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     permissions: write-all
     name: Deploy to EC2
     runs-on: ubuntu-latest
@@ -26,9 +23,9 @@ jobs:
 
       - name: Check branch name
         run: |
-          BRANCH_NAME=${{ github.ref_name }}
-          echo "Nome da branch de destino: $BRANCH_NAME"
-          if [[ $BRANCH_NAME =~ ^release-r([1-9]|1[0-2])-[0-9]{4}$ ]]; then
+          BRANCH_BASE_NAME=${{ github.base_ref }}
+          echo "Nome da branch de destino: $BRANCH_BASE_NAME"
+          if [[ $BRANCH_BASE_NAME =~ ^release-r([1-9]|1[0-2])-[0-9]{4}$ ]]; then
             echo "Branch name matches the pattern"
           else
             echo "Branch name does not match the pattern"
@@ -49,7 +46,7 @@ jobs:
 
       - name: Update version
         run: |
-          BRANCH_HEAD_NAME=${{ github.event.pull_request.head.ref }}
+          BRANCH_HEAD_NAME=${{ github.base_ref }}
           echo "Nome da branch de origem: $BRANCH_HEAD_NAME"
           PREFIX=$(echo $BRANCH_HEAD_NAME | cut -d '/' -f 1)
           echo "Prefixo da branch: $PREFIX"

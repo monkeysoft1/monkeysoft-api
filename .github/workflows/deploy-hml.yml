@@ -48,6 +48,7 @@ jobs:
         run: |
           git config user.email "infra@monkeyzap.com.br"
           git config user.name "monkey-soft1"
+          git clean -fd
           BRANCH_HEAD_NAME=${{ github.head_ref }}
           echo "Nome da branch de origem: $BRANCH_HEAD_NAME"
           PREFIX=$(echo $BRANCH_HEAD_NAME | cut -d '/' -f 1)

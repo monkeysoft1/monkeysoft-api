@@ -32,10 +32,14 @@ jobs:
       #       exit 1
       #     fi
 
-      - name: Check branch name
+      - name: Check base branch name
+        run: |
+          BRANCH_BASE_NAME=${{ github.base_ref }}
+          echo "Nome da branch de base: $BRANCH_BASE_NAME"
+      - name: Check origin branch name
         run: |
           BRANCH_NAME=${{ github.head_ref }}
-          echo "Nome da branch de destino: $BRANCH_NAME"
+          echo "Nome da branch de origem: $BRANCH_NAME"
 
       # - name: Checkout files
       #   uses: actions/checkout@v4

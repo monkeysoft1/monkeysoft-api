@@ -35,4 +35,4 @@ function validateBranchName() {
   console.log("Nome do branch válido.");
 }
 
-validateBranchName();
+// validateBranchName();

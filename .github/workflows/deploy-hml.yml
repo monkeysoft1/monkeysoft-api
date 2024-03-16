@@ -2,11 +2,6 @@ name: MonkeySoft API HML EC2
 
 on:
   pull_request:
-    types:
-      - closed
-    branches:
-      - "*"
-  push:
     branches:
       - "*"
 
@@ -18,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Notify start on Discord
-        env:
-          WEBHOOK_URL: ${{secrets.DISCORD_WEBHOOK_URL}}
-        run: |
-          curl -H "Content-Type: application/json" -X POST -d '{"content": ":yellow_circle:\n'"$(basename $GITHUB_REPOSITORY)"'\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
+      # - name: Notify start on Discord
+      #   env:
+      #     WEBHOOK_URL: ${{secrets.DISCORD_WEBHOOK_URL}}
+      #   run: |
+      #     curl -H "Content-Type: application/json" -X POST -d '{"content": ":yellow_circle:\n'"$(basename $GITHUB_REPOSITORY)"'\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
 
       - name: Check branch name
         run: |
@@ -34,6 +29,11 @@ jobs:
             echo "Branch name does not match the pattern"
             exit 1
           fi
+
+      - name: Check branch name
+        run: |
+          BRANCH_NAME=${{ github.head_ref }}
+          echo "Nome da branch de destino: $BRANCH_NAME"
 
       # - name: Checkout files
       #   uses: actions/checkout@v4
@@ -47,21 +47,21 @@ jobs:
       # - name: Run test and coverage
       #   run: npm run coverage
 
-      - name: Update version
-        run: |
-          BRANCH_HEAD_NAME=${{ github.event.pull_request.head.ref }}
-          echo "Nome da branch de origem: $BRANCH_HEAD_NAME"
-          PREFIX=$(echo $BRANCH_HEAD_NAME | cut -d '/' -f 1)
-          echo "Prefixo da branch: $PREFIX"
+      # - name: Update version
+      #   run: |
+      #     BRANCH_HEAD_NAME=${{ github.head_ref }}
+      #     echo "Nome da branch de origem: $BRANCH_HEAD_NAME"
+      #     PREFIX=$(echo $BRANCH_HEAD_NAME | cut -d '/' -f 1)
+      #     echo "Prefixo da branch: $PREFIX"
 
-          if [ "$PREFIX" == "feat" ]; then
-            echo "Atualizando versão com minor"
-          elif [ "$PREFIX" == "fix" ]; then
-            echo "Atualizando versão com patch"
-          else
-            echo "Branch name does not match the pattern"
-            exit 1
-          fi
+      #     if [ "$PREFIX" == "feat" ]; then
+      #       echo "Atualizando versão com minor"
+      #     elif [ "$PREFIX" == "fix" ]; then
+      #       echo "Atualizando versão com patch"
+      #     else
+      #       echo "Branch name does not match the pattern"
+      #       exit 1
+      #     fi
 
       # - name: Get new version
       #   run: echo "PACKAGE_VERSION=$(node -pe 'require("./package.json").version')" >> $GITHUB_ENV
@@ -101,16 +101,16 @@ jobs:
       #       sudo pm2 start ./dist/.pm2.config.js
       #       sudo pm2 save
 
-      - name: Notify error to Discord
-        if: failure()
-        env:
-          WEBHOOK_URL: ${{secrets.DISCORD_WEBHOOK_URL}}
-        run: |
-          curl -H "Content-Type: application/json" -X POST -d '{"content": ":red_circle:\n'"$(basename $GITHUB_REPOSITORY)"' **'"${PACKAGE_VERSION}"'**\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
+      # - name: Notify error to Discord
+      #   if: failure()
+      #   env:
+      #     WEBHOOK_URL: ${{secrets.DISCORD_WEBHOOK_URL}}
+      #   run: |
+      #     curl -H "Content-Type: application/json" -X POST -d '{"content": ":red_circle:\n'"$(basename $GITHUB_REPOSITORY)"' **'"${PACKAGE_VERSION}"'**\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
 
-      - name: Notify success to Discord
-        if: success()
-        env:
-          WEBHOOK_URL: ${{secrets.DISCORD_WEBHOOK_URL}}
-        run: |
-          curl -H "Content-Type: application/json" -X POST -d '{"content": ":green_circle:\n'"$(basename $GITHUB_REPOSITORY)"' **'"${PACKAGE_VERSION}"'**\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL
+      # - name: Notify success to Discord
+      #   if: success()
+      #   env:
+      #     WEBHOOK_URL: ${{secrets.DISCORD_WEBHOOK_URL}}
+      #   run: |
+      #     curl -H "Content-Type: application/json" -X POST -d '{"content": ":green_circle:\n'"$(basename $GITHUB_REPOSITORY)"' **'"${PACKAGE_VERSION}"'**\nBranch: **${{ github.ref_name }}**\nWorkflow: '"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"' "}' $WEBHOOK_URL

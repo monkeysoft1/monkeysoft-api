@@ -4,7 +4,7 @@ import GetSoftwareById from "./GetSoftwareById";
 
 test("should be search a software by id", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const getAllSoftwares = new GetSoftwareById(softwareRepository);
+  const getSoftwareById = new GetSoftwareById(softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
 
@@ -14,21 +14,21 @@ test("should be search a software by id", async () => {
     description: "API de mensagens",
   });
 
-  const softwares = await getAllSoftwares.execute(software);
+  const softwares = await getSoftwareById.execute(software);
 
   expect(softwares).toHaveProperty(["id"]);
 });
 
 test("should be throw an error when id is empty", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const getAllSoftwares = new GetSoftwareById(softwareRepository);
+  const getSoftwareById = new GetSoftwareById(softwareRepository);
 
-  await expect(getAllSoftwares.execute({ id: "" })).rejects.toThrow();
+  await expect(getSoftwareById.execute({ id: "" })).rejects.toThrow();
 });
 
 test("should be throw an error when result is empty", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const getAllSoftwares = new GetSoftwareById(softwareRepository);
+  const getSoftwareById = new GetSoftwareById(softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
 
@@ -40,5 +40,5 @@ test("should be throw an error when result is empty", async () => {
 
   software.id = "79db678a-eb17-430c-b03a";
 
-  await expect(getAllSoftwares.execute(software)).rejects.toThrow();
+  await expect(getSoftwareById.execute(software)).rejects.toThrow();
 });

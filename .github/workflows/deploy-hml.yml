@@ -49,7 +49,7 @@ jobs:
 
       - name: Update version
         run: |
-          BRANCH_HEAD_NAME=${{ github.head_ref }}
+          BRANCH_HEAD_NAME=${{ github.event.pull_request.base.ref }}
           echo "Nome da branch de origem: $BRANCH_HEAD_NAME"
           PREFIX=$(echo $BRANCH_HEAD_NAME | cut -d '/' -f 1)
           echo "Prefixo da branch: $PREFIX"

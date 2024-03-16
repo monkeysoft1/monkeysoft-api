@@ -6,6 +6,10 @@ on:
       - closed
     branches:
       - "*"
+  push:
+    branches:
+      - "*"
+    
 
 jobs:
   deploy:

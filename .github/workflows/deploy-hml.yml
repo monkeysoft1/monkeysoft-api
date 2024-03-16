@@ -3,7 +3,7 @@ name: MonkeySoft API HML EC2
 on:
   push:
     branches:
-      - 'release-r([1-9]|1[0-2])-[0-9]{4}'
+      - "release-r([1-9]|1[0-2])-[0-9]{4}"
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Run test and coverage
-        run: npm run test
+        run: npm run coverage
 
       - name: Update version
         run: |

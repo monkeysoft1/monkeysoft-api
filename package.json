@@ -7,7 +7,6 @@
     "dev": "tsnd --transpile-only --ignore-watch node_modules src/index.ts",
     "build": "tsc -p tsconfig.build.json",
     "test": "jest --detectOpenHandles --verbose --bail --maxWorkers=8",
-    "test:ci": "jest --detectOpenHandles --bail --silent --maxWorkers=8",
     "coverage": "jest --detectOpenHandles --coverage --silent --bail --maxWorkers=8",
     "prepare": "husky"
   },

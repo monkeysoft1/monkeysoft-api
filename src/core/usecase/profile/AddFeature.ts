@@ -33,8 +33,6 @@ export default class AddFeature {
       input.id_feature
     );
 
-    console.log(profileFeature);
-
     if (profileFeature) {
       throw new AppError("Vínculo da feature com profile já existe.", 404);
     }

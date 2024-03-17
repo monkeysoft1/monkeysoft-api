@@ -3,7 +3,7 @@ import FormattedDate from "../../entity/FormattedDate";
 import IFeatureRepository from "../../repository/IFeatureRepository";
 import IProfileRepository from "../../repository/IProfileRepository";
 
-export default class AddFeature {
+export default class UpdateFeature {
   constructor(
     readonly profileRepository: IProfileRepository,
     readonly featureRepository: IFeatureRepository
@@ -33,18 +33,18 @@ export default class AddFeature {
       input.id_feature
     );
 
-    if (profileFeature) {
-      throw new AppError("Vínculo da feature com profile já existe.", 404);
+    if (!profileFeature) {
+      throw new AppError("Vínculo da feature com profile não localizado.", 404);
     }
 
-    feature.read = input.read;
-    feature.create = input.create;
-    feature.update = input.update;
-    feature.delete = input.delete;
-    feature.active = input.active;
-    feature.created_on = new FormattedDate().date;
+    profileFeature.read = input.read;
+    profileFeature.create = input.create;
+    profileFeature.update = input.update;
+    profileFeature.delete = input.delete;
+    profileFeature.active = input.active;
+    profileFeature.updated_on = new FormattedDate().date;
 
-    await this.profileRepository.addFeature(input.id_profile, feature);
+    await this.profileRepository.updateFeature(input.id_profile, feature);
 
     return {
       id_feature: feature.id,
@@ -54,7 +54,7 @@ export default class AddFeature {
       update: feature.update,
       delete: feature.delete,
       active: feature.active,
-      created_on: feature.created_on,
+      created_on: feature.updated_on,
     };
   }
 }

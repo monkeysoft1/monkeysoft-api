@@ -16,7 +16,7 @@ export default class GetFeatureById {
     const feature = await this.featureRepository.getById(input.id);
 
     if (!feature) {
-      throw new AppError("Feature não encontrado", 404);
+      throw new AppError("Feature não encontrada", 404);
     }
 
     const software = await this.softwareRepository.getById(feature.software.id);

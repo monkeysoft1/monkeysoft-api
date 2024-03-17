@@ -151,8 +151,6 @@ export default class ProfileRepository extends BaseRepository implements IProfil
     await this.connection.open();
 
     const update = QueryUtils.removeUndefined({
-      id_feature: feature.id,
-      id_profile: id_profile,
       read: feature.read,
       create: feature.create,
       update: feature.update,
@@ -170,6 +168,9 @@ export default class ProfileRepository extends BaseRepository implements IProfil
       where
     );
 
+    console.log(stmt);
+    console.log(values);
+
     await this.connection.query(stmt, [...values, feature.id, id_profile]);
   }
 
@@ -181,11 +182,15 @@ export default class ProfileRepository extends BaseRepository implements IProfil
       id_profile: id_profile,
     });
 
+    const values = remove.map(([_, value]) => value);
+
     const where = `id_feature = ? and id_profile = ?`;
 
     const { stmt } = QueryUtils.createDelete(this.ms, "profile_feature", where);
 
-    await this.connection.query(stmt, remove);
+    console.log(values);
+
+    await this.connection.query(stmt, values);
   }
 
   async getFeatureByProfileIdAndFeatureId(
@@ -215,11 +220,13 @@ export default class ProfileRepository extends BaseRepository implements IProfil
 
     if (profileFeatureData) {
       const profileFeature = new Feature();
-      profileFeature.id = profileFeatureData.id_feature;
-      profileFeature.read = profileFeatureData.read;
+      profileFeature.id = profileFeatureData.id;
       profileFeature.name = profileFeatureData.name;
-      profileFeature.description = profileFeatureData.description;
       profileFeature.url = profileFeatureData.url;
+      profileFeature.description = profileFeatureData.description;
+      profileFeature.read = profileFeatureData.read;
+      profileFeature.update = profileFeatureData.update;
+      profileFeature.delete = profileFeatureData.delete;
       profileFeature.active = profileFeatureData.active;
       profileFeature.created_on = profileFeatureData.created_on;
       profileFeature.updated_on = profileFeatureData.updated_on;

@@ -2,6 +2,8 @@ import AddFeature from "../../core/usecase/profile/AddFeature";
 import CreateProfile from "../../core/usecase/profile/CreateProfile";
 import GetAllProfiles from "../../core/usecase/profile/GetAllProfiles";
 import GetProfileById from "../../core/usecase/profile/GetFeaturesByProfileId";
+import RemoveFeature from "../../core/usecase/profile/RemoveFeatureFromProfile";
+import UpdateFeature from "../../core/usecase/profile/UpdateFeature";
 import UpdateProfile from "../../core/usecase/profile/UpdateProfile";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
@@ -21,7 +23,9 @@ export default class ProfileController implements IController {
     this.httpServer.on("get", "/profile/:id", this.getById);
     this.httpServer.on("get", "/profile", this.getAll);
     this.httpServer.on("post", "/profile", this.create);
-    this.httpServer.on("post", "/profile/add-feature", this.addFeature);
+    this.httpServer.on("post", "/profile/addFeature", this.addFeature);
+    this.httpServer.on("put", "/profile/updateFeature", this.updateFeature);
+    this.httpServer.on("delete", "/profile/removeFeature", this.removeFeature);
     this.httpServer.on("put", "/profile/:id", this.update);
   }
 
@@ -31,6 +35,26 @@ export default class ProfileController implements IController {
     const addFeature = new AddFeature(profileRepository, featureRepository);
 
     const feature = await addFeature.execute(body);
+
+    return HttpResponse.json(201, feature);
+  };
+
+  updateFeature = async (params: IParams, body: any): Promise<JsonResponse> => {
+    const profileRepository = new ProfileRepository(this.connection);
+    const featureRepository = new FeatureRepository(this.connection);
+    const updateFeature = new UpdateFeature(profileRepository, featureRepository);
+
+    const feature = await updateFeature.execute(body);
+
+    return HttpResponse.json(201, feature);
+  };
+
+  removeFeature = async (params: IParams, body: any): Promise<JsonResponse> => {
+    const profileRepository = new ProfileRepository(this.connection);
+    const featureRepository = new FeatureRepository(this.connection);
+    const removeFeature = new RemoveFeature(profileRepository, featureRepository);
+
+    const feature = await removeFeature.execute(body);
 
     return HttpResponse.json(201, feature);
   };

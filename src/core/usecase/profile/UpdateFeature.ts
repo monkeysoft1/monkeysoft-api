@@ -44,17 +44,17 @@ export default class UpdateFeature {
     profileFeature.active = input.active;
     profileFeature.updated_on = new FormattedDate().date;
 
-    await this.profileRepository.updateFeature(input.id_profile, feature);
+    await this.profileRepository.updateFeature(input.id_profile, profileFeature);
 
     return {
-      id_feature: feature.id,
+      id_feature: profileFeature.id,
       id_profile: input.id_profile,
-      read: feature.read,
-      create: feature.create,
-      update: feature.update,
-      delete: feature.delete,
-      active: feature.active,
-      created_on: feature.updated_on,
+      read: profileFeature.read,
+      create: profileFeature.create,
+      update: profileFeature.update,
+      delete: profileFeature.delete,
+      active: profileFeature.active,
+      updated_on: profileFeature.updated_on,
     };
   }
 }
@@ -77,5 +77,5 @@ interface Output {
   update: boolean;
   delete: boolean;
   active: boolean;
-  created_on?: Date;
+  updated_on?: Date;
 }

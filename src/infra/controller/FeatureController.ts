@@ -24,7 +24,8 @@ export default class FeatureController implements IController {
 
   getById = async (params: IParams, body: any): Promise<JsonResponse> => {
     const profileRepository = new FeatureRepository(this.connection);
-    const getProfileById = new GetProfileById(profileRepository);
+    const softwareRepository = new SoftwareRepository(this.connection);
+    const getProfileById = new GetProfileById(profileRepository, softwareRepository);
     const profile = await getProfileById.execute({
       id: params.params.id,
     });

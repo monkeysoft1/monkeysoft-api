@@ -43,7 +43,7 @@ export default class UpdateProfile {
         throw new AppError("Não existe um software com o id informado", 404);
       }
 
-      profile.id_software = software.id;
+      profile.software = software;
     }
 
     profile.active = input.active;
@@ -53,7 +53,7 @@ export default class UpdateProfile {
 
     return {
       id: profile.id,
-      id_software: profile.id_software,
+      id_software: profile.software.id,
       name: profile.name,
       active: profile.active,
       created_on: profile.created_on,

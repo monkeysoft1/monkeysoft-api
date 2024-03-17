@@ -17,7 +17,7 @@ export default class GetAllFeatures {
 
     const features = list.map((f) => ({
       id: f.id,
-      id_software: f.id_software,
+      id_software: f.software.id,
       name: f.name,
       url: f.url,
       is_page: f.is_page,

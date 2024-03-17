@@ -1,21 +1,24 @@
 import crypto from "crypto";
 import AppError from "../entity/AppError";
+import Feature from "./Feature";
 import FormattedDate from "./FormattedDate";
+import Software from "./Software";
 
 export default class Profile {
   id: string = "";
-  private _id_software: string = "";
+  software: Software;
   private _name: string = "";
   private _active: boolean = false;
+  private _features: Feature[] = [];
   created_on?: Date;
   updated_on?: Date;
 
-  public get id_software(): string {
-    return this._id_software;
+  public get features(): Feature[] {
+    return this._features;
   }
 
-  public set id_software(value: string) {
-    this._id_software = value;
+  public set features(features: Feature[]) {
+    this._features = features;
   }
 
   get name(): string {
@@ -40,8 +43,9 @@ export default class Profile {
     this._active = Boolean(value ?? this._active);
   }
 
-  create() {
+  constructor() {
     this.id = crypto.randomUUID();
     this.created_on = new FormattedDate().date;
+    this.software = new Software();
   }
 }

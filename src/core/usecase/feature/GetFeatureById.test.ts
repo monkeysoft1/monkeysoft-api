@@ -7,7 +7,7 @@ import GetFeatureById from "./GetFeatureById";
 test("should be search a feature by id", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const getFeatureById = new GetFeatureById(featureRepository);
+  const getFeatureById = new GetFeatureById(featureRepository, softwareRepository);
   const createSoftware = new CreateSoftware(softwareRepository);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });
@@ -27,7 +27,8 @@ test("should be search a feature by id", async () => {
 
 test("should be throw an error when id is empty", async () => {
   const featureRepository = new FeatureRepositoryMem();
-  const getFeatureById = new GetFeatureById(featureRepository);
+  const softwareRepository = new SoftwareRepositoryMem();
+  const getFeatureById = new GetFeatureById(featureRepository, softwareRepository);
 
   await expect(getFeatureById.execute({ id: "" })).rejects.toThrow();
 });
@@ -35,7 +36,7 @@ test("should be throw an error when id is empty", async () => {
 test("should be throw an error when result is empty", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const getFeatureById = new GetFeatureById(featureRepository);
+  const getFeatureById = new GetFeatureById(featureRepository, softwareRepository);
   const createSoftware = new CreateSoftware(softwareRepository);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });

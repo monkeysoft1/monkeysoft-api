@@ -1,4 +1,5 @@
 import Feature from "../../core/entity/Feature";
+import Software from "../../core/entity/Software";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
@@ -10,11 +11,54 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
     super();
   }
 
+  async getByProfileId(id: string): Promise<Feature[]> {
+    await this.connection.open();
+
+    const stmt = `
+      select
+        f.id,
+        f.id_software,
+        f.name,
+        f.url,
+        f.description,
+        pf.read,
+        pf.create,
+        pf.update,
+        pf.delete,
+        pf.active,
+        pf.created_on,
+        pf.updated_on
+      from ${this.ms}.feature as f
+      join ${this.ms}.profile_feature pf on pf.id_feature = f.id
+      where pf.id_profile = ?`;
+
+    const [rows] = await this.connection.query(stmt, [id]);
+    const [featureData] = rows;
+
+    let list = [];
+    if (featureData) {
+      const feature = new Feature();
+      feature.id = featureData.id;
+      feature.name = featureData.name;
+      feature.url = featureData.url;
+      feature.description = featureData.description;
+      feature.read = featureData.read;
+      feature.create = featureData.create;
+      feature.update = featureData.update;
+      feature.delete = featureData.delete;
+      feature.active = featureData.active;
+      feature.created_on = featureData.created_on;
+      feature.updated_on = featureData.updated_on;
+
+      list.push(feature);
+    }
+    return list;
+  }
+
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 
-    const { rows, total, total_page } = await QueryUtils.createSelectAll(
-      this.connection,
+    const { rows, total, total_page } = await new QueryUtils(this.connection).createSelectAll(
       this.ms,
       "feature",
       input,
@@ -23,9 +67,12 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
 
     let list = [];
     for (const row of rows) {
+      const software = new Software();
+      software.id = row.id_software;
+
       const feature = new Feature();
       feature.id = row.id;
-      feature.id_software = row.id_software;
+      feature.software = software;
       feature.name = row.name;
       feature.description = row.description;
       feature.url = row.url;
@@ -47,9 +94,12 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
     const [featureData] = rows;
 
     if (featureData) {
+      const software = new Software();
+      software.id = featureData.id_software;
+
       const feature = new Feature();
       feature.id = featureData.id;
-      feature.id_software = featureData.id_software;
+      feature.software = software;
       feature.name = featureData.name;
       feature.description = featureData.description;
       feature.url = featureData.url;
@@ -69,9 +119,12 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
     const [featureData] = rows;
 
     if (featureData) {
+      const software = new Software();
+      software.id = featureData.id_software;
+
       const feature = new Feature();
       feature.id = featureData.id;
-      feature.id_software = featureData.id_software;
+      feature.software = software;
       feature.name = featureData.name;
       feature.url = featureData.url;
       feature.description = featureData.description;
@@ -86,7 +139,7 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
 
     const insert = QueryUtils.removeUndefined({
       id: feature.id,
-      id_software: feature.id_software,
+      id_software: feature.software.id,
       name: feature.name,
       url: feature.url,
       is_page: feature.is_page,
@@ -96,7 +149,11 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
       updated_on: feature.updated_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert(this.ms, "feature", insert);
+    const { stmt, values } = new QueryUtils(this.connection).createInsert(
+      this.ms,
+      "feature",
+      insert
+    );
 
     await this.connection.query(stmt, values);
   }
@@ -106,7 +163,7 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
 
     const update = QueryUtils.removeUndefined({
       id: feature.id,
-      id_software: feature.id_software,
+      id_software: feature.software.id,
       name: feature.name,
       url: feature.url,
       is_page: feature.is_page,

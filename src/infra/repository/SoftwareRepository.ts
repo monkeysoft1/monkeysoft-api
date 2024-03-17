@@ -13,8 +13,7 @@ export default class SoftwareRepository extends BaseRepository implements ISoftw
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 
-    const { rows, total, total_page } = await QueryUtils.createSelectAll(
-      this.connection,
+    const { rows, total, total_page } = await new QueryUtils(this.connection).createSelectAll(
       this.ms,
       "software",
       input,
@@ -83,7 +82,11 @@ export default class SoftwareRepository extends BaseRepository implements ISoftw
       created_on: software.created_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert(this.ms, "software", insert);
+    const { stmt, values } = new QueryUtils(this.connection).createInsert(
+      this.ms,
+      "software",
+      insert
+    );
 
     await this.connection.query(stmt, values);
   }

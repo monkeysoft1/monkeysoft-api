@@ -20,7 +20,6 @@ export default class CreateFeature {
     }
 
     const feature = new Feature();
-    feature.create();
     feature.name = input.name;
     feature.description = input.description;
     feature.active = input.active;
@@ -36,13 +35,13 @@ export default class CreateFeature {
       throw new AppError("Software não encontrado", 404);
     }
 
-    feature.id_software = input.id_software;
+    feature.software = software;
 
     await this.featureRepository.save(feature);
 
     return {
       id: feature.id,
-      id_software: feature.id_software,
+      id_software: feature.software.id,
       name: feature.name,
       url: feature.url,
       is_page: feature.is_page,

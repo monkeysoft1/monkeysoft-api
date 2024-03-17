@@ -20,10 +20,11 @@ export default class ProfileRepositoryMem implements IProfileRepository {
     id_profile: string,
     id_feature: string
   ): Promise<Feature | undefined> {
-     const result = this.profileFeature.find((f) => f.feature.id === id_feature
-     && f.id_profile === id_profile);
+    const result = this.profileFeature.find(
+      (f) => f.feature.id === id_feature && f.id_profile === id_profile
+    );
 
-     return result?.feature;
+    return result?.feature;
   }
 
   async getAll(input: GetAllDTO): Promise<any> {

@@ -4,7 +4,7 @@ import { GetAllDTO } from "./IGetAll";
 
 export default class FeatureRepositoryMem implements IFeatureRepository {
   feature: Feature[] = [];
-  
+
   async getByProfileId(id: string): Promise<Feature[]> {
     return this.feature;
   }
@@ -32,4 +32,3 @@ export default class FeatureRepositoryMem implements IFeatureRepository {
     this.feature = this.feature.map((i) => (i.id === feature.id ? feature : i));
   }
 }
-

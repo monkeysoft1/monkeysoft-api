@@ -15,8 +15,8 @@ export default class UpdateProfile {
       throw new AppError("O id do perfil não pode ser vazio", 400);
     }
 
-    console.log("Chegou antes da validação")
-    
+    console.log("Chegou antes da validação");
+
     if (Utils.stringIsEmpty(input.name)) {
       throw new AppError("O nome do perfil não pode ser vazio", 400);
     }
@@ -38,10 +38,10 @@ export default class UpdateProfile {
 
       profile.name = input.name;
     }
-    
+
     if (input.id_software) {
       const software = await this.softwareRepository.getById(input.id_software);
-      console.log("Fez consulta")
+      console.log("Fez consulta");
       if (!software) {
         throw new AppError("Não existe um software com o id informado", 404);
       }

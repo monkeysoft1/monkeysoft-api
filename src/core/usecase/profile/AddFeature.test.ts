@@ -67,7 +67,7 @@ test("should throw an error when id_feature is empty", async () => {
     update: false,
   });
 
-  await expect(feature).rejects.toThrow();;
+  await expect(feature).rejects.toThrow();
 });
 
 test("should throw an error when id_profile is empty", async () => {
@@ -121,13 +121,13 @@ test("should throw an error when feature not exist", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
   const featureRepositoryMem = new FeatureRepositoryMem();
-  
+
   const createProfile = new CreateProfile(profileRepository, softwareRepository);
   const createSoftware = new CreateSoftware(softwareRepository);
   const addFeature = new AddFeature(profileRepository, featureRepositoryMem);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });
-  
+
   const profile = await createProfile.execute({
     id_software: software.id,
     name: "user-premium",

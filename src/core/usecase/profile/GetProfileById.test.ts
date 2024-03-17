@@ -34,7 +34,7 @@ test("should be search a profile by id", async () => {
     name: "send-messages",
     id_software: software.id,
   });
-  
+
   const addFeature = new AddFeature(profileRepository, featureRepository);
 
   await addFeature.execute({

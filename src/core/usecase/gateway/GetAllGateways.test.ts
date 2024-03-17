@@ -1,4 +1,3 @@
-
 import GatewayRepositoryMem from "../../../infra/repository/GatewayRepository.Mem";
 import CreateGateway from "./CreateGateway";
 import GetAllGateways from "./GetAllGateways";
@@ -11,7 +10,7 @@ test("should be list all gateways", async () => {
 
   await createGateway.execute({
     description: "Stripe",
-    payment_gateway_key: "stripe-tbt-4002-8922"
+    payment_gateway_key: "stripe-tbt-4002-8922",
   });
 
   const gateways = await getAllGateways.execute({});

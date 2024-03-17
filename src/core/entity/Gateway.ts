@@ -20,7 +20,7 @@ export default class Gateway {
     }
     this._description = value ?? this._description;
   }
-  
+
   get payment_gateway_key(): string {
     return this._payment_gateway_key;
   }

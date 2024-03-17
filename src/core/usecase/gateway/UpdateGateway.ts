@@ -23,7 +23,9 @@ export default class UpdateGateway {
     Utils.hasChanges(input, gateway);
 
     if (input.description && input.description !== gateway.description) {
-      const hasGatewayByName = await this.gatewayRepository.getByDescription(input.description);
+      const hasGatewayByName = await this.gatewayRepository.getByDescription(
+        input.description
+      );
 
       if (hasGatewayByName) {
         throw new AppError("Já existe outro gateway com o mesmo nome.", 400);

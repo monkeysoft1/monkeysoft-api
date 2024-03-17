@@ -24,7 +24,7 @@ export default class GatewayRepository extends BaseRepository implements IGatewa
     for (const row of rows) {
       const gateway = new Gateway();
       gateway.id = row.id;
-      gateway.description= row.description;
+      gateway.description = row.description;
       gateway.payment_gateway_key = row.payment_gateway_key;
       gateway.created_on = row.created_on;
       list.push(gateway);
@@ -62,7 +62,7 @@ export default class GatewayRepository extends BaseRepository implements IGatewa
     if (gatewayData) {
       const gateway = new Gateway();
       gateway.id = gatewayData.id;
-      gateway.description= gatewayData.description;
+      gateway.description = gatewayData.description;
       gateway.payment_gateway_key = gatewayData.payment_gateway_key;
       gateway.created_on = gatewayData.created_on;
       return gateway;

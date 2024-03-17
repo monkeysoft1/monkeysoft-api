@@ -6,7 +6,7 @@ test("should be create a gateway", async () => {
   const createGateway = new CreateGateway(gatewayRepository);
   const gateway = await createGateway.execute({
     description: "Stripe",
-    payment_gateway_key: "stripe-tbt-4002-8922"
+    payment_gateway_key: "stripe-tbt-4002-8922",
   });
 
   expect(gateway.description).toBe("Stripe");
@@ -18,8 +18,8 @@ test("should be throw an error when description is empty", async () => {
 
   await expect(
     createGateway.execute({
-        description: "",
-        payment_gateway_key: "stripe-tbt-4002-8922"
+      description: "",
+      payment_gateway_key: "stripe-tbt-4002-8922",
     })
   ).rejects.toThrow();
 });
@@ -29,7 +29,7 @@ test("should be throw an error when description exists", async () => {
   const createGateway = new CreateGateway(gatewayRepository);
   const gatewayData = {
     description: "Stripe",
-    payment_gateway_key: "stripe-tbt-4002-8922"
+    payment_gateway_key: "stripe-tbt-4002-8922",
   };
   await createGateway.execute(gatewayData);
 
@@ -41,7 +41,7 @@ test("should be throw an error when payment_gateway_key to long", async () => {
   const createGateway = new CreateGateway(gatewayRepository);
   const gatewayData = {
     description: "Stripe",
-    payment_gateway_key: generateLongString(256)
+    payment_gateway_key: generateLongString(256),
   };
 
   await expect(createGateway.execute(gatewayData)).rejects.toThrow();
@@ -52,7 +52,7 @@ test("should be throw an error when description to long", async () => {
   const createGateway = new CreateGateway(gatewayRepository);
   const gatewayData = {
     description: generateLongString(256),
-    payment_gateway_key: "stripe-tbt-4002-8922"
+    payment_gateway_key: "stripe-tbt-4002-8922",
   };
 
   await expect(createGateway.execute(gatewayData)).rejects.toThrow();

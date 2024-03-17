@@ -20,7 +20,6 @@ export default class CreateProfile {
     }
 
     const profile = new Profile();
-    profile.create();
     profile.name = input.name;
     profile.active = input.active;
 
@@ -34,13 +33,13 @@ export default class CreateProfile {
       throw new AppError("Software não encontrado", 404);
     }
 
-    profile.id_software = input.id_software;
+    profile.software = software;
 
     await this.profileRepository.save(profile);
 
     return {
       id: profile.id,
-      id_software: profile.id_software,
+      id_software: profile.software.id,
       name: profile.name,
       active: profile.active,
       created_on: profile.created_on,

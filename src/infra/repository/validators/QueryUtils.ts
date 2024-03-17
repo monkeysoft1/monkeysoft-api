@@ -1,11 +1,12 @@
 import IConnection from "../../database/IConnection";
 export default class QueryUtils {
+  constructor(readonly connection: IConnection) {}
   static removeUndefined(obj: Object) {
     return Object.entries(obj).filter((f) => f[1] !== undefined);
   }
 
-  static createInsert(schema: string, tableName: string, value: [string, any][]) {
-    const columns = value.map((f) => f[0]).join(",");
+  createInsert(schema: string, tableName: string, value: [string, any][]) {
+    const columns = value.map((f) => this.connection.escape(f[0])).join(",");
     const params = value.map(() => "?").join();
     const values = value.map((f) => f[1]);
 
@@ -47,16 +48,10 @@ export default class QueryUtils {
     };
   }
 
-  static async createSelectAll(
-    connection: IConnection,
-    schema: string,
-    tableName: string,
-    input: any,
-    filters?: any
-  ) {
+  async createSelectAll(schema: string, tableName: string, input: any, filters?: any) {
     const { order, column, page = 1, limit = 20, all = false } = input;
 
-    const validConditions = this.removeUndefined(filters);
+    const validConditions = QueryUtils.removeUndefined(filters);
     const values = validConditions.map((c) => `${c[1]}%`);
 
     let where = "";
@@ -67,7 +62,7 @@ export default class QueryUtils {
 
     let orderClause = "";
     if (column) {
-      orderClause += `order by ${connection.escape(column)} `;
+      orderClause += `order by ${this.connection.escape(column)} `;
       orderClause += order === "asc" ? "asc" : "desc";
     }
 
@@ -87,9 +82,9 @@ export default class QueryUtils {
       stmt += `limit ${limit} offset ${(page - 1) * limit}`;
     }
 
-    const [rows] = await connection.query(stmt, values);
+    const [rows] = await this.connection.query(stmt, values);
 
-    const [rowsCount] = await connection.query(stmtCount, values);
+    const [rowsCount] = await this.connection.query(stmtCount, values);
 
     const count = rowsCount[0].count;
     const total = count;

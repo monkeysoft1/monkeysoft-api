@@ -43,7 +43,7 @@ export default class UpdateFeature {
         throw new AppError("Não existe um software com o id informado", 404);
       }
 
-      feature.id_software = software.id;
+      feature.software = software;
     }
 
     feature.description = input.description;
@@ -55,7 +55,7 @@ export default class UpdateFeature {
 
     return {
       id: feature.id,
-      id_software: feature.id_software,
+      id_software: feature.software.id,
       name: feature.name,
       url: feature.url,
       is_page: feature.is_page,

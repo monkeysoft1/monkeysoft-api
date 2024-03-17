@@ -17,7 +17,7 @@ export default class GetAllProfiles {
 
     const profiles = list.map((f) => ({
       id: f.id,
-      id_software: f.id_software,
+      id_software: f.software.id,
       name: f.name,
       active: f.active,
       created_on: f.created_on,

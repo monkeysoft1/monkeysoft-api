@@ -1,25 +1,24 @@
 import crypto from "crypto";
 import AppError from "./AppError";
 import FormattedDate from "./FormattedDate";
+import Software from "./Software";
 
 export default class Feature {
   id: string = "";
-  private _id_software: string = "";
+  software: Software;
   private _name: string = "";
   private _url: string = "";
   private _is_page: boolean = false;
   private _description: string = "";
   private _active: boolean = false;
+
+  create: boolean = false;
+  read: boolean = false;
+  update: boolean = false;
+  delete: boolean = false;
+
   created_on?: Date;
   updated_on?: Date;
-
-  public get id_software(): string {
-    return this._id_software;
-  }
-
-  public set id_software(value: string) {
-    this._id_software = value;
-  }
 
   public get name(): string {
     return this._name;
@@ -76,8 +75,9 @@ export default class Feature {
     this._active = Boolean(value ?? this._active);
   }
 
-  create() {
+  constructor() {
     this.id = crypto.randomUUID();
     this.created_on = new FormattedDate().date;
+    this.software = new Software();
   }
 }

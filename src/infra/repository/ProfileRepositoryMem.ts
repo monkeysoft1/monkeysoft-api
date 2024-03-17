@@ -1,9 +1,13 @@
+import Feature from "../../core/entity/Feature";
 import Profile from "../../core/entity/Profile";
 import IProfileRepository from "../../core/repository/IProfileRepository";
 import { GetAllDTO } from "./IGetAll";
 
 export default class ProfileRepositoryMem implements IProfileRepository {
   profile: Profile[] = [];
+
+  async addFeature(id_profile: string, feature: Feature): Promise<void> {}
+
   async getAll(input: GetAllDTO): Promise<any> {
     return {
       list: this.profile,

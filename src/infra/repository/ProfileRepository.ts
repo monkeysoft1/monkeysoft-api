@@ -1,4 +1,6 @@
+import Feature from "../../core/entity/Feature";
 import Profile from "../../core/entity/Profile";
+import Software from "../../core/entity/Software";
 import IProfileRepository from "../../core/repository/IProfileRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
@@ -10,11 +12,33 @@ export default class ProfileRepository extends BaseRepository implements IProfil
     super();
   }
 
+  async addFeature(id_profile: string, feature: Feature): Promise<void> {
+    await this.connection.open();
+
+    const insert = QueryUtils.removeUndefined({
+      id_feature: feature.id,
+      id_profile: id_profile,
+      read: feature.read,
+      create: feature.create,
+      update: feature.update,
+      delete: feature.delete,
+      active: feature.active,
+      created_on: feature.created_on,
+    });
+
+    const { stmt, values } = new QueryUtils(this.connection).createInsert(
+      this.ms,
+      "profile_feature",
+      insert
+    );
+
+    await this.connection.query(stmt, values);
+  }
+
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 
-    const { rows, total, total_page } = await QueryUtils.createSelectAll(
-      this.connection,
+    const { rows, total, total_page } = await new QueryUtils(this.connection).createSelectAll(
       this.ms,
       "profile",
       input,
@@ -23,9 +47,12 @@ export default class ProfileRepository extends BaseRepository implements IProfil
 
     let list = [];
     for (const row of rows) {
+      const software = new Software();
+      software.id = row.id_software;
+
       const profile = new Profile();
       profile.id = row.id;
-      profile.id_software = row.id_software;
+      profile.software = software;
       profile.name = row.name;
       profile.active = row.active;
       profile.created_on = row.created_on;
@@ -45,9 +72,12 @@ export default class ProfileRepository extends BaseRepository implements IProfil
     const [profileData] = rows;
 
     if (profileData) {
+      const software = new Software();
+      software.id = profileData.id_software;
+
       const profile = new Profile();
       profile.id = profileData.id;
-      profile.id_software = profileData.id_software;
+      profile.software = software;
       profile.name = profileData.name;
       profile.active = profileData.active;
       profile.created_on = profileData.created_on;
@@ -65,9 +95,12 @@ export default class ProfileRepository extends BaseRepository implements IProfil
     const [profileData] = rows;
 
     if (profileData) {
+      const software = new Software();
+      software.id = profileData.id_software;
+
       const profile = new Profile();
       profile.id = profileData.id;
-      profile.id_software = profileData.id_software;
+      profile.software = software;
       profile.name = profileData.name;
       profile.active = profileData.active;
       profile.created_on = profileData.created_on;
@@ -80,14 +113,18 @@ export default class ProfileRepository extends BaseRepository implements IProfil
 
     const insert = QueryUtils.removeUndefined({
       id: profile.id,
-      id_software: profile.id_software,
+      id_software: profile.software.id,
       name: profile.name,
       active: profile.active,
       created_on: profile.created_on,
       updated_on: profile.updated_on,
     });
 
-    const { stmt, values } = QueryUtils.createInsert(this.ms, "profile", insert);
+    const { stmt, values } = new QueryUtils(this.connection).createInsert(
+      this.ms,
+      "profile",
+      insert
+    );
 
     await this.connection.query(stmt, values);
   }
@@ -97,7 +134,7 @@ export default class ProfileRepository extends BaseRepository implements IProfil
 
     const update = QueryUtils.removeUndefined({
       id: profile.id,
-      id_software: profile.id_software,
+      id_software: profile.software.id,
       name: profile.name,
       active: profile.active,
       updated_on: profile.updated_on,

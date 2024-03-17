@@ -1,3 +1,4 @@
+import FeatureRepositoryMem from "../../../infra/repository/FeatureRepositoryMem";
 import ProfileRepositoryMem from "../../../infra/repository/ProfileRepositoryMem";
 import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
 import CreateSoftware from "../software/CreateSoftware";
@@ -7,7 +8,12 @@ import GetProfileById from "./GetProfileById";
 test("should be search a profile by id", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const getProfileById = new GetProfileById(profileRepository);
+  const featureRepository = new FeatureRepositoryMem();
+  const getProfileById = new GetProfileById(
+    profileRepository,
+    featureRepository,
+    softwareRepository
+  );
   const createSoftware = new CreateSoftware(softwareRepository);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });
@@ -27,7 +33,13 @@ test("should be search a profile by id", async () => {
 
 test("should be throw an error when id is empty", async () => {
   const profileRepository = new ProfileRepositoryMem();
-  const getProfileById = new GetProfileById(profileRepository);
+  const softwareRepository = new SoftwareRepositoryMem();
+  const featureRepository = new FeatureRepositoryMem();
+  const getProfileById = new GetProfileById(
+    profileRepository,
+    featureRepository,
+    softwareRepository
+  );
 
   await expect(getProfileById.execute({ id: "" })).rejects.toThrow();
 });
@@ -35,7 +47,12 @@ test("should be throw an error when id is empty", async () => {
 test("should be throw an error when result is empty", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const getProfileById = new GetProfileById(profileRepository);
+  const featureRepository = new FeatureRepositoryMem();
+  const getProfileById = new GetProfileById(
+    profileRepository,
+    featureRepository,
+    softwareRepository
+  );
   const createSoftware = new CreateSoftware(softwareRepository);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });

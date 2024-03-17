@@ -7,7 +7,7 @@ export default class CreateGateway {
   constructor(readonly gatewayRepository: IGatewayRepository) {}
 
   async execute(input: Input): Promise<Output> {
-    if (Utils.stringIsEmpty(input.description)) {
+    if (Utils.stringIsEmpty(input.description, true)) {
       throw new AppError("A descrição do gateway não pode ser vazio", 400);
     }
 

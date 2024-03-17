@@ -26,6 +26,8 @@ export default class PaymentMethodRepositoryMem implements IPaymentMethodReposit
   }
 
   async update(paymentMethod: PaymentMethod): Promise<void> {
-    this.paymentMethod = this.paymentMethod.map((i) => (i.id === paymentMethod.id ? paymentMethod : i));
+    this.paymentMethod = this.paymentMethod.map((i) =>
+      i.id === paymentMethod.id ? paymentMethod : i
+    );
   }
 }

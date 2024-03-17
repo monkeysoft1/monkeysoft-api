@@ -13,11 +13,12 @@ export default class GetAllPaymentMethods {
 
     input.filters = filters;
 
-    const { list, total, total_page } = await this.paymentMethodRepository.getAll<PaymentMethod>(input);
+    const { list, total, total_page } =
+      await this.paymentMethodRepository.getAll<PaymentMethod>(input);
 
     const paymentMethods = list.map((f: PaymentMethod) => ({
       id: f.id,
-      description: f.description
+      description: f.description,
     }));
 
     return {

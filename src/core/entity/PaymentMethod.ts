@@ -13,7 +13,10 @@ export default class Software {
     const maxLength = 255;
 
     if (value && value.length > maxLength) {
-      throw new AppError(`O nome do método de pagamento é maior que ${maxLength} caracteres`, 400);
+      throw new AppError(
+        `O nome do método de pagamento é maior que ${maxLength} caracteres`,
+        400
+      );
     }
 
     this._description = value;

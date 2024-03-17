@@ -5,7 +5,10 @@ import BaseRepository from "./BaseRepository";
 import { GetAllDTO } from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class PaymentMethodRepository extends BaseRepository implements IPaymentMethodRepository {
+export default class PaymentMethodRepository
+  extends BaseRepository
+  implements IPaymentMethodRepository
+{
   constructor(readonly connection: IConnection) {
     super();
   }

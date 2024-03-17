@@ -14,7 +14,9 @@ export default class CreatePaymentMethod {
     const paymentMethod = new PaymentMethod();
     paymentMethod.description = input.description;
 
-    const hasPaymentMethod = await this.paymentMethodRepository.getByDescription(input.description);
+    const hasPaymentMethod = await this.paymentMethodRepository.getByDescription(
+      input.description
+    );
 
     if (hasPaymentMethod) {
       throw new AppError("Método de pagamento já registrado", 400);

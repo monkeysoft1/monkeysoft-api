@@ -5,7 +5,7 @@ test("should be create a Payment Method", async () => {
   const paymentMethodRepository = new PaymentMethodRepositoryMem();
   const createPaymentMethod = new CreatePaymentMethod(paymentMethodRepository);
   const paymentMethod = await createPaymentMethod.execute({
-    description: "Cartão de Crédito"
+    description: "Cartão de Crédito",
   });
 
   expect(paymentMethod.description).toBe("Cartão de Crédito");

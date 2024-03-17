@@ -54,6 +54,7 @@ export default class UpdateFeature {
       update: profileFeature.update,
       delete: profileFeature.delete,
       active: profileFeature.active,
+      created_on: profileFeature.created_on,
       updated_on: profileFeature.updated_on,
     };
   }
@@ -77,5 +78,6 @@ interface Output {
   update: boolean;
   delete: boolean;
   active: boolean;
+  created_on?: Date;
   updated_on?: Date;
 }

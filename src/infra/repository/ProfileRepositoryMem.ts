@@ -16,7 +16,19 @@ export default class ProfileRepositoryMem implements IProfileRepository {
     this.profileFeature.push({ id_profile, feature });
   }
 
-  async getProfileFeatureByIds(
+  async getFeaturesByProfileId(id: string): Promise<Feature[]> {
+    const filteredProfileFeatures = this.profileFeature.filter(
+      (f) => f.id_profile === id
+    );
+
+    const features = filteredProfileFeatures.map(
+      (profileFeature) => profileFeature.feature
+    );
+
+    return features;
+ }
+
+  async getFeatureByProfileIdAndFeatureId(
     id_profile: string,
     id_feature: string
   ): Promise<Feature | undefined> {

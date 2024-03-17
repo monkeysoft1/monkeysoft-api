@@ -11,48 +11,6 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
     super();
   }
 
-  async getByProfileId(id: string): Promise<Feature[]> {
-    await this.connection.open();
-
-    const stmt = `
-      select
-        f.id,
-        f.name,
-        f.url,
-        f.description,
-        pf.read,
-        pf.create,
-        pf.update,
-        pf.delete,
-        pf.active,
-        pf.created_on,
-        pf.updated_on
-      from ${this.ms}.profile_feature pf 
-      join ${this.ms}.feature f on pf.id_feature = f.id
-      where pf.id_profile = ?`;
-    const [rows] = await this.connection.query(stmt, [id]);
-
-    let list = [];
-    for (const featureData of rows) {
-      const feature = new Feature();
-      feature.id = featureData.id;
-      feature.name = featureData.name;
-      feature.url = featureData.url;
-      feature.description = featureData.description;
-      feature.read = featureData.read;
-      feature.create = featureData.create;
-      feature.update = featureData.update;
-      feature.delete = featureData.delete;
-      feature.active = featureData.active;
-      feature.created_on = featureData.created_on;
-      feature.updated_on = featureData.updated_on;
-
-      list.push(feature);
-    }
-
-    return list;
-  }
-
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 

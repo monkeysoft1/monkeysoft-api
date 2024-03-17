@@ -1,7 +1,7 @@
 import AddFeature from "../../core/usecase/profile/AddFeature";
 import CreateProfile from "../../core/usecase/profile/CreateProfile";
 import GetAllProfiles from "../../core/usecase/profile/GetAllProfiles";
-import GetProfileById from "../../core/usecase/profile/GetProfileById";
+import GetProfileById from "../../core/usecase/profile/GetFeaturesByProfileId";
 import UpdateProfile from "../../core/usecase/profile/UpdateProfile";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";

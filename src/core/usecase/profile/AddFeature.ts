@@ -28,7 +28,7 @@ export default class AddFeature {
       throw new AppError("Feature não encontrado", 404);
     }
 
-    const profileFeature = await this.profileRepository.getProfileFeatureByIds(
+    const profileFeature = await this.profileRepository.getFeatureByProfileIdAndFeatureId(
       input.id_profile,
       input.id_feature
     );

@@ -158,16 +158,21 @@ export default class ProfileRepository extends BaseRepository implements IProfil
       update: feature.update,
       delete: feature.delete,
       active: feature.active,
-      updated_on: feature.updated_on
+      updated_on: feature.updated_on,
     });
 
     const where = `id_feature = ? and id_profile = ?`;
 
-    const { stmt, values } = QueryUtils.createUpdate(this.ms, "profile_feature", update, where);
+    const { stmt, values } = QueryUtils.createUpdate(
+      this.ms,
+      "profile_feature",
+      update,
+      where
+    );
 
     await this.connection.query(stmt, [...values, feature.id, id_profile]);
   }
-  
+
   async removeFeature(id_profile: string, id_feature: string): Promise<void> {
     await this.connection.open();
 

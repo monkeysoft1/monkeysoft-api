@@ -38,7 +38,7 @@ export default class RemoveFeature {
 
     await this.profileRepository.removeFeature(input.id_profile, input.id_feature);
 
-    return {message: "Feature removida do perfil com sucesso"};
+    return { message: "Feature removida do perfil com sucesso" };
   }
 }
 

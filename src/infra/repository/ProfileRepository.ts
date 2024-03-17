@@ -11,7 +11,7 @@ export default class ProfileRepository extends BaseRepository implements IProfil
   constructor(readonly connection: IConnection) {
     super();
   }
-  
+
   async addFeature(id_profile: string, feature: Feature): Promise<void> {
     await this.connection.open();
 

@@ -28,6 +28,17 @@ export default class AddFeature {
       throw new AppError("Feature não encontrado", 404);
     }
 
+    const profileFeature = await this.profileRepository.getProfileFeatureByIds(
+      input.id_profile,
+      input.id_feature
+    );
+
+      console.log(profileFeature);
+
+    if (profileFeature) {
+      throw new AppError("Vínculo da feature com profile já existe.", 404);
+    }
+
     feature.read = input.read;
     feature.create = input.create;
     feature.update = input.update;

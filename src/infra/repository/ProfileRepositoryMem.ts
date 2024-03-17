@@ -3,10 +3,28 @@ import Profile from "../../core/entity/Profile";
 import IProfileRepository from "../../core/repository/IProfileRepository";
 import { GetAllDTO } from "./IGetAll";
 
+interface ProfileFeature {
+  id_profile: string;
+  feature: Feature;
+}
+
 export default class ProfileRepositoryMem implements IProfileRepository {
   profile: Profile[] = [];
+  profileFeature: ProfileFeature[] = [];
 
-  async addFeature(id_profile: string, feature: Feature): Promise<void> {}
+  async addFeature(id_profile: string, feature: Feature): Promise<void> {
+    this.profileFeature.push({ id_profile, feature });
+  }
+
+  async getProfileFeatureByIds(
+    id_profile: string,
+    id_feature: string
+  ): Promise<Feature | undefined> {
+     const result = this.profileFeature.find((f) => f.feature.id === id_feature
+     && f.id_profile === id_profile);
+
+     return result?.feature;
+  }
 
   async getAll(input: GetAllDTO): Promise<any> {
     return {

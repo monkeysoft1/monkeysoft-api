@@ -35,6 +35,45 @@ export default class ProfileRepository extends BaseRepository implements IProfil
     await this.connection.query(stmt, values);
   }
 
+  async getProfileFeatureByIds(
+    id_profile: string,
+    id_feature: string
+  ): Promise<Feature | undefined> {
+    await this.connection.open();
+
+    const stmt = `
+        select
+        f.id,
+        f.name,
+        f.url,
+        f.description,
+        pf.read,
+        pf.create,
+        pf.update,
+        pf.delete,
+        pf.active,
+        pf.created_on,
+        pf.updated_on
+      from ${this.ms}.profile_feature as pf
+      inner join ${this.ms}.feature f on pf.id_feature = f.id
+      where pf.id_profile = ? and pf.id_feature = ?`;
+    const [rows] = await this.connection.query(stmt, [id_profile, id_feature]);
+    const [profileFeatureData] = rows;
+
+    if (profileFeatureData) {
+      const profileFeature = new Feature();
+      profileFeature.id = profileFeatureData.id_feature;
+      profileFeature.read = profileFeatureData.read;
+      profileFeature.name = profileFeatureData.name;
+      profileFeature.description = profileFeatureData.description;
+      profileFeature.url = profileFeatureData.url;
+      profileFeature.active = profileFeatureData.active;
+      profileFeature.created_on = profileFeatureData.created_on;
+      profileFeature.updated_on = profileFeatureData.updated_on;
+      return profileFeature;
+    }
+  }
+
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 

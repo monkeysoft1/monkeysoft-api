@@ -16,9 +16,10 @@ function generateLongString(length: number) {
 test("should be create a profile", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const createProfile = new CreateProfile(profileRepository, softwareRepository);
 
+  const createProfile = new CreateProfile(profileRepository, softwareRepository);
   const createSoftware = new CreateSoftware(softwareRepository);
+
   const software = await createSoftware.execute({ name: "monkey-soft" });
 
   const profile = await createProfile.execute({

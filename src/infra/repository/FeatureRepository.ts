@@ -17,7 +17,6 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
     const stmt = `
       select
         f.id,
-        f.id_software,
         f.name,
         f.url,
         f.description,
@@ -28,15 +27,13 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
         pf.active,
         pf.created_on,
         pf.updated_on
-      from ${this.ms}.feature as f
-      join ${this.ms}.profile_feature pf on pf.id_feature = f.id
+      from ${this.ms}.profile_feature pf 
+      join ${this.ms}.feature f on pf.id_feature = f.id
       where pf.id_profile = ?`;
-
     const [rows] = await this.connection.query(stmt, [id]);
-    const [featureData] = rows;
 
     let list = [];
-    if (featureData) {
+    for (const featureData of rows) {
       const feature = new Feature();
       feature.id = featureData.id;
       feature.name = featureData.name;
@@ -52,6 +49,7 @@ export default class FeatureRepository extends BaseRepository implements IFeatur
 
       list.push(feature);
     }
+
     return list;
   }
 

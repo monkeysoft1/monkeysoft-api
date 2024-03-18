@@ -5,7 +5,7 @@ import CreateFeature from "../feature/CreateFeature";
 import CreateSoftware from "../software/CreateSoftware";
 import AddFeature from "./AddFeature";
 import CreateProfile from "./CreateProfile";
-import RemoveFeature from "./RemoveFeatureFromProfile";
+import RemoveFeature from "./RemoveFeature";
 
 test("should be remove feature profile", async () => {
   const profileRepository = new ProfileRepositoryMem();

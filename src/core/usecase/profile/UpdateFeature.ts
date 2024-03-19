@@ -3,7 +3,7 @@ import FormattedDate from "../../entity/FormattedDate";
 import IFeatureRepository from "../../repository/IFeatureRepository";
 import IProfileRepository from "../../repository/IProfileRepository";
 
-export default class AddFeature {
+export default class UpdateFeature {
   constructor(
     readonly profileRepository: IProfileRepository,
     readonly featureRepository: IFeatureRepository
@@ -33,28 +33,29 @@ export default class AddFeature {
       input.id_feature
     );
 
-    if (profileFeature) {
-      throw new AppError("Vínculo da feature com profile já existe.", 404);
+    if (!profileFeature) {
+      throw new AppError("Vínculo da feature com profile não localizado.", 404);
     }
 
-    feature.read = input.read;
-    feature.create = input.create;
-    feature.update = input.update;
-    feature.delete = input.delete;
-    feature.active = input.active;
-    feature.created_on = new FormattedDate().date;
+    profileFeature.read = input.read;
+    profileFeature.create = input.create;
+    profileFeature.update = input.update;
+    profileFeature.delete = input.delete;
+    profileFeature.active = input.active;
+    profileFeature.updated_on = new FormattedDate().date;
 
-    await this.profileRepository.addFeature(input.id_profile, feature);
+    await this.profileRepository.updateFeature(input.id_profile, profileFeature);
 
     return {
-      id_feature: feature.id,
+      id_feature: profileFeature.id,
       id_profile: input.id_profile,
-      read: feature.read,
-      create: feature.create,
-      update: feature.update,
-      delete: feature.delete,
-      active: feature.active,
-      created_on: feature.created_on,
+      read: profileFeature.read,
+      create: profileFeature.create,
+      update: profileFeature.update,
+      delete: profileFeature.delete,
+      active: profileFeature.active,
+      created_on: profileFeature.created_on,
+      updated_on: profileFeature.updated_on,
     };
   }
 }
@@ -78,4 +79,5 @@ interface Output {
   delete: boolean;
   active: boolean;
   created_on?: Date;
+  updated_on?: Date;
 }

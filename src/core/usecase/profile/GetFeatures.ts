@@ -35,9 +35,9 @@ export default class GetProfileById {
       };
     }
 
-    const features = await this.featureRepository.getByProfileId(profile.id);
+    profile.features = await this.profileRepository.getFeaturesByProfileId(profile.id);
 
-    const featureDTO = features.map((f) => ({
+    const featureDTO = profile.features.map((f) => ({
       id: f.id,
       name: f.name,
       url: f.url,

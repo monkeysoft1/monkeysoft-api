@@ -24,7 +24,7 @@ export default class QueryUtils {
     setValues: [string, any][],
     whereCondition: string
   ) {
-    const setClause = setValues.map(([field, _]) => `${field} = ?`).join(",");
+    const setClause = setValues.map(([field, _]) => `\`${field}\` = ?`).join(",");
     const values = setValues.map(([_, value]) => value);
 
     const stmt = `

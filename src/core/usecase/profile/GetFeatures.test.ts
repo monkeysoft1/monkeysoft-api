@@ -1,9 +1,11 @@
 import FeatureRepositoryMem from "../../../infra/repository/FeatureRepositoryMem";
 import ProfileRepositoryMem from "../../../infra/repository/ProfileRepositoryMem";
 import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
+import CreateFeature from "../feature/CreateFeature";
 import CreateSoftware from "../software/CreateSoftware";
+import AddFeature from "./AddFeature";
 import CreateProfile from "./CreateProfile";
-import GetProfileById from "./GetProfileById";
+import GetProfileById from "./GetFeatures";
 
 test("should be search a profile by id", async () => {
   const profileRepository = new ProfileRepositoryMem();
@@ -24,6 +26,25 @@ test("should be search a profile by id", async () => {
     name: "Administrador",
     id_software: software.id,
     active: true,
+  });
+
+  const createFeature = new CreateFeature(featureRepository, softwareRepository);
+
+  const feature = await createFeature.execute({
+    name: "send-messages",
+    id_software: software.id,
+  });
+
+  const addFeature = new AddFeature(profileRepository, featureRepository);
+
+  await addFeature.execute({
+    id_feature: feature.id,
+    id_profile: profile.id,
+    active: true,
+    create: true,
+    delete: false,
+    read: true,
+    update: false,
   });
 
   const profiles = await getProfileById.execute(profile);

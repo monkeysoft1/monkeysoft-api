@@ -98,6 +98,7 @@ test("should be throw an error when id_software not exists ", async () => {
   const updatedFeature = updateFeature.execute({
     id: feature.id,
     id_software: "123",
+    name: "login-user",
   });
 
   await expect(updatedFeature).rejects.toThrow();

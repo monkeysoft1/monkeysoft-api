@@ -78,6 +78,7 @@ test("should be throw an error when name is equal an other profile", async () =>
 
   await expect(updatedProfile).rejects.toThrow();
 });
+
 test("should be throw an error when id_software not exists ", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
@@ -94,6 +95,7 @@ test("should be throw an error when id_software not exists ", async () => {
 
   const updatedProfile = updateProfile.execute({
     id: profile.id,
+    name: "monkeyz-zap",
     id_software: "123",
   });
 

@@ -22,10 +22,10 @@ export default class UserTypeRepository extends BaseRepository implements IUserT
 
     let list = [];
     for (const row of rows) {
-      const paymentMethod = new UserType();
-      paymentMethod.id = row.id;
-      paymentMethod.description = row.description;
-      list.push(paymentMethod);
+      const userType = new UserType();
+      userType.id = row.id;
+      userType.description = row.description;
+      list.push(userType);
     }
 
     return { list, total, total_page };
@@ -37,13 +37,13 @@ export default class UserTypeRepository extends BaseRepository implements IUserT
     const stmt = `select * from ${this.ms}.user_type where id = ?`;
 
     const [rows] = await this.connection.query(stmt, [id]);
-    const [paymentMethodData] = rows;
+    const [userTypeData] = rows;
 
-    if (paymentMethodData) {
-      const paymentMethod = new UserType();
-      paymentMethod.id = paymentMethodData.id;
-      paymentMethod.description = paymentMethodData.description;
-      return paymentMethod;
+    if (userTypeData) {
+      const userType = new UserType();
+      userType.id = userTypeData.id;
+      userType.description = userTypeData.description;
+      return userType;
     }
   }
 
@@ -53,21 +53,21 @@ export default class UserTypeRepository extends BaseRepository implements IUserT
     const stmt = `select * from ${this.ms}.user_type where description = ?`;
 
     const [rows] = await this.connection.query(stmt, [description]);
-    const [paymentMethodData] = rows;
+    const [userTypeData] = rows;
 
-    if (paymentMethodData) {
-      const paymentMethod = new UserType();
-      paymentMethod.id = paymentMethodData.id;
-      paymentMethod.description = paymentMethodData.description;
-      return paymentMethod;
+    if (userTypeData) {
+      const userType = new UserType();
+      userType.id = userTypeData.id;
+      userType.description = userTypeData.description;
+      return userType;
     }
   }
-  async save(paymentMethod: UserType): Promise<void> {
+  async save(userType: UserType): Promise<void> {
     await this.connection.open();
 
     const insert = QueryUtils.removeUndefined({
-      id: paymentMethod.id,
-      description: paymentMethod.description,
+      id: userType.id,
+      description: userType.description,
     });
 
     const { stmt, values } = new QueryUtils(this.connection).createInsert(
@@ -79,18 +79,18 @@ export default class UserTypeRepository extends BaseRepository implements IUserT
     await this.connection.query(stmt, values);
   }
 
-  async update(paymentMethod: UserType): Promise<void> {
+  async update(userType: UserType): Promise<void> {
     await this.connection.open();
 
     const update = QueryUtils.removeUndefined({
-      id: paymentMethod.id,
-      description: paymentMethod.description,
+      id: userType.id,
+      description: userType.description,
     });
 
     const where = `id = ?`;
 
     const { stmt, values } = QueryUtils.createUpdate(this.ms, "user_type", update, where);
 
-    await this.connection.query(stmt, [...values, paymentMethod.id]);
+    await this.connection.query(stmt, [...values, userType.id]);
   }
 }

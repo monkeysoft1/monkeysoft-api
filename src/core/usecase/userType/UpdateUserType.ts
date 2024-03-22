@@ -7,11 +7,11 @@ export default class UpdateUserType {
 
   async execute(input: Input): Promise<Output> {
     if (Utils.stringIsEmpty(input.id, true)) {
-      throw new AppError("O id do método de pagamento não pode ser vazio", 400);
+      throw new AppError("O id do tipo de usuário não pode ser vazio", 400);
     }
 
     if (Utils.stringIsEmpty(input.description, true)) {
-      throw new AppError("A descrição do método de pagamento não pode ser vazio", 400);
+      throw new AppError("A descrição do tipo de usuário não pode ser vazio", 400);
     }
 
     const userType = await this.userTypeRepository.getById(input.id);
@@ -28,7 +28,7 @@ export default class UpdateUserType {
       );
 
       if (hasUserTypeByName) {
-        throw new AppError("Já existe outro userType com o mesmo nome.", 400);
+        throw new AppError("Já existe outro tipo de usuário com o mesmo nome.", 400);
       }
 
       userType.description = input.description;

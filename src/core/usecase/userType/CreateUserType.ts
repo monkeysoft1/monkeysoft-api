@@ -8,7 +8,7 @@ export default class CreateUserType {
 
   async execute(input: Input): Promise<Output> {
     if (Utils.stringIsEmpty(input.description, true)) {
-      throw new AppError("O descrição do tipo de usuário não pode ser vazio", 400);
+      throw new AppError("A descrição do tipo de usuário não pode ser vazio", 400);
     }
 
     const userType = new UserType();

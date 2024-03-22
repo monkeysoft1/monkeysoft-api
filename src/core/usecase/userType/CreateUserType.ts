@@ -14,9 +14,7 @@ export default class CreateUserType {
     const userType = new UserType();
     userType.description = input.description;
 
-    const hasUserType = await this.userTypeRepository.getByDescription(
-      input.description
-    );
+    const hasUserType = await this.userTypeRepository.getByDescription(input.description);
 
     if (hasUserType) {
       throw new AppError("Tipo de usuário já registrado", 400);

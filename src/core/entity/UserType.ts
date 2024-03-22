@@ -13,10 +13,7 @@ export default class UserType {
     const maxLength = 255;
 
     if (value && value.length > maxLength) {
-      throw new AppError(
-        `O nome do tipo de usuário é maior que ${maxLength} caracteres`,
-        400
-      );
+      throw new AppError(`O nome do tipo de usuário é maior que ${maxLength} caracteres`, 400);
     }
 
     this._description = value;

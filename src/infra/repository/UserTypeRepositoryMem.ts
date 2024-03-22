@@ -26,8 +26,6 @@ export default class UserTypeRepositoryMem implements IUserTypeRepository {
   }
 
   async update(userType: UserType): Promise<void> {
-    this.userType = this.userType.map((i) =>
-      i.id === userType.id ? userType : i
-    );
+    this.userType = this.userType.map((i) => (i.id === userType.id ? userType : i));
   }
 }

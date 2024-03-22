@@ -13,8 +13,7 @@ export default class GetAllUserTypes {
 
     input.filters = filters;
 
-    const { list, total, total_page } =
-      await this.userTypeRepository.getAll<UserType>(input);
+    const { list, total, total_page } = await this.userTypeRepository.getAll<UserType>(input);
 
     const userTypes = list.map((f: UserType) => ({
       id: f.id,

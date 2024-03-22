@@ -5,10 +5,7 @@ import BaseRepository from "./BaseRepository";
 import { GetAllDTO } from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
-export default class UserTypeRepository
-  extends BaseRepository
-  implements IUserTypeRepository
-{
+export default class UserTypeRepository extends BaseRepository implements IUserTypeRepository {
   constructor(readonly connection: IConnection) {
     super();
   }

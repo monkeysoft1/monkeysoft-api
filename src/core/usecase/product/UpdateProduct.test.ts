@@ -118,9 +118,9 @@ test("should be throw an error when id not exist", async () => {
   await expect(
     updateProduct.execute({
       id: "4b48b960-37c5-4337-9c6d-bb0ffcfc6369",
-      name: "Monkey Zap",
+      name: "Plano básico",
       active: false,
-      description: "Serviço de whats",
+      description: "Facilidade e economia",
     })
   ).rejects.toThrow();
 });

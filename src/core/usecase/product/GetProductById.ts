@@ -10,13 +10,13 @@ export default class GetProductById {
 
   async execute(input: Input): Promise<Output> {
     if (!input.id) {
-      throw new AppError("O id do product não foi informado", 404);
+      throw new AppError("O id do produto não foi informado", 404);
     }
 
     const product = await this.productRepository.getById(input.id);
 
     if (!product) {
-      throw new AppError("Product não encontrada", 404);
+      throw new AppError("Produto não encontrado", 404);
     }
 
     const software = await this.softwareRepository.getById(product.software.id);

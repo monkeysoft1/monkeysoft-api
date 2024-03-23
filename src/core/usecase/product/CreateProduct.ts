@@ -16,7 +16,7 @@ export default class CreateProduct {
     }
 
     if (Utils.stringIsEmpty(input.name, true)) {
-      throw new AppError("O nome do product não pode ser vazio", 400);
+      throw new AppError("O nome do produto não pode ser vazio", 400);
     }
 
     const product = new Product();
@@ -27,7 +27,7 @@ export default class CreateProduct {
 
     const hasProduct = await this.productRepository.getByName(product.name);
     if (hasProduct) {
-      throw new AppError("Product já registrada", 400);
+      throw new AppError("Produto já registrado anteriormente", 400);
     }
 
     const software = await this.softwareRepository.getById(input.id_software);

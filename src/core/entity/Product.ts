@@ -22,7 +22,7 @@ export default class Product {
     const maxLength = 255;
 
     if (value.length > maxLength) {
-      throw new AppError(`O nome da produto é maior que ${maxLength} caracteres`, 400);
+      throw new AppError(`O nome do produto é maior que ${maxLength} caracteres`, 400);
     }
 
     this._name = value;

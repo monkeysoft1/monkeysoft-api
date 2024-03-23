@@ -3,6 +3,7 @@ export default interface IHttpServer {
   on(method: string, url: string, callback: Function): void;
   listen(port: number, callback: Function): void;
   applyMiddleware(callback: Function): void;
+  applyErrorMiddleware(callback: Function): void;
 }
 
 export interface IParams {

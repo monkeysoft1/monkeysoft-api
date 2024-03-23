@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import path from "path";
-import Application from "./Application";
 import ExpressAdapter from "./infra/api/ExpressAdapter";
 import Controller from "./infra/controller";
 import MySqlConnection from "./infra/database/MySqlConnection";
@@ -11,7 +10,12 @@ const mysql = new MySqlConnection();
 const express = new ExpressAdapter();
 const controller = new Controller();
 
-const app = new Application(mysql, express, controller);
-app.applyErrorMiddleware(ErrorMiddleware.execute);
-
-app.listen(process.env.PORT);
+controller
+  .create(mysql, express)
+  .then(() => {
+    express.applyErrorMiddleware(ErrorMiddleware.execute);
+    express.listen(process.env.PORT, () =>
+      console.log(`Server running at port ${process.env.PORT}`)
+    );
+  })
+  .catch((e) => console.log("Server has failed to initialized", e));

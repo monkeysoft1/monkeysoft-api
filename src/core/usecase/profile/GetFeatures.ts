@@ -35,7 +35,7 @@ export default class GetProfileById {
       };
     }
 
-    profile.features = await this.profileRepository.getFeaturesByProfileId(profile.id);
+    profile.features = await this.featureRepository.getByProfileId(profile.id);
 
     const featureDTO = profile.features.map((f) => ({
       id: f.id,

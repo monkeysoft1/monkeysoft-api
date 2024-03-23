@@ -11,9 +11,5 @@ export default interface IProfileRepository {
   addFeature(id_profile: string, feature: Feature): Promise<void>;
   updateFeature(id_profile: string, feature: Feature): Promise<void>;
   removeFeature(id_profile: string, id_feature: string): Promise<void>;
-  getFeaturesByProfileId(id: string): Promise<Feature[]>;
-  getFeatureByProfileIdAndFeatureId(
-    id_profile: string,
-    id_feature: string
-  ): Promise<Feature | undefined>;
+  getFeaturePermission(id_profile: string, id_feature: string): Promise<Feature | undefined>;
 }

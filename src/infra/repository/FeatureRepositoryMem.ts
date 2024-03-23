@@ -2,8 +2,14 @@ import Feature from "../../core/entity/Feature";
 import IFeatureRepository from "../../core/repository/IFeatureRepository";
 import { GetAllDTO } from "./IGetAll";
 
+interface ProfileFeature {
+  id_profile: string;
+  feature: Feature;
+}
+
 export default class FeatureRepositoryMem implements IFeatureRepository {
   feature: Feature[] = [];
+  profileFeature: ProfileFeature[] = [];
 
   async getAll(input: GetAllDTO): Promise<any> {
     return {
@@ -11,6 +17,10 @@ export default class FeatureRepositoryMem implements IFeatureRepository {
       total: this.feature.length,
       total_page: this.feature.length,
     };
+  }
+
+  async getByProfileId(id: string): Promise<Feature[]> {
+    return this.profileFeature.filter((f) => f.id_profile === id).map((i) => i.feature);
   }
 
   async getById(id: string): Promise<Feature | undefined> {

@@ -15,7 +15,7 @@ test("should be search a product by id", async () => {
   const createProduct = new CreateProduct(productRepository, softwareRepository);
 
   const product = await createProduct.execute({
-    name: "relatorio-adm",
+    name: "Plano básico",
     id_software: software.id,
     active: true,
   });
@@ -43,7 +43,7 @@ test("should be throw an error when result is empty", async () => {
   const createProduct = new CreateProduct(productRepository, softwareRepository);
 
   const product = await createProduct.execute({
-    name: "relatorio-adm",
+    name: "Plano básico",
     id_software: software.id,
     active: true,
   });

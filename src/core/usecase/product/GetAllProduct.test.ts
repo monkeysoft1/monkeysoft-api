@@ -15,10 +15,10 @@ test("should be create a product", async () => {
 
   await createProduct.execute({
     id_software: software.id,
-    name: "relatorio-adm",
+    name: "Plano básico",
     active: true,
     price: 20.55,
-    description: "Permissão de relatório",
+    description: "Melhor opção para conhecer nossa ferramenta",
   });
 
   const products = await getAllProducts.execute({});

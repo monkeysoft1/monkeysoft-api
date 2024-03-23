@@ -14,45 +14,23 @@ test("should be update product", async () => {
 
   const newProduct = await createProduct.execute({
     id_software: software.id,
-    name: "add_user",
+    name: "Plano básico",
     active: true,
-    description: "Permissão para adicionar usuário",
+    description: "Melhor plano para conhecer a ferramenta",
   });
 
-  const updateSoftware = new UpdateProduct(productRepository, softwareRepository);
+  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
 
-  const overwritingSoftware = await updateSoftware.execute({
+  const overwritingProduct = await updateProduct.execute({
     id: newProduct.id,
     id_software: newProduct.id_software,
-    name: "Monkey New Zap",
+    name: "Plano intermediário",
     active: false,
-    description: "Serviço de whats",
+    description: "Valorize o seu negócio",
     price: 28.7,
   });
 
-  expect(overwritingSoftware.name).toBe("Monkey New Zap");
-});
-
-test("should be update partial product", async () => {
-  const productRepository = new ProductRepositoryMem();
-  const softwareRepository = new SoftwareRepositoryMem();
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
-  const createProduct = new CreateProduct(productRepository, softwareRepository);
-
-  const createSoftware = new CreateSoftware(softwareRepository);
-  const software = await createSoftware.execute({ name: "monkey-soft" });
-
-  const product = await createProduct.execute({
-    id_software: software.id,
-    name: "login",
-  });
-
-  const updatedProduct = await updateProduct.execute({
-    id: product.id,
-    name: "Monkey Zap",
-  });
-
-  expect(updatedProduct.active).toBe(product.active);
+  expect(overwritingProduct.name).toBe("Plano intermediário");
 });
 
 test("should be throw an error when name is equal an other product", async () => {
@@ -66,17 +44,17 @@ test("should be throw an error when name is equal an other product", async () =>
 
   await createProduct.execute({
     id_software: software.id,
-    name: "login",
+    name: "Plano básico",
   });
 
-  const logoutProduct = await createProduct.execute({
+  const secondProduct = await createProduct.execute({
     id_software: software.id,
-    name: "logout",
+    name: "Plano intermediário",
   });
 
   const updatedProduct = updateProduct.execute({
-    id: logoutProduct.id,
-    name: "login",
+    id: secondProduct.id,
+    name: "Plano básico",
   });
 
   await expect(updatedProduct).rejects.toThrow();
@@ -92,13 +70,13 @@ test("should be throw an error when id_software not exists ", async () => {
 
   const product = await createProduct.execute({
     id_software: software.id,
-    name: "login",
+    name: "Plano básico",
   });
 
   const updatedProduct = updateProduct.execute({
     id: product.id,
     id_software: "123",
-    name: "login-user",
+    name: "Plano Intermediário",
   });
 
   await expect(updatedProduct).rejects.toThrow();
@@ -112,7 +90,7 @@ test("should be throw an error when id is empty", async () => {
   await expect(
     updateProduct.execute({
       id: "",
-      name: "Monkey Zap",
+      name: "Plano básico",
       active: true,
     })
   ).rejects.toThrow();

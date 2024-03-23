@@ -22,13 +22,13 @@ test("should be create a product", async () => {
 
   const product = await createProduct.execute({
     id_software: software.id,
-    name: "relatorio-adm",
+    name: "Plano Básico",
     active: true,
     price: 25,
-    description: "Permissão de relatório",
+    description: "Plano de baixo custo mas com inúmeras vantagens",
   });
 
-  expect(product.name).toBe("relatorio-adm");
+  expect(product.name).toBe("Plano Básico");
 });
 
 test("should be create a product with price less than zero", async () => {
@@ -76,7 +76,7 @@ test("should be throw an error when name exists", async () => {
 
   const productData = {
     id_software: software.id,
-    name: "relatorio-adm",
+    name: "Plano Básico",
     active: true,
   };
   await createProduct.execute(productData);
@@ -111,7 +111,7 @@ test("should be throw an error when description to long", async () => {
 
   const productData = {
     id_software: software.id,
-    name: "basic-permission",
+    name: "Plano básico",
     active: true,
     description: generateLongString(256),
   };
@@ -126,10 +126,10 @@ test("should throw an error with product id_software is empty", async () => {
 
   const product = createProduct.execute({
     id_software: "",
-    name: "relatorio-adm",
+    name: "Plano Básico",
     active: true,
     price: 25,
-    description: "Permissão de relatório",
+    description: "Plano de baixo custo mas com inúmeras vantagens",
   });
 
   await expect(product).rejects.toThrow();
@@ -140,10 +140,10 @@ test("should throw an error with product id_software is undefined", async () => 
   const createProduct = new CreateProduct(productRepository, softwareRepository);
 
   const product = createProduct.execute({
-    name: "relatorio-adm",
+    name: "Plano Básico",
     active: true,
     price: 25,
-    description: "Permissão de relatório",
+    description: "Plano de baixo custo mas com inúmeras vantagens",
   });
 
   await expect(product).rejects.toThrow();
@@ -156,10 +156,10 @@ test("should throw an error when software not exists", async () => {
 
   const product = createProduct.execute({
     id_software: "000",
-    name: "relatorio-adm",
+    name: "Plano Básico",
     active: true,
     price: 25,
-    description: "Permissão de relatório",
+    description: "Plano de baixo custo mas com inúmeras vantagens",
   });
 
   await expect(product).rejects.toThrow();

@@ -8,7 +8,7 @@ declare global {
       DB_USER: string;
       DB_PASS: string;
       DB_NAME: string;
-      PORT: string;
+      PORT: number;
     }
   }
 }

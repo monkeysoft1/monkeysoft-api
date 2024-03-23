@@ -1,4 +1,5 @@
 node .husky/.validate-branch.js
 npx prettier --write .
+git add -A
 npm run build
 npm test

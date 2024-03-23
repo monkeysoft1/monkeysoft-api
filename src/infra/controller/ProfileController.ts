@@ -23,10 +23,10 @@ export default class ProfileController implements IController {
     this.httpServer.on("get", "/profile/:id", this.getById);
     this.httpServer.on("get", "/profile", this.getAll);
     this.httpServer.on("post", "/profile", this.create);
+    this.httpServer.on("put", "/profile/:id", this.update);
     this.httpServer.on("post", "/profile/addFeature", this.addFeature);
     this.httpServer.on("put", "/profile/updateFeature", this.updateFeature);
     this.httpServer.on("delete", "/profile/removeFeature", this.removeFeature);
-    this.httpServer.on("put", "/profile/:id", this.update);
   }
 
   addFeature = async (params: IParams, body: any): Promise<JsonResponse> => {

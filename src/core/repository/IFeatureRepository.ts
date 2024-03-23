@@ -5,6 +5,7 @@ export default interface IFeatureRepository {
   getAll<T>(input: GetAllDTO): Promise<GetAllOutputDTO<T>>;
   getById(id: string): Promise<Feature | undefined>;
   getByName(name: string): Promise<Feature | undefined>;
+  getByProfileId(id_profile: string): Promise<Feature[]>;
   save(feature: Feature): Promise<void>;
   update(feature: Feature): Promise<void>;
 }

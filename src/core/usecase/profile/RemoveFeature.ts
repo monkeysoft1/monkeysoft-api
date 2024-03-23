@@ -27,7 +27,7 @@ export default class RemoveFeature {
       throw new AppError("Feature não encontrada", 404);
     }
 
-    const profileFeature = await this.profileRepository.getFeatureByProfileIdAndFeatureId(
+    const profileFeature = await this.profileRepository.getFeaturePermission(
       input.id_profile,
       input.id_feature
     );

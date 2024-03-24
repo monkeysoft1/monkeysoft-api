@@ -5,7 +5,7 @@ import CreateGateway from "../gateway/CreateGateway";
 import CreateSoftware from "../software/CreateSoftware";
 import AddGateway from "./AddGateway";
 import CreateProduct from "./CreateProduct";
-import GetProductById from "./GetProduct";
+import GetProductById from "./GetProductById";
 
 test("should be search a product by id", async () => {
   const productRepository = new ProductRepositoryMem();

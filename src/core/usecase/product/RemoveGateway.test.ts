@@ -35,14 +35,14 @@ test("should be remove gateway product", async () => {
 
   await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "planBasic01",
     active: true,
   });
 
   const removedGateway = await removeGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
   });
 
   expect(removedGateway.message).toBe("Gateway removido do Produto com sucesso.");
@@ -55,20 +55,20 @@ test("should throw an error when id_gateway is empty", async () => {
 
   const gateway = removeGateway.execute({
     id_gateway: "",
-    id_product: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
+    id: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
   });
 
   await expect(gateway).rejects.toThrow();
 });
 
-test("should throw an error when id_product is empty", async () => {
+test("should throw an error when id is empty", async () => {
   const productRepository = new ProductRepositoryMem();
   const gatewayRepositoryMem = new GatewayRepositoryMem();
   const removeGateway = new RemoveGateway(productRepository, gatewayRepositoryMem);
 
   const gateway = removeGateway.execute({
     id_gateway: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
-    id_product: "",
+    id: "",
   });
 
   await expect(gateway).rejects.toThrow();
@@ -88,7 +88,7 @@ test("should throw an error when product not exist", async () => {
 
   const productGateway = removeGateway.execute({
     id_gateway: gateway.id,
-    id_product: "06b95fba-b4b5-4671",
+    id: "06b95fba-b4b5-4671",
   });
 
   await expect(productGateway).rejects.toThrow();
@@ -113,7 +113,7 @@ test("should throw an error when gateway not exist", async () => {
 
   const productGateway = removeGateway.execute({
     id_gateway: "06b95fba-b4b5-4671",
-    id_product: product.id,
+    id: product.id,
   });
 
   await expect(productGateway).rejects.toThrow();
@@ -150,14 +150,14 @@ test("should throw an error when link gateway with product not exist", async () 
 
   await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "planBasic01",
     active: true,
   });
 
   const removedGateway = removeGateway.execute({
     id_gateway: gatewayTwo.id,
-    id_product: product.id,
+    id: product.id,
   });
 
   await expect(removedGateway).rejects.toThrow();

@@ -10,15 +10,15 @@ export default class UpdateGateway {
   ) {}
 
   async execute(input: Input): Promise<Output> {
+    if (!input.id?.trim()) {
+      throw new AppError("O id_product não pode ser vazio", 400);
+    }
+
     if (!input.id_gateway?.trim()) {
       throw new AppError("O id_gateway não pode ser vazio", 400);
     }
 
-    if (!input.id_product?.trim()) {
-      throw new AppError("O id_product não pode ser vazio", 400);
-    }
-
-    const product = await this.productRepository.getById(input.id_product);
+    const product = await this.productRepository.getById(input.id);
     if (!product) {
       throw new AppError("Perfil não encontrado", 404);
     }
@@ -29,7 +29,7 @@ export default class UpdateGateway {
     }
 
     const productGateway = await this.productRepository.getProductGateway(
-      input.id_product,
+      input.id,
       input.id_gateway
     );
 
@@ -41,11 +41,11 @@ export default class UpdateGateway {
     productGateway.active = input.active;
     productGateway.updated_on = new FormattedDate().date;
 
-    await this.productRepository.updateGateway(input.id_product, productGateway);
+    await this.productRepository.updateGateway(input.id, productGateway);
 
     return {
       id_gateway: productGateway.id,
-      id_product: input.id_product,
+      id_product: input.id,
       id_gateway_product: productGateway.id_gateway_product,
       active: productGateway.active,
       created_on: productGateway.created_on,
@@ -55,7 +55,7 @@ export default class UpdateGateway {
 }
 
 interface Input {
-  id_product: string;
+  id: string;
   id_gateway: string;
   id_gateway_product: string;
   active: boolean;

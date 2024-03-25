@@ -24,9 +24,9 @@ export default class ProductController implements IController {
     this.httpServer.on("get", "/product", this.getAll);
     this.httpServer.on("post", "/product", this.create);
     this.httpServer.on("put", "/product/:id", this.update);
-    this.httpServer.on("post", "/product/addGateway", this.addGateway);
-    this.httpServer.on("put", "/product/updateGateway", this.updateGateway);
-    this.httpServer.on("delete", "/product/removeGateway", this.removeGateway);
+    this.httpServer.on("post", "/product/:id/gateway", this.addGateway);
+    this.httpServer.on("put", "/product/:id/gateway", this.updateGateway);
+    this.httpServer.on("delete", "/product/:id/gateway", this.removeGateway);
   }
 
   getById = async (params: IParams, body: any): Promise<JsonResponse> => {
@@ -82,7 +82,10 @@ export default class ProductController implements IController {
     const gatewayRepository = new GatewayRepository(this.connection);
     const addGateway = new AddGateway(productRepository, gatewayRepository);
 
-    const Gateway = await addGateway.execute(body);
+    const Gateway = await addGateway.execute({
+      ...body,
+      id: params.params.id,
+    });
 
     return HttpResponse.json(201, Gateway);
   };
@@ -92,7 +95,10 @@ export default class ProductController implements IController {
     const gatewayRepository = new GatewayRepository(this.connection);
     const updateGateway = new UpdateGateway(productRepository, gatewayRepository);
 
-    const Gateway = await updateGateway.execute(body);
+    const Gateway = await updateGateway.execute({
+      ...body,
+      id: params.params.id,
+    });
 
     return HttpResponse.json(201, Gateway);
   };
@@ -102,7 +108,10 @@ export default class ProductController implements IController {
     const gatewayRepository = new GatewayRepository(this.connection);
     const removeGateway = new RemoveGateway(productRepository, gatewayRepository);
 
-    const Gateway = await removeGateway.execute(body);
+    const Gateway = await removeGateway.execute({
+      ...body,
+      id: params.params.id,
+    });
 
     return HttpResponse.json(201, Gateway);
   };

@@ -33,14 +33,14 @@ test("should be update gateway product", async () => {
 
   await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     active: true,
     id_gateway_product: "plan01",
   });
 
   const gatewayUpdated = await updateGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "plan02",
     active: true,
   });
@@ -48,13 +48,13 @@ test("should be update gateway product", async () => {
   expect(gatewayUpdated.id_gateway_product).toBe("plan02");
 });
 
-test("should throw an error when id_gateway id_product is empty", async () => {
+test("should throw an error when id_gateway id is empty", async () => {
   const productRepository = new ProductRepositoryMem();
   const gatewayRepositoryMem = new GatewayRepositoryMem();
   const updateGateway = new UpdateGateway(productRepository, gatewayRepositoryMem);
 
   const gateway = updateGateway.execute({
-    id_product: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
+    id: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
     id_gateway: "",
     active: true,
     id_gateway_product: "plan01",
@@ -63,13 +63,13 @@ test("should throw an error when id_gateway id_product is empty", async () => {
   await expect(gateway).rejects.toThrow();
 });
 
-test("should throw an error when id_product is empty", async () => {
+test("should throw an error when id is empty", async () => {
   const productRepository = new ProductRepositoryMem();
   const gatewayRepositoryMem = new GatewayRepositoryMem();
   const updateGateway = new UpdateGateway(productRepository, gatewayRepositoryMem);
 
   const gateway = updateGateway.execute({
-    id_product: "",
+    id: "",
     id_gateway: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
     active: true,
     id_gateway_product: "plan01",
@@ -96,7 +96,7 @@ test("should throw an error when product not exist", async () => {
 
   const productGateway = updateGateway.execute({
     id_gateway: gateway.id,
-    id_product: "06b95fba-b4b5-4671",
+    id: "06b95fba-b4b5-4671",
     id_gateway_product: "merc01",
     active: true,
   });
@@ -125,7 +125,7 @@ test("should throw an error when gateway not exist", async () => {
 
   const productGateway = updateGateway.execute({
     id_gateway: "06b95fba-b4b5-4671",
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "plan01",
     active: true,
   });
@@ -166,14 +166,14 @@ test("should throw an error when link gateway with product not exist", async () 
 
   await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "plan01",
     active: true,
   });
 
   const gatewayUpdated = updateGateway.execute({
     id_gateway: gatewayTwo.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "plan02",
     active: true,
   });

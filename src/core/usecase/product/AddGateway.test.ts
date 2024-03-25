@@ -31,7 +31,7 @@ test("should be add gateway to a product", async () => {
 
   const productGateway = await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "basicPlan01",
     active: true,
   });
@@ -45,7 +45,7 @@ test("should throw an error when id_gateway is empty", async () => {
   const addGateway = new AddGateway(productRepository, gatewayRepositoryMem);
 
   const gateway = addGateway.execute({
-    id_product: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
+    id: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
     id_gateway: "",
     id_gateway_product: "basicPlan01",
     active: true,
@@ -54,14 +54,14 @@ test("should throw an error when id_gateway is empty", async () => {
   await expect(gateway).rejects.toThrow();
 });
 
-test("should throw an error when id_product is empty", async () => {
+test("should throw an error when id is empty", async () => {
   const productRepository = new ProductRepositoryMem();
   const gatewayRepositoryMem = new GatewayRepositoryMem();
   const addGateway = new AddGateway(productRepository, gatewayRepositoryMem);
 
   const gateway = addGateway.execute({
     id_gateway: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
-    id_product: "",
+    id: "",
     id_gateway_product: "basicPlan01",
     active: true,
   });
@@ -83,7 +83,7 @@ test("should throw an error when product not exist", async () => {
 
   const productGateway = addGateway.execute({
     id_gateway: gateway.id,
-    id_product: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
+    id: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
     id_gateway_product: "basicPlan01",
     active: true,
   });
@@ -110,7 +110,7 @@ test("should throw an error when gateway not exist", async () => {
 
   const productGateway = addGateway.execute({
     id_gateway: "06b95fba-b4b5-4671-be70-43ca2ae6c4db",
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "basicPlan01",
     active: true,
   });
@@ -145,14 +145,14 @@ test("should throw an error when product_gateway is duplicated", async () => {
 
   await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "basicPlan01",
     active: true,
   });
 
   const productGatewayRepeated = addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "basicPlan01",
     active: true,
   });

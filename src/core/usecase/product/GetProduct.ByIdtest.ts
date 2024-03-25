@@ -41,7 +41,7 @@ test("should be search a product by id", async () => {
 
   await addGateway.execute({
     id_gateway: gateway.id,
-    id_product: product.id,
+    id: product.id,
     id_gateway_product: "plan01",
     active: true,
   });

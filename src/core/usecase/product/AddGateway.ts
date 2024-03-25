@@ -10,15 +10,15 @@ export default class AddGateway {
   ) {}
 
   async execute(input: Input): Promise<Output> {
+    if (!input.id?.trim()) {
+      throw new AppError("O id_product não pode ser vazio", 400);
+    }
+
     if (!input.id_gateway?.trim()) {
       throw new AppError("O id_gateway não pode ser vazio", 400);
     }
 
-    if (!input.id_product?.trim()) {
-      throw new AppError("O id_product não pode ser vazio", 400);
-    }
-
-    const product = await this.productRepository.getById(input.id_product);
+    const product = await this.productRepository.getById(input.id);
     if (!product) {
       throw new AppError("Produto não encontrado", 404);
     }
@@ -29,7 +29,7 @@ export default class AddGateway {
     }
 
     const productGateway = await this.productRepository.getProductGateway(
-      input.id_product,
+      input.id,
       input.id_gateway
     );
 
@@ -41,7 +41,7 @@ export default class AddGateway {
     gateway.active = input.active;
     gateway.created_on = new FormattedDate().date;
 
-    await this.productRepository.addGateway(input.id_product, gateway);
+    await this.productRepository.addGateway(input.id, gateway);
 
     return {
       id_product: product.id,
@@ -54,15 +54,15 @@ export default class AddGateway {
 }
 
 interface Input {
+  id: string;
   id_gateway: string;
-  id_product: string;
   id_gateway_product: string;
   active: boolean;
 }
 
 interface Output {
-  id_gateway: string;
   id_product: string;
+  id_gateway: string;
   id_gateway_product: string;
   active: boolean;
   created_on?: Date;

@@ -9,15 +9,15 @@ export default class RemoveGateway {
   ) {}
 
   async execute(input: Input): Promise<Output> {
+    if (!input.id?.trim()) {
+      throw new AppError("O id não pode ser vazio", 400);
+    }
+
     if (!input.id_gateway?.trim()) {
       throw new AppError("O id_gateway não pode ser vazio", 400);
     }
 
-    if (!input.id_product?.trim()) {
-      throw new AppError("O id_product não pode ser vazio", 400);
-    }
-
-    const product = await this.productRepository.getById(input.id_product);
+    const product = await this.productRepository.getById(input.id);
     if (!product) {
       throw new AppError("Produto não localizado", 404);
     }
@@ -28,7 +28,7 @@ export default class RemoveGateway {
     }
 
     const productGateway = await this.productRepository.getProductGateway(
-      input.id_product,
+      input.id,
       input.id_gateway
     );
 
@@ -36,15 +36,15 @@ export default class RemoveGateway {
       throw new AppError("Vínculo do Produto com Gateway não localizado.", 404);
     }
 
-    await this.productRepository.removeGateway(input.id_product, input.id_gateway);
+    await this.productRepository.removeGateway(input.id, input.id_gateway);
 
     return { message: "Gateway removido do Produto com sucesso." };
   }
 }
 
 interface Input {
+  id: string;
   id_gateway: string;
-  id_product: string;
 }
 
 interface Output {

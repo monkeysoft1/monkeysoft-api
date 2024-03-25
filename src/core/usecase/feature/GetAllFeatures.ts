@@ -9,6 +9,7 @@ export default class GetAllFeatures {
     const filters = {
       name: input.name,
       active: input.active,
+      id_software: input.id_software,
     };
 
     input.filters = filters;

@@ -9,6 +9,7 @@ export default class GetAllProfiles {
     const filters = {
       name: input.name,
       active: input.active,
+      id_software: input.id_software,
     };
 
     input.filters = filters;

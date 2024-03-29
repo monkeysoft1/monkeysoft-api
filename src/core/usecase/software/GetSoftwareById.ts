@@ -25,15 +25,12 @@ export default class GetSoftwareById {
     }
 
     const getAllInput: GetAllDTO = {
-      id_software: software.id,
       filters: { id_software: software.id },
     };
 
     const { list: profilesResult } = await this.profileRepository.getAll(getAllInput);
     const { list: featuresResult } = await this.featureRepository.getAll(getAllInput);
     const { list: productsResult } = await this.productRepository.getAll(getAllInput);
-
-    console.log(featuresResult);
 
     const profiles: ProfileDTO[] = profilesResult.map((f: any) => ({
       id: f.id,

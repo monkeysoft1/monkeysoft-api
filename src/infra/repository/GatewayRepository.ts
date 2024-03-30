@@ -10,6 +10,40 @@ export default class GatewayRepository extends BaseRepository implements IGatewa
     super();
   }
 
+  async getByProductId(id_product: string): Promise<Gateway[]> {
+    await this.connection.open();
+
+    const stmt = `
+      select
+        g.id,
+        g.description,
+        g.payment_gateway_key,
+        pg.id_gateway_product,
+        pg.active,
+        pg.created_on,
+        pg.updated_on
+      from ${this.ms}.product_gateway pg 
+      join ${this.ms}.gateway g on pg.id_gateway = g.id
+      where pg.id_product = ?`;
+    const [rows] = await this.connection.query(stmt, [id_product]);
+
+    let list = [];
+    for (const gatewayData of rows) {
+      const gateway = new Gateway();
+      gateway.id = gatewayData.id;
+      gateway.description = gatewayData.description;
+      gateway.payment_gateway_key = gatewayData.payment_gateway_key;
+      gateway.id_gateway_product = gatewayData.id_gateway_product;
+      gateway.active = gatewayData.active;
+      gateway.created_on = gatewayData.created_on;
+      gateway.updated_on = gatewayData.updated_on;
+
+      list.push(gateway);
+    }
+
+    return list;
+  }
+
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 

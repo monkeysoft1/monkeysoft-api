@@ -2,8 +2,20 @@ import Gateway from "../../core/entity/Gateway";
 import IGatewayRepository from "../../core/repository/IGatewayRepository";
 import { GetAllDTO } from "./IGetAll";
 
+interface ProductGateway {
+  id_product: string;
+  gateway: Gateway;
+}
+
 export default class GatewayRepositoryMem implements IGatewayRepository {
   gateway: Gateway[] = [];
+  productGateway: ProductGateway[] = [];
+
+  async getByProductId(id_product: string): Promise<Gateway[]> {
+    return this.productGateway
+      .filter((f) => f.id_product === id_product)
+      .map((i) => i.gateway);
+  }
 
   async getAll(input: GetAllDTO): Promise<any> {
     return {

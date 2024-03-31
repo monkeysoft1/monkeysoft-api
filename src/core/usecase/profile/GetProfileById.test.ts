@@ -51,8 +51,6 @@ test("should be search a profile by id", async () => {
 
   const profiles = await getProfileById.execute(profile);
 
-  console.log(profiles);
-
   expect(profiles).toHaveProperty(["id"]);
 });
 

@@ -9,6 +9,40 @@ export default class UserRepository extends BaseRepository implements IUserRepos
   constructor(readonly connection: IConnection) {
     super();
   }
+  async getByToken(user: User): Promise<User | undefined> {
+    await this.connection.open();
+
+    const stmt = `
+      select * from ${this.ms}.user 
+      where token = ? and 
+            active = 1 and 
+            expire_token > current_timestamp()`;
+
+    const [rows] = await this.connection.query(stmt, [user.token]);
+    const [userData] = rows;
+
+    if (userData) {
+      const userType = new UserType();
+      userType.id = userData.id_user_type;
+
+      const user = new User();
+      user.id = userData.id;
+      user.userType = userType;
+      user.name = userData.name;
+      user.email = userData.email;
+      user.phone_number = userData.phone_number;
+      user.password = userData.password;
+      user.active = userData.active;
+      user.reset = userData.reset;
+      user.token = userData.token;
+      user.expire_token = userData.expire_token;
+      user.login_tries = userData.login_tries;
+      user.created_on = userData.created_on;
+      user.updated_on = userData.updated_on;
+
+      return user;
+    }
+  }
   async getByCredential(user: User): Promise<User | undefined> {
     await this.connection.open();
 

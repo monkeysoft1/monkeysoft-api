@@ -172,9 +172,6 @@ export default class ProductRepository extends BaseRepository implements IProduc
       where
     );
 
-    console.log(stmt);
-    console.log(values);
-
     await this.connection.query(stmt, [...values, id_product, gateway.id]);
   }
 
@@ -191,8 +188,6 @@ export default class ProductRepository extends BaseRepository implements IProduc
     const where = `id_product = ? and id_Gateway = ?`;
 
     const { stmt } = QueryUtils.createDelete(this.ms, "product_gateway", where);
-
-    console.log(values);
 
     await this.connection.query(stmt, values);
   }

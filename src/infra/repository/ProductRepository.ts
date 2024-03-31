@@ -1,3 +1,4 @@
+import Gateway from "../../core/entity/Gateway";
 import Product from "../../core/entity/Product";
 import Software from "../../core/entity/Software";
 import IProductRepository from "../../core/repository/IProductRepository";
@@ -10,7 +11,6 @@ export default class ProductRepository extends BaseRepository implements IProduc
   constructor(readonly connection: IConnection) {
     super();
   }
-
   async getAll(input: GetAllDTO): Promise<any> {
     await this.connection.open();
 
@@ -132,5 +132,103 @@ export default class ProductRepository extends BaseRepository implements IProduc
     const { stmt, values } = QueryUtils.createUpdate(this.ms, "product", update, where);
 
     await this.connection.query(stmt, [...values, product.id]);
+  }
+
+  async addGateway(id_product: string, gateway: Gateway): Promise<void> {
+    await this.connection.open();
+
+    const insert = QueryUtils.removeUndefined({
+      id_Gateway: gateway.id,
+      id_product: id_product,
+      id_gateway_product: gateway.id_gateway_product,
+      active: gateway.active,
+      created_on: gateway.created_on,
+    });
+
+    const { stmt, values } = new QueryUtils(this.connection).createInsert(
+      this.ms,
+      "product_gateway",
+      insert
+    );
+
+    await this.connection.query(stmt, values);
+  }
+
+  async updateGateway(id_product: string, gateway: Gateway): Promise<void> {
+    await this.connection.open();
+
+    const update = QueryUtils.removeUndefined({
+      id_gateway_product: gateway.id_gateway_product,
+      active: gateway.active,
+      updated_on: gateway.updated_on,
+    });
+
+    const where = `id_product = ? and id_gateway = ?`;
+
+    const { stmt, values } = QueryUtils.createUpdate(
+      this.ms,
+      "product_gateway",
+      update,
+      where
+    );
+
+    console.log(stmt);
+    console.log(values);
+
+    await this.connection.query(stmt, [...values, id_product, gateway.id]);
+  }
+
+  async removeGateway(id_product: string, id_gateway: string): Promise<void> {
+    await this.connection.open();
+
+    const remove = QueryUtils.removeUndefined({
+      id_product: id_product,
+      id_gateway: id_gateway,
+    });
+
+    const values = remove.map(([_, value]) => value);
+
+    const where = `id_product = ? and id_Gateway = ?`;
+
+    const { stmt } = QueryUtils.createDelete(this.ms, "product_gateway", where);
+
+    console.log(values);
+
+    await this.connection.query(stmt, values);
+  }
+
+  async getProductGateway(
+    id_product: string,
+    id_gateway: string
+  ): Promise<Gateway | undefined> {
+    await this.connection.open();
+
+    const stmt = `
+        select
+        g.id,
+        g.description,
+        g.payment_gateway_key,
+        pg.id_gateway_product,
+        pg.active,
+        pg.created_on,
+        pg.updated_on
+      from ${this.ms}.product_gateway as pg
+      inner join ${this.ms}.gateway g on pg.id_gateway = g.id
+      where pg.id_product = ? and pg.id_gateway = ?`;
+
+    const [rows] = await this.connection.query(stmt, [id_product, id_gateway]);
+    const [productGatewayData] = rows;
+
+    if (productGatewayData) {
+      const productGateway = new Gateway();
+      productGateway.id = productGatewayData.id;
+      productGateway.description = productGatewayData.description;
+      productGateway.payment_gateway_key = productGatewayData.payment_gateway_key;
+      productGateway.id_gateway_product = productGatewayData.id_gateway_product;
+      productGateway.active = productGatewayData.active;
+      productGateway.created_on = productGatewayData.created_on;
+      productGateway.updated_on = productGatewayData.updated_on;
+      return productGateway;
+    }
   }
 }

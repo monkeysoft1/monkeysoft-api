@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import AppError from "./AppError";
 import FormattedDate from "./FormattedDate";
+import Gateway from "./Gateway";
 import Software from "./Software";
 
 export default class Product {
@@ -9,10 +10,19 @@ export default class Product {
   private _name: string = "";
   private _description: string = "";
   private _price: number = 0;
+  private _gateways: Gateway[] = [];
   private _active: boolean = false;
 
   created_on?: Date;
   updated_on?: Date;
+
+  public get gateways(): Gateway[] {
+    return this._gateways;
+  }
+
+  public set gateways(gateways: Gateway[]) {
+    this._gateways = gateways;
+  }
 
   public get name(): string {
     return this._name;

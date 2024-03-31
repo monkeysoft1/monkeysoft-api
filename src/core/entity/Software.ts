@@ -1,6 +1,9 @@
 import crypto from "crypto";
 import AppError from "../entity/AppError";
+import Feature from "./Feature";
 import FormattedDate from "./FormattedDate";
+import Product from "./Product";
+import Profile from "./Profile";
 
 export default class Software {
   id: string = "";
@@ -8,6 +11,34 @@ export default class Software {
   private _description: string = "";
   private _active: boolean = false;
   created_on?: Date;
+
+  private _features: Feature[] = [];
+  private _profiles: Profile[] = [];
+  private _product: Product[] = [];
+
+  public get features(): Feature[] {
+    return this._features;
+  }
+
+  public set features(features: Feature[]) {
+    this._features = features;
+  }
+
+  public get profiles(): Profile[] {
+    return this._profiles;
+  }
+
+  public set profiles(profiles: Profile[]) {
+    this._profiles = profiles;
+  }
+
+  public get products(): Product[] {
+    return this._product;
+  }
+
+  public set products(products: Product[]) {
+    this._product = products;
+  }
 
   get name(): string {
     return this._name;

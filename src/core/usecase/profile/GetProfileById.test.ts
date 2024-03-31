@@ -16,6 +16,7 @@ test("should be search a profile by id", async () => {
     featureRepository,
     softwareRepository
   );
+
   const createSoftware = new CreateSoftware(softwareRepository);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });
@@ -33,6 +34,7 @@ test("should be search a profile by id", async () => {
   const feature = await createFeature.execute({
     name: "send-messages",
     id_software: software.id,
+    active: true,
   });
 
   const addFeature = new AddFeature(profileRepository, featureRepository);

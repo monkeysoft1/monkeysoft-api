@@ -5,6 +5,9 @@ import UpdateSoftware from "../../core/usecase/software/UpdateSoftware";
 import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
 import IConnection from "../database/IConnection";
+import FeatureRepository from "../repository/FeatureRepository";
+import ProductRepository from "../repository/ProductRepository";
+import ProfileRepository from "../repository/ProfileRepository";
 import SoftwareRepository from "../repository/SoftwareRepository";
 import IController from "./IController";
 
@@ -23,7 +26,15 @@ export default class SoftwareController implements IController {
 
   getById = async (params: IParams, body: any): Promise<JsonResponse> => {
     const softwareRepository = new SoftwareRepository(this.connection);
-    const getSoftwareById = new GetSoftwareById(softwareRepository);
+    const featureRepository = new FeatureRepository(this.connection);
+    const profileRepository = new ProfileRepository(this.connection);
+    const productRepository = new ProductRepository(this.connection);
+    const getSoftwareById = new GetSoftwareById(
+      softwareRepository,
+      profileRepository,
+      featureRepository,
+      productRepository
+    );
     const software = await getSoftwareById.execute({
       id: params.params.id,
     });

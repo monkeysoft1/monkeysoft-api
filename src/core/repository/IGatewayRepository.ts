@@ -5,6 +5,7 @@ export default interface IGatewayRepository {
   getAll<T>(input: GetAllDTO): Promise<GetAllOutputDTO<T>>;
   getById(id: string): Promise<Gateway | undefined>;
   getByDescription(name: string): Promise<Gateway | undefined>;
+  getByProductId(id_profile: string): Promise<Gateway[]>;
   save(gateway: Gateway): Promise<void>;
   update(gateway: Gateway): Promise<void>;
 }

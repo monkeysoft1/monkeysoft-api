@@ -5,7 +5,7 @@ import CreateFeature from "../feature/CreateFeature";
 import CreateSoftware from "../software/CreateSoftware";
 import AddFeature from "./AddFeature";
 import CreateProfile from "./CreateProfile";
-import GetProfileById from "./GetFeatures";
+import GetProfileById from "./GetProfileById";
 
 test("should be search a profile by id", async () => {
   const profileRepository = new ProfileRepositoryMem();
@@ -16,6 +16,7 @@ test("should be search a profile by id", async () => {
     featureRepository,
     softwareRepository
   );
+
   const createSoftware = new CreateSoftware(softwareRepository);
 
   const software = await createSoftware.execute({ name: "monkey-soft" });
@@ -33,6 +34,7 @@ test("should be search a profile by id", async () => {
   const feature = await createFeature.execute({
     name: "send-messages",
     id_software: software.id,
+    active: true,
   });
 
   const addFeature = new AddFeature(profileRepository, featureRepository);

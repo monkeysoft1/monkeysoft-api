@@ -5,7 +5,7 @@ import CreateFeature from "../feature/CreateFeature";
 import CreateSoftware from "../software/CreateSoftware";
 import AddFeature from "./AddFeature";
 import CreateProfile from "./CreateProfile";
-import GetProfileById from "./GetFeatures";
+import GetProfileById from "./GetProfileById";
 
 test("should be search a profile by id", async () => {
   const profileRepository = new ProfileRepositoryMem();
@@ -48,6 +48,8 @@ test("should be search a profile by id", async () => {
   });
 
   const profiles = await getProfileById.execute(profile);
+
+  console.log(profiles);
 
   expect(profiles).toHaveProperty(["id"]);
 });

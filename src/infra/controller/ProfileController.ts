@@ -1,7 +1,7 @@
 import AddFeature from "../../core/usecase/profile/AddFeature";
 import CreateProfile from "../../core/usecase/profile/CreateProfile";
 import GetAllProfiles from "../../core/usecase/profile/GetAllProfiles";
-import GetProfileById from "../../core/usecase/profile/GetFeatures";
+import GetProfileById from "../../core/usecase/profile/GetProfileById";
 import RemoveFeature from "../../core/usecase/profile/RemoveFeature";
 import UpdateFeature from "../../core/usecase/profile/UpdateFeature";
 import UpdateProfile from "../../core/usecase/profile/UpdateProfile";
@@ -24,9 +24,9 @@ export default class ProfileController implements IController {
     this.httpServer.on("get", "/profile", this.getAll);
     this.httpServer.on("post", "/profile", this.create);
     this.httpServer.on("put", "/profile/:id", this.update);
-    this.httpServer.on("post", "/profile/addFeature", this.addFeature);
-    this.httpServer.on("put", "/profile/updateFeature", this.updateFeature);
-    this.httpServer.on("delete", "/profile/removeFeature", this.removeFeature);
+    this.httpServer.on("post", "/profile/feature", this.addFeature);
+    this.httpServer.on("put", "/profile/:id/feature", this.updateFeature);
+    this.httpServer.on("delete", "/profile/feature", this.removeFeature);
   }
 
   addFeature = async (params: IParams, body: any): Promise<JsonResponse> => {
@@ -44,7 +44,7 @@ export default class ProfileController implements IController {
     const featureRepository = new FeatureRepository(this.connection);
     const updateFeature = new UpdateFeature(profileRepository, featureRepository);
 
-    const feature = await updateFeature.execute(body);
+    const feature = await updateFeature.execute({ ...body, id_profile: params.params.id });
 
     return HttpResponse.json(201, feature);
   };

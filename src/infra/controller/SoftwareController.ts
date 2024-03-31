@@ -45,7 +45,7 @@ export default class SoftwareController implements IController {
     const createSoftware = new CreateSoftware(softwareRepository);
     const software = await createSoftware.execute(body);
 
-    return HttpResponse.json(201, software);
+    return HttpResponse.json(201, software, { authorization: "teste" });
   };
 
   update = async (params: IParams, body: any): Promise<JsonResponse> => {

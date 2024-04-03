@@ -1,7 +1,7 @@
 {
   "name": "monkeyzap-api",
   "description": "",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "main": "index.js",
   "scripts": {
     "dev": "tsnd --transpile-only --ignore-watch node_modules src/index.ts",

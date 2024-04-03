@@ -3,12 +3,17 @@ import path from "path";
 import ExpressAdapter from "./infra/api/ExpressAdapter";
 import Controller from "./infra/controller";
 import MySqlConnection from "./infra/database/MySqlConnection";
+import Authentication from "./infra/middleware/Authentication";
 import ErrorMiddleware from "./infra/middleware/ErrorMiddleware";
 dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
 
 const mysql = new MySqlConnection();
 const express = new ExpressAdapter();
 const controller = new Controller();
+
+const authentication = new Authentication(mysql);
+express.applyErrorMiddleware(ErrorMiddleware.execute);
+express.applyMiddleware(authentication.execute);
 
 controller
   .create(mysql, express)

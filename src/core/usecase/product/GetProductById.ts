@@ -36,8 +36,6 @@ export default class GetProductById {
     }
 
     product.gateways = await this.gatewayRepository.getByProductId(product.id);
-    console.log("Bati aqui.");
-    console.log(product.gateways);
 
     const gatewayDTO = product.gateways.map((f) => ({
       id: f.id,
@@ -48,9 +46,6 @@ export default class GetProductById {
       created_on: f.created_on,
       updated_on: f.updated_on,
     }));
-
-    console.log("Lista final aqui.");
-    console.log(gatewayDTO);
 
     return {
       id: product.id,

@@ -168,9 +168,6 @@ export default class ProfileRepository extends BaseRepository implements IProfil
       where
     );
 
-    console.log(stmt);
-    console.log(values);
-
     await this.connection.query(stmt, [...values, feature.id, id_profile]);
   }
 
@@ -187,8 +184,6 @@ export default class ProfileRepository extends BaseRepository implements IProfil
     const where = `id_feature = ? and id_profile = ?`;
 
     const { stmt } = QueryUtils.createDelete(this.ms, "profile_feature", where);
-
-    console.log(values);
 
     await this.connection.query(stmt, values);
   }

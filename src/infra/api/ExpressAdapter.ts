@@ -1,17 +1,26 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 
+import { Server } from "http";
 import IHttpServer, { IParams } from "./IHttpServer";
 
 export default class ExpressAdapter implements IHttpServer {
   app: Express;
+  private _server: Server | undefined;
 
   constructor() {
     this.app = express();
     this.app.use(express.json({ limit: "5mb" }));
   }
+  close(): void {
+    this._server?.close();
+  }
+
+  public get server(): Server | undefined {
+    return this._server;
+  }
 
   listen(port: number, callback: () => void): void {
-    this.app.listen(port, callback);
+    this._server = this.app.listen(port, callback);
   }
 
   applyErrorMiddleware(callback: Function): void {

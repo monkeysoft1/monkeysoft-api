@@ -1,5 +1,6 @@
 import { ReadStream } from "fs";
 export default interface IHttpServer {
+  close(): void;
   on(method: string, url: string, callback: Function): void;
   listen(port: number, callback: Function): void;
   applyMiddleware(callback: Function): void;

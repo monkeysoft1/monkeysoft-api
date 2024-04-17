@@ -9,6 +9,7 @@ import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
 import IConnection from "../database/IConnection";
 import FeatureRepository from "../repository/FeatureRepository";
+import LogRepository from "../repository/LogRepository";
 import ProfileRepository from "../repository/ProfileRepository";
 import SoftwareRepository from "../repository/SoftwareRepository";
 import IController from "./IController";
@@ -42,6 +43,7 @@ export default class ProfileController implements IController {
   updateFeature = async (params: IParams, body: any): Promise<JsonResponse> => {
     const profileRepository = new ProfileRepository(this.connection);
     const featureRepository = new FeatureRepository(this.connection);
+
     const updateFeature = new UpdateFeature(profileRepository, featureRepository);
 
     const feature = await updateFeature.execute({ ...body, id_profile: params.params.id });
@@ -97,7 +99,12 @@ export default class ProfileController implements IController {
   update = async (params: IParams, body: any): Promise<JsonResponse> => {
     const profileRepository = new ProfileRepository(this.connection);
     const softwareRepository = new SoftwareRepository(this.connection);
-    const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+    const logRepository = new LogRepository(this.connection);
+    const updateProfile = new UpdateProfile(
+      profileRepository,
+      softwareRepository,
+      logRepository
+    );
     const profile = await updateProfile.execute({
       ...body,
       id: params.params.id,

@@ -1,4 +1,5 @@
 import FeatureRepositoryMem from "../../../infra/repository/FeatureRepositoryMem";
+import LogRepositoryMem from "../../../infra/repository/LogRepository.Mem";
 import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
 import CreateSoftware from "../software/CreateSoftware";
 import CreateFeature from "./CreateFeature";
@@ -7,6 +8,7 @@ import UpdateFeature from "./UpdateFeature";
 test("should be update feature", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
+  const logRepository = new LogRepositoryMem();
   const createFeature = new CreateFeature(featureRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -19,7 +21,11 @@ test("should be update feature", async () => {
     description: "Permissão para adicionar usuário",
   });
 
-  const updateSoftware = new UpdateFeature(featureRepository, softwareRepository);
+  const updateSoftware = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
 
   const overwritingSoftware = await updateSoftware.execute({
     id: newFeature.id,
@@ -36,7 +42,12 @@ test("should be update feature", async () => {
 test("should be update partial feature", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateFeature = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
   const createFeature = new CreateFeature(featureRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -58,7 +69,12 @@ test("should be update partial feature", async () => {
 test("should be throw an error when name is equal an other feature", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateFeature = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
   const createFeature = new CreateFeature(featureRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -84,7 +100,12 @@ test("should be throw an error when name is equal an other feature", async () =>
 test("should be throw an error when id_software not exists ", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateFeature = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
   const createFeature = new CreateFeature(featureRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -107,7 +128,12 @@ test("should be throw an error when id_software not exists ", async () => {
 test("should be throw an error when id is empty", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateFeature = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateFeature.execute({
@@ -121,7 +147,12 @@ test("should be throw an error when id is empty", async () => {
 test("should be throw an error when name is empty", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateFeature = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateFeature.execute({
@@ -135,7 +166,12 @@ test("should be throw an error when name is empty", async () => {
 test("should be throw an error when id not exist", async () => {
   const featureRepository = new FeatureRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateFeature = new UpdateFeature(
+    featureRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateFeature.execute({

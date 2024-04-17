@@ -1,3 +1,4 @@
+import LogRepositoryMem from "../../../infra/repository/LogRepository.Mem";
 import ProductRepositoryMem from "../../../infra/repository/ProductRepositoryMem";
 import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
 import CreateSoftware from "../software/CreateSoftware";
@@ -7,6 +8,7 @@ import UpdateProduct from "./UpdateProduct";
 test("should be update product", async () => {
   const productRepository = new ProductRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
+  const logRepository = new LogRepositoryMem();
   const createProduct = new CreateProduct(productRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -19,7 +21,11 @@ test("should be update product", async () => {
     description: "Melhor plano para conhecer a ferramenta",
   });
 
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+  const updateProduct = new UpdateProduct(
+    productRepository,
+    softwareRepository,
+    logRepository
+  );
 
   const overwritingProduct = await updateProduct.execute({
     id: newProduct.id,
@@ -36,7 +42,12 @@ test("should be update product", async () => {
 test("should be throw an error when name is equal an other product", async () => {
   const productRepository = new ProductRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProduct = new UpdateProduct(
+    productRepository,
+    softwareRepository,
+    logRepository
+  );
   const createProduct = new CreateProduct(productRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -62,7 +73,12 @@ test("should be throw an error when name is equal an other product", async () =>
 test("should be throw an error when id_software not exists ", async () => {
   const productRepository = new ProductRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProduct = new UpdateProduct(
+    productRepository,
+    softwareRepository,
+    logRepository
+  );
   const createProduct = new CreateProduct(productRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -85,7 +101,12 @@ test("should be throw an error when id_software not exists ", async () => {
 test("should be throw an error when id is empty", async () => {
   const productRepository = new ProductRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProduct = new UpdateProduct(
+    productRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateProduct.execute({
@@ -99,7 +120,12 @@ test("should be throw an error when id is empty", async () => {
 test("should be throw an error when name is empty", async () => {
   const productRepository = new ProductRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProduct = new UpdateProduct(
+    productRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateProduct.execute({
@@ -113,7 +139,12 @@ test("should be throw an error when name is empty", async () => {
 test("should be throw an error when id not exist", async () => {
   const productRepository = new ProductRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProduct = new UpdateProduct(
+    productRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateProduct.execute({

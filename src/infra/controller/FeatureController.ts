@@ -6,6 +6,7 @@ import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
 import IConnection from "../database/IConnection";
 import FeatureRepository from "../repository/FeatureRepository";
+import LogRepository from "../repository/LogRepository";
 import SoftwareRepository from "../repository/SoftwareRepository";
 import IController from "./IController";
 
@@ -55,7 +56,12 @@ export default class FeatureController implements IController {
   update = async (params: IParams, body: any): Promise<JsonResponse> => {
     const featureRepository = new FeatureRepository(this.connection);
     const softwareRepository = new SoftwareRepository(this.connection);
-    const updateFeature = new UpdateFeature(featureRepository, softwareRepository);
+    const logRepository = new LogRepository(this.connection);
+    const updateFeature = new UpdateFeature(
+      featureRepository,
+      softwareRepository,
+      logRepository
+    );
     const feature = await updateFeature.execute({
       ...body,
       id: params.params.id,

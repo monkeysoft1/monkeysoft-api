@@ -1,9 +1,11 @@
+import LogRepositoryMem from "../../../infra/repository/LogRepository.Mem";
 import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
 import CreateSoftware from "./CreateSoftware";
 import UpdateSoftware from "./UpdateSoftware";
 
 test("should be update software", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
+  const logRepository = new LogRepositoryMem();
   const createSoftware = new CreateSoftware(softwareRepository);
   const newSoftware = await createSoftware.execute({
     name: "Monkey Zap",
@@ -11,7 +13,7 @@ test("should be update software", async () => {
     description: "Serviço de whats",
   });
 
-  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository, logRepository);
 
   const overwritingSoftware = await updateSoftware.execute({
     id: newSoftware.id,
@@ -25,7 +27,8 @@ test("should be update software", async () => {
 
 test("should be throw an error when id is empty", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const createSoftware = new UpdateSoftware(softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const createSoftware = new UpdateSoftware(softwareRepository, logRepository);
 
   await expect(
     createSoftware.execute({
@@ -38,7 +41,8 @@ test("should be throw an error when id is empty", async () => {
 
 test("teste", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateSoftware = new UpdateSoftware(softwareRepository, logRepository);
 
   await expect(
     updateSoftware.execute({
@@ -51,7 +55,8 @@ test("teste", async () => {
 
 test("should be throw an error when name is empty", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const createSoftware = new UpdateSoftware(softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const createSoftware = new UpdateSoftware(softwareRepository, logRepository);
 
   await expect(
     createSoftware.execute({
@@ -64,7 +69,8 @@ test("should be throw an error when name is empty", async () => {
 
 test("should be throw an error when id not exist", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateSoftware = new UpdateSoftware(softwareRepository, logRepository);
 
   await expect(
     updateSoftware.execute({
@@ -78,6 +84,7 @@ test("should be throw an error when id not exist", async () => {
 
 test("should be throw an error when name exists in other software", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
+  const logRepository = new LogRepositoryMem();
   const createSoftware = new CreateSoftware(softwareRepository);
   await createSoftware.execute({
     name: "Monkey Zap",
@@ -91,7 +98,7 @@ test("should be throw an error when name exists in other software", async () => 
     description: "Serviço de whats",
   });
 
-  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository, logRepository);
   await expect(
     updateSoftware.execute({
       id: newSoftware.id,
@@ -104,13 +111,14 @@ test("should be throw an error when name exists in other software", async () => 
 test("should be throw an error when has no changes", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
   const createSoftware = new CreateSoftware(softwareRepository);
+  const logRepository = new LogRepositoryMem();
   const software = await createSoftware.execute({
     name: "Monkey Zap",
     active: true,
     description: "Serviço de whats",
   });
 
-  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository, logRepository);
   const updatedSoftware = updateSoftware.execute({
     id: software.id,
     name: "Monkey Zap",
@@ -120,6 +128,7 @@ test("should be throw an error when has no changes", async () => {
 });
 test("should be throw an error when name is empty", async () => {
   const softwareRepository = new SoftwareRepositoryMem();
+  const logRepository = new LogRepositoryMem();
   const createSoftware = new CreateSoftware(softwareRepository);
   const software = await createSoftware.execute({
     name: "Monkey Zap",
@@ -127,7 +136,7 @@ test("should be throw an error when name is empty", async () => {
     description: "Serviço de whats",
   });
 
-  const updateSoftware = new UpdateSoftware(softwareRepository);
+  const updateSoftware = new UpdateSoftware(softwareRepository, logRepository);
 
   const input = {
     id: software.id,

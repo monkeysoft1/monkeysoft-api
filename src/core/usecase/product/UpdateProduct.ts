@@ -1,13 +1,17 @@
 import AppError from "../../entity/AppError";
 import FormattedDate from "../../entity/FormattedDate";
+import Product from "../../entity/Product";
 import Utils from "../../entity/Utils";
+import ILogRepository from "../../repository/ILogRepository";
 import IProductRepository from "../../repository/IProductRepository";
 import ISoftwareRepository from "../../repository/ISoftwareRepository";
+import CreateLog from "../log/CreateLog";
 
 export default class UpdateProduct {
   constructor(
     readonly productRepository: IProductRepository,
-    readonly softwareRepository: ISoftwareRepository
+    readonly softwareRepository: ISoftwareRepository,
+    readonly logRepository: ILogRepository
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -25,7 +29,14 @@ export default class UpdateProduct {
       throw new AppError("O id informado não existe", 404);
     }
 
-    Utils.hasChanges(input, product);
+    if (product.software.id == input.id_software) Utils.hasChanges(input, product);
+
+    const oldProduct = {
+      name: product.name,
+      active: product.active,
+      id_software: product.software.id,
+      price: product.price,
+    } as ProductLog;
 
     if (input.name && input.name !== product.name) {
       const hasProductByName = await this.productRepository.getByName(input.name);
@@ -53,6 +64,8 @@ export default class UpdateProduct {
 
     await this.productRepository.update(product);
 
+    await this.createLog(product, oldProduct);
+
     return {
       id: product.id,
       id_software: product.software.id,
@@ -63,6 +76,23 @@ export default class UpdateProduct {
       created_on: product.created_on,
       updated_on: product.updated_on,
     };
+  }
+
+  private async createLog(product: Product, oldProduct: ProductLog) {
+    let createLog = new CreateLog(this.logRepository);
+
+    let newProduct = {
+      name: product.name,
+      active: product.active,
+      id_software: product.software.id,
+      price: product.price,
+    } as ProductLog;
+
+    createLog.execute({
+      name_table: "product",
+      old_object: oldProduct,
+      new_object: newProduct,
+    });
   }
 }
 
@@ -84,4 +114,11 @@ interface Output {
   active: boolean;
   created_on?: Date;
   updated_on?: Date;
+}
+
+interface ProductLog {
+  name: string;
+  active: boolean;
+  id_software: string;
+  price: number;
 }

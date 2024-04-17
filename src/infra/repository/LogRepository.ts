@@ -13,7 +13,6 @@ export default class LogRepository extends BaseRepository implements ILogReposit
     await this.connection.open();
 
     const stmt = `SELECT table_id FROM information_schema.innodb_tables WHERE name='${this.ms}/${tableName}';`;
-    console.log(stmt);
     const [rows] = await this.connection.query(stmt, [this.ms, tableName]);
     const [tableData] = rows;
 
@@ -45,8 +44,6 @@ export default class LogRepository extends BaseRepository implements ILogReposit
 
         if (input.old_value == input.new_value) continue;
 
-        console.log(input.old_value);
-
         const insert = QueryUtils.removeUndefined(input);
 
         const { stmt, values } = new QueryUtils(this.connection).createInsert(
@@ -54,8 +51,6 @@ export default class LogRepository extends BaseRepository implements ILogReposit
           "log",
           insert
         );
-
-        console.log(stmt);
 
         await this.connection.query(stmt, values);
       }

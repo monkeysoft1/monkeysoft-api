@@ -11,6 +11,13 @@ export default class CreateLog {
       return false;
     }
 
+    const maxLength = 200;
+
+    if (input.name_table.length > maxLength) {
+      console.log(`O nome da tabela  é maior que ${maxLength} caracteres.`);
+      return false;
+    }
+
     if (!input.new_object) {
       console.log("O novo objeto para log não foi informado.");
       return false;
@@ -20,8 +27,6 @@ export default class CreateLog {
       console.log("O objeto antigo para log não foi informado.");
       return false;
     }
-
-    console.log("O nome da tabela é:" + input.name_table);
 
     let id_table = await this.logRepository.getTableIdByName(input.name_table);
 

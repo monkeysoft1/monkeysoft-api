@@ -44,6 +44,20 @@ export default class LogRepository extends BaseRepository implements ILogReposit
 
         if (input.old_value == input.new_value) continue;
 
+        const maxLength = 500;
+
+        if (input.old_value.length > maxLength) {
+          console.log(`Valor antigo do atributo ${key} para a tabela ${input.name_table} 
+            é superior ao tamanho máximo de caracteres na coluna de logs.`);
+          continue;
+        }
+
+        if (input.new_value.length > maxLength) {
+          console.log(`Valor novo do atributo ${key} para a tabela ${input.name_table} 
+            é superior ao tamanho máximo de caracteres na coluna de logs.`);
+          continue;
+        }
+
         const insert = QueryUtils.removeUndefined(input);
 
         const { stmt, values } = new QueryUtils(this.connection).createInsert(

@@ -3,12 +3,83 @@ import UserType from "../../core/entity/UserType";
 import IUserRepository from "../../core/repository/IUserRepository";
 import IConnection from "../database/IConnection";
 import BaseRepository from "./BaseRepository";
+import { GetAllDTO } from "./IGetAll";
 import QueryUtils from "./validators/QueryUtils";
 
 export default class UserRepository extends BaseRepository implements IUserRepository {
   constructor(readonly connection: IConnection) {
     super();
   }
+
+  async getById(id: string): Promise<User | undefined> {
+    await this.connection.open();
+
+    const stmt = `select * from ${this.ms}.user where id = ?`;
+
+    const [rows] = await this.connection.query(stmt, [id]);
+    const [userData] = rows;
+
+    if (userData) {
+      const user = new User();
+      user.id = userData.id;
+      user.name = userData.name;
+      user.userType.id = userData.id_user_type;
+      user.phone_number = userData.phone_number;
+      user.email = userData.email;
+      user.active = userData.active;
+      user.created_on = userData.created_on;
+      return user;
+    }
+  }
+
+  async getAll(input: GetAllDTO): Promise<any> {
+    await this.connection.open();
+
+    const { rows, total, total_page } = await new QueryUtils(this.connection).createSelectAll(
+      this.ms,
+      "user",
+      input,
+      input.filters
+    );
+
+    let list = [];
+    for (const row of rows) {
+      const user = new User();
+      user.id = row.id;
+      user.name = row.name;
+      user.phone_number = row.phone_number;
+      user.userType.id = row.id_user_type;
+      user.active = row.active;
+      user.created_on = row.created_on;
+      list.push(user);
+    }
+
+    return { list, total, total_page };
+  }
+
+  async save(user: User): Promise<void> {
+    await this.connection.open();
+
+    const insert = QueryUtils.removeUndefined({
+      id: user.id,
+      name: user.name,
+      id_user_type: user.userType.id,
+      password: user.password,
+      phone_number: user.phone_number,
+      email: user.email,
+      active: user.active,
+      created_on: user.created_on,
+    });
+
+    const { stmt, values } = new QueryUtils(this.connection).createInsert(
+      this.ms,
+      "user",
+      insert
+    );
+
+    await this.connection.query(stmt, values);
+  }
+
   async getByToken(user: User): Promise<User | undefined> {
     await this.connection.open();
 

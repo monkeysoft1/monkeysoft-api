@@ -16,7 +16,7 @@ export default class UserType {
       throw new AppError(`O nome do tipo de usuário é maior que ${maxLength} caracteres`, 400);
     }
 
-    this._description = value;
+    this._description = value ?? this._description;
   }
 
   constructor() {

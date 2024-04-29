@@ -123,9 +123,12 @@ export default class User {
   }
 
   constructor() {
-    this.id = crypto.randomUUID();
-    this.created_on = new FormattedDate().date;
     this.expire_token = new FormattedDate().date;
     this.userType = new UserType();
+  }
+
+  create() {
+    this.id = crypto.randomUUID();
+    this.created_on = new FormattedDate().date;
   }
 }

@@ -7,7 +7,7 @@ export default class GetAllUsers {
 
   async execute(input: GetAllDTO): Promise<Output> {
     const filters = {
-      name: input.name,
+      email: input.email,
       active: input.active,
       id_user_type: input.id_user_type,
     };

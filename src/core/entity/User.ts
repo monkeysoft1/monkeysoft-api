@@ -24,7 +24,7 @@ export default class User {
   }
 
   public set name(value: string) {
-    const maxLength = 255;
+    const maxLength = 200;
 
     if (value.length > maxLength) {
       throw new AppError(`O nome do usuario é maior que ${maxLength} caracteres`, 400);
@@ -38,7 +38,7 @@ export default class User {
   }
 
   public set email(value: string) {
-    const maxLength = 255;
+    const maxLength = 100;
 
     if (value.length > maxLength) {
       throw new AppError(`O email informado é maior que ${maxLength} caracteres`, 400);
@@ -71,7 +71,7 @@ export default class User {
   }
 
   public set password(value: string) {
-    const maxLength = 255;
+    const maxLength = 100;
 
     if (value.length > maxLength) {
       throw new AppError(`A senha informada é maior que ${maxLength} caracteres`, 400);
@@ -106,7 +106,7 @@ export default class User {
   }
 
   public set token(value: string) {
-    const maxLength = 255;
+    const maxLength = 500;
 
     if (value && value.length > maxLength) {
       throw new AppError(`O token é maior que ${maxLength} caracteres`, 400);

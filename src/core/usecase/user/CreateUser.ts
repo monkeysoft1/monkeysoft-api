@@ -12,13 +12,13 @@ export default class CreateUser {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    if (Utils.stringIsEmpty(input.name)) {
+    if (Utils.stringIsEmpty(input.name, true)) {
       throw new AppError("O nome do usuário não pode ser vazio", 400);
     }
 
     const userType = await this.userTypeRepository.getById(input.id_user_type);
 
-    if (!userType) throw new AppError("Tipo de usuário informado não existe.", 400);
+    if (!userType) throw new AppError("Tipo de usuário informado não existe", 400);
 
     const user = new User();
     user.create();
@@ -30,6 +30,7 @@ export default class CreateUser {
     user.active = input.active;
 
     const hasUser = await this.userRepository.getByEmail(input.email);
+    console.log(hasUser);
 
     if (hasUser) {
       throw new AppError("O e-mail informado já foi cadastrado", 400);

@@ -17,7 +17,7 @@ export default class CreateUser {
     }
 
     if (Utils.stringIsEmpty(input.password, true)) {
-      throw new AppError("O senha do usuário não foi informada", 400);
+      throw new AppError("A senha do usuário não foi informada", 400);
     }
 
     const userType = await this.userTypeRepository.getById(input.id_user_type);

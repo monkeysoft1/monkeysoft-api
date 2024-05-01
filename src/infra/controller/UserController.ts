@@ -54,7 +54,8 @@ export default class UserController implements IController {
 
   update = async (params: IParams, body: any): Promise<JsonResponse> => {
     const userRepository = new UserRepository(this.connection);
-    const updateUser = new UpdateUser(userRepository);
+    const userTypeRepository = new UserTypeRepository(this.connection);
+    const updateUser = new UpdateUser(userRepository, userTypeRepository);
     const user = await updateUser.execute({
       ...body,
       id: params.params.id,

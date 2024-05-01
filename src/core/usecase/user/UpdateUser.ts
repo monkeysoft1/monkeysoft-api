@@ -1,18 +1,17 @@
 import AppError from "../../entity/AppError";
-import UserType from "../../entity/UserType";
 import Utils from "../../entity/Utils";
 import IUserRepository from "../../repository/IUserRepository";
+import IUserTypeRepository from "../../repository/IUserTypeRepository";
 
 export default class UpdateUser {
-  constructor(readonly userRepository: IUserRepository) {}
+  constructor(
+    readonly userRepository: IUserRepository,
+    readonly userTypeRepository: IUserTypeRepository
+  ) {}
 
   async execute(input: Input): Promise<Output> {
     if (!String(input.id).trim()) {
       throw new AppError("O id do usuário não pode ser vazio", 400);
-    }
-
-    if (Utils.stringIsEmpty(input.name, true)) {
-      throw new AppError("O nome do usuário não pode ser vazio", 400);
     }
 
     const user = await this.userRepository.getById(input.id);
@@ -23,20 +22,26 @@ export default class UpdateUser {
 
     Utils.hasChanges(input, user);
 
-    if (input.email !== user.email) {
+    if (!Utils.stringIsEmpty(input.email, true) && input.email !== user.email) {
       const hasUserByName = await this.userRepository.getByEmail(input.email);
-
       if (hasUserByName) {
-        throw new AppError("Já existe outro user com o mesmo e-mail.", 400);
+        throw new AppError("Já existe outro user com o mesmo e-mail", 400);
       }
 
-      user.name = input.name;
+      user.email = input.email;
+    }
+
+    if (input.id_user_type) {
+      const userType = await this.userTypeRepository.getById(input.id_user_type);
+      if (!userType) {
+        throw new AppError("Não existe um tipo de usuário com o id informado", 404);
+      }
+
+      user.userType = userType;
     }
 
     user.id = input.id;
     user.name = input.name;
-    user.userType.id = input.id_user_type;
-    user.email = input.email;
     user.phone_number = input.phone_number;
     user.password = input.password;
     user.active = input.active;
@@ -46,7 +51,7 @@ export default class UpdateUser {
     return {
       id: user.id,
       name: user.name,
-      userType: user.userType,
+      id_user_type: user.userType.id,
       email: user.email,
       phone_number: user.phone_number,
       active: user.active,
@@ -68,7 +73,7 @@ interface Input {
 interface Output {
   id: string;
   name: string;
-  userType: UserType;
+  id_user_type: string;
   email: string;
   phone_number: string;
   active: boolean;

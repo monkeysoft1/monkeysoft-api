@@ -26,11 +26,11 @@ export default class User {
   public set name(value: string) {
     const maxLength = 200;
 
-    if (value.length > maxLength) {
+    if (value?.length > maxLength) {
       throw new AppError(`O nome do usuario é maior que ${maxLength} caracteres`, 400);
     }
 
-    this._name = value;
+    this._name = value ?? this._name;
   }
 
   public get email(): string {
@@ -40,16 +40,16 @@ export default class User {
   public set email(value: string) {
     const maxLength = 100;
 
-    if (value.length > maxLength) {
+    if (value?.length > maxLength) {
       throw new AppError(`O email informado é maior que ${maxLength} caracteres`, 400);
     }
 
-    const splitedEmail = value.split("@");
-    if (splitedEmail.length < 2 || splitedEmail[0].length < 3) {
+    const splitedEmail = value?.split("@");
+    if (splitedEmail && (splitedEmail.length < 2 || splitedEmail[0].length < 3)) {
       throw new AppError(`O e-mail informado não é válido`, 400);
     }
 
-    this._email = value;
+    this._email = value ?? this._email;
   }
 
   public get phone_number(): string {
@@ -59,11 +59,11 @@ export default class User {
   public set phone_number(value: string) {
     const maxLength = 13;
 
-    if (value.length > maxLength) {
+    if (value?.length > maxLength) {
       throw new AppError(`A telefone informado é maior que ${maxLength} caracteres`, 400);
     }
 
-    this._phone_number = value;
+    this._phone_number = value ?? this._phone_number;
   }
 
   public get password(): string {
@@ -73,12 +73,12 @@ export default class User {
   public set password(value: string) {
     const maxLength = 100;
 
-    if (value.length > maxLength) {
+    if (value?.length > maxLength) {
       throw new AppError(`A senha informada é maior que ${maxLength} caracteres`, 400);
     }
 
     const regEx = /^[0-9a-fA-F]{32}$/;
-    if (!regEx.test(value)) {
+    if (value && !regEx.test(value)) {
       throw new AppError(`A senha precisa estar criptografada em MD5`, 400);
     }
 

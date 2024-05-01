@@ -13,7 +13,11 @@ export default class CreateUser {
 
   async execute(input: Input): Promise<Output> {
     if (Utils.stringIsEmpty(input.name, true)) {
-      throw new AppError("O nome do usuário não pode ser vazio", 400);
+      throw new AppError("O nome do usuário não foi informado.", 400);
+    }
+
+    if (Utils.stringIsEmpty(input.password, true)) {
+      throw new AppError("O senha do usuário não foi informada", 400);
     }
 
     const userType = await this.userTypeRepository.getById(input.id_user_type);

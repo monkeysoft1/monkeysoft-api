@@ -1,3 +1,4 @@
+import LogRepositoryMem from "../../../infra/repository/LogRepository.Mem";
 import ProfileRepositoryMem from "../../../infra/repository/ProfileRepositoryMem";
 import SoftwareRepositoryMem from "../../../infra/repository/SoftwareRepositoryMem";
 import CreateSoftware from "../software/CreateSoftware";
@@ -7,6 +8,7 @@ import UpdateProfile from "./UpdateProfile";
 test("should be update profile", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
+  const logRepository = new LogRepositoryMem();
   const createProfile = new CreateProfile(profileRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -18,7 +20,11 @@ test("should be update profile", async () => {
     active: true,
   });
 
-  const updateSoftware = new UpdateProfile(profileRepository, softwareRepository);
+  const updateSoftware = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
 
   const overwritingSoftware = await updateSoftware.execute({
     id: newProfile.id,
@@ -33,7 +39,12 @@ test("should be update profile", async () => {
 test("should be update partial profile", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProfile = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
   const createProfile = new CreateProfile(profileRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -55,7 +66,12 @@ test("should be update partial profile", async () => {
 test("should be throw an error when name is equal an other profile", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProfile = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
   const createProfile = new CreateProfile(profileRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -82,7 +98,12 @@ test("should be throw an error when name is equal an other profile", async () =>
 test("should be throw an error when id_software not exists ", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProfile = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
   const createProfile = new CreateProfile(profileRepository, softwareRepository);
 
   const createSoftware = new CreateSoftware(softwareRepository);
@@ -105,7 +126,12 @@ test("should be throw an error when id_software not exists ", async () => {
 test("should be throw an error when id is empty", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProfile = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateProfile.execute({
@@ -119,7 +145,12 @@ test("should be throw an error when id is empty", async () => {
 test("should be throw an error when name is empty", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProfile = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateProfile.execute({
@@ -133,7 +164,12 @@ test("should be throw an error when name is empty", async () => {
 test("should be throw an error when id not exist", async () => {
   const profileRepository = new ProfileRepositoryMem();
   const softwareRepository = new SoftwareRepositoryMem();
-  const updateProfile = new UpdateProfile(profileRepository, softwareRepository);
+  const logRepository = new LogRepositoryMem();
+  const updateProfile = new UpdateProfile(
+    profileRepository,
+    softwareRepository,
+    logRepository
+  );
 
   await expect(
     updateProfile.execute({

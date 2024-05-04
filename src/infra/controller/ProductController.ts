@@ -9,6 +9,7 @@ import HttpResponse from "../api/HttpResponse";
 import IHttpServer, { IParams, JsonResponse } from "../api/IHttpServer";
 import IConnection from "../database/IConnection";
 import GatewayRepository from "../repository/GatewayRepository";
+import LogRepository from "../repository/LogRepository";
 import ProductRepository from "../repository/ProductRepository";
 import SoftwareRepository from "../repository/SoftwareRepository";
 import IController from "./IController";
@@ -68,7 +69,12 @@ export default class ProductController implements IController {
   update = async (params: IParams, body: any): Promise<JsonResponse> => {
     const productRepository = new ProductRepository(this.connection);
     const softwareRepository = new SoftwareRepository(this.connection);
-    const updateProduct = new UpdateProduct(productRepository, softwareRepository);
+    const logRepository = new LogRepository(this.connection);
+    const updateProduct = new UpdateProduct(
+      productRepository,
+      softwareRepository,
+      logRepository
+    );
     const product = await updateProduct.execute({
       ...body,
       id: params.params.id,

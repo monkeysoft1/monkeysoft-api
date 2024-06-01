@@ -1,3 +1,4 @@
+import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import ExpressAdapter from "./infra/api/ExpressAdapter";
@@ -14,6 +15,16 @@ const controller = new Controller();
 const authentication = new Authentication(mysql);
 express.applyErrorMiddleware(ErrorMiddleware.execute);
 express.applyMiddleware(authentication.execute);
+express.app.use(
+  cors({
+    origin: [
+      "https://portal.monkeyzap.com.br",
+      "https://portal.monkeysoft.com.br",
+      "https://portal-hml.monkeysoft.com.br",
+      "https://portal-hml.monkeysoft.com.br",
+    ],
+  })
+);
 
 controller
   .create(mysql, express)

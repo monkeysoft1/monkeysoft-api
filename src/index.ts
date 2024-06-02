@@ -12,19 +12,28 @@ const mysql = new MySqlConnection();
 const express = new ExpressAdapter();
 const controller = new Controller();
 
+const allowedOrigin = [
+  "https://portal.monkeyzap.com.br",
+  "https://portal.monkeysoft.com.br",
+  "https://portal-hml.monkeyzap.com.br",
+  "https://portal-hml.monkeysoft.com.br",
+];
+
+express.app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (allowedOrigin.includes(origin || "")) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 const authentication = new Authentication(mysql);
 express.applyErrorMiddleware(ErrorMiddleware.execute);
 express.applyMiddleware(authentication.execute);
-express.app.use(
-  cors({
-    origin: [
-      "https://portal.monkeyzap.com.br",
-      "https://portal.monkeysoft.com.br",
-      "https://portal-hml.monkeyzap.com.br",
-      "https://portal-hml.monkeysoft.com.br",
-    ],
-  })
-);
 
 controller
   .create(mysql, express)

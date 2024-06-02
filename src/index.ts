@@ -20,7 +20,7 @@ express.app.use(
     origin: [
       "https://portal.monkeyzap.com.br",
       "https://portal.monkeysoft.com.br",
-      "https://portal-hml.monkeysoft.com.br",
+      "https://portal-hml.monkeyzap.com.br",
       "https://portal-hml.monkeysoft.com.br",
     ],
   })

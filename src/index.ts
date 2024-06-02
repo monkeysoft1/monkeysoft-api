@@ -13,6 +13,7 @@ const express = new ExpressAdapter();
 const controller = new Controller();
 
 const allowedOrigin = [
+  "http://localhost:9000",
   "https://portal.monkeyzap.com.br",
   "https://portal.monkeysoft.com.br",
   "https://portal-hml.monkeyzap.com.br",
